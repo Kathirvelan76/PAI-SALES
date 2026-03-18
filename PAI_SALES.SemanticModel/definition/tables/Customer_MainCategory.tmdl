@@ -1,0 +1,66 @@
+table Customer_MainCategory
+	lineageTag: 15911ea0-5c25-43c4-9b58-29a6d2191e8e
+
+	column CardCode
+		lineageTag: 0d862d49-24de-4c04-8183-fe65a668a2fd
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Final_Fact[CardCode]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Property
+		lineageTag: da05d75d-9bdd-4bde-9ded-c7a9bddb70b3
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Item_Master[Property]
+
+		annotation SummarizationSetBy = Automatic
+
+	column PurchaseCount
+		formatString: 0
+		lineageTag: 44cd8cc3-cc8e-45e8-8973-13dd3f0a0661
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [PurchaseCount]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Purchase Frequency Bucket' = ```
+			
+			VAR cnt = [PurchaseCount]
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    cnt = 1, "1 time",
+			    cnt >= 2 && cnt <= 8, "2–8 times",
+			    cnt >= 9 && cnt <= 20, "9–20 times",
+			    cnt >= 21 && cnt <= 45, "21–45 times",
+			    cnt > 45,"More than 45 times"
+			   
+			)
+			
+			```
+		lineageTag: 5ab1aee6-90fe-4119-b2d2-8735777d227d
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Customer_MainCategory = calculated
+		mode: import
+		source = ```
+				
+				SUMMARIZE(FILTER(
+				        Final_Fact,
+				        Final_Fact[Type]="SI"
+				    ),
+				    Final_Fact[CardCode],
+				    Item_Master[Property],
+				    "PurchaseCount",
+				        DISTINCTCOUNT ( Final_Fact[DocEntry] )
+				)
+				
+				```
+
+	annotation PBI_Id = 0fce2f32e3074c11802ed9a58436b94a
+

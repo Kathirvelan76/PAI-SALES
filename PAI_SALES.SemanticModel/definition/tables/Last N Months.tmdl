@@ -1,0 +1,18 @@
+table 'Last N Months'
+	lineageTag: c3037c73-5196-42b3-a78c-1e562e0c7463
+
+	column Value
+		formatString: 0
+		lineageTag: ee0ad072-6b40-4ed8-a072-7ff3ad0d0411
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Value]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Last N Months' = calculated
+		mode: import
+		source = GENERATESERIES(1, 36, 1)
+
+	annotation PBI_Id = f9376b0382ee45bca50d2d32e2ca8fcd
+

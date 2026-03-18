@@ -1,0 +1,97 @@
+table '2 Customer Trend'
+	lineageTag: 978bf5b0-d21d-4e5c-80ea-b35362fa990c
+
+	column CardCode
+		lineageTag: 0adc2a14-9236-412f-a44e-3977cd327d64
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Final_Fact[CardCode]
+
+		annotation SummarizationSetBy = Automatic
+
+	column CardName
+		lineageTag: da211d6c-e0c0-4082-9206-35ebb8ee4d7d
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [CardName]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Purchase Count'
+		formatString: 0
+		lineageTag: fcf3dba3-5400-4f1b-96ae-c69d9c6cc264
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Purchase Count]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'First Purchase Date'
+		formatString: General Date
+		lineageTag: 2de49bf3-115a-4765-9d43-09bb0eeba0dc
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [First Purchase Date]
+
+		variation Variation
+			isDefault
+			relationship: fad6e97f-83ae-4b27-9a5d-ec38b8ff516e
+			defaultHierarchy: LocalDateTable_c838fe53-c362-41b5-b278-edbeb360fe28.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Last Purchase Date'
+		formatString: General Date
+		lineageTag: 59fb0dad-a068-4bad-9740-d781351d7db8
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Last Purchase Date]
+
+		variation Variation
+			isDefault
+			relationship: bfc9d4ab-31b8-4d98-bce3-8d9dbf824e01
+			defaultHierarchy: LocalDateTable_7de6df1c-9de9-43dd-b22e-e590caf27950.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Last Year' = YEAR('2 Customer Trend'[Last Purchase Date].[Date])
+		formatString: 0
+		lineageTag: fac0150c-d6dc-41b3-8d97-1a97e5eb9240
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'First Year' = YEAR('2 Customer Trend'[First Purchase Date].[Date])
+		formatString: 0
+		lineageTag: adf2220a-6600-457f-9023-8aff44662e1d
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Order_Branch_Code
+		lineageTag: ee93b74f-3706-446b-8f3e-0e848f7544cc
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Final_Fact[Order_Branch_Code]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition '2 Customer Trend' = calculated
+		mode: import
+		source =
+				
+				SUMMARIZE(
+				    FILTER(
+				        'Final_Fact',
+				        'Final_Fact'[Type] = "SI"
+				    ),
+				    'Final_Fact'[CardCode],
+				    'Final_Fact'[Order_Branch_Code],
+				    "CardName", MAX('Final_Fact'[CardName]),
+				    "Purchase Count", DISTINCTCOUNT('Final_Fact'[DocEntry]),
+				    "First Purchase Date", MIN('Final_Fact'[DocDate]),
+				    "Last Purchase Date", MAX('Final_Fact'[DocDate])
+				)
+
+	annotation PBI_Id = 02d38cb721c14eb09035fe68e7470f10
+

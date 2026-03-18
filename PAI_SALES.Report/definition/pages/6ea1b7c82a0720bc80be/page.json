@@ -1,0 +1,95 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.0.0/schema.json",
+  "name": "6ea1b7c82a0720bc80be",
+  "displayName": "FINANCIER BREAKDOWN",
+  "displayOption": "FitToPage",
+  "height": 1060,
+  "width": 1617,
+  "objects": {
+    "displayArea": [
+      {
+        "properties": {
+          "verticalAlignment": {
+            "expr": {
+              "Literal": {
+                "Value": "'Middle'"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "background": [
+      {
+        "properties": {
+          "image": {
+            "image": {
+              "name": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'Frame 46.png'"
+                  }
+                }
+              },
+              "url": {
+                "expr": {
+                  "ResourcePackageItem": {
+                    "PackageName": "RegisteredResources",
+                    "PackageType": 1,
+                    "ItemName": "Frame_467868579220272257.png"
+                  }
+                }
+              },
+              "scaling": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'Normal'"
+                  }
+                }
+              }
+            }
+          },
+          "transparency": {
+            "expr": {
+              "Literal": {
+                "Value": "0D"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "visualInteractions": [
+    {
+      "source": "a9cbcec063db512c0027",
+      "target": "9dfe05b2b871e5508630",
+      "type": "DataFilter"
+    },
+    {
+      "source": "a9cbcec063db512c0027",
+      "target": "4a8db49a5cb33c90adde",
+      "type": "DataFilter"
+    },
+    {
+      "source": "9dfe05b2b871e5508630",
+      "target": "a9cbcec063db512c0027",
+      "type": "DataFilter"
+    },
+    {
+      "source": "9dfe05b2b871e5508630",
+      "target": "4a8db49a5cb33c90adde",
+      "type": "DataFilter"
+    },
+    {
+      "source": "4a8db49a5cb33c90adde",
+      "target": "a9cbcec063db512c0027",
+      "type": "DataFilter"
+    },
+    {
+      "source": "4a8db49a5cb33c90adde",
+      "target": "9dfe05b2b871e5508630",
+      "type": "DataFilter"
+    }
+  ]
+}

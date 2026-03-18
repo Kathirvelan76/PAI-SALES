@@ -1,0 +1,53 @@
+table What_IF_Category
+	lineageTag: 73a9bff9-51f4-429f-9c4e-8fbbd21acdf4
+
+	column What_IF_Category
+		lineageTag: 04ecafa8-6a2c-4ce4-badc-60f9ee60d072
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'What_IF_Category Order'
+
+		relatedColumnDetails
+			groupByColumn: 'What_IF_Category Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'What_IF_Category Fields'
+		isHidden
+		lineageTag: 4d2d6a06-19d9-4abd-9053-84007b51a872
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'What_IF_Category Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'What_IF_Category Order'
+		isHidden
+		formatString: 0
+		lineageTag: 72db7e05-d33b-4c04-bb62-9d5ae7ca27d5
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition What_IF_Category = calculated
+		mode: import
+		source =
+				{
+				    ("Group_Category", NAMEOF('Item_Master'[Group_Category]), 0),
+				    ("Head_Category", NAMEOF('Item_Master'[Head_Category]), 1),
+				    ("Property", NAMEOF('Item_Master'[Property]), 2),
+				    ("SubCategory", NAMEOF('Item_Master'[SubCategory]), 3),
+				    ("Brand", NAMEOF('Item_Master'[Brand]), 4),
+				    ("WhsName", NAMEOF('Warehouse_Master'[WhsName]), 5),
+				    ("ItemCode", NAMEOF('Item_Master'[ItemCode]), 6)
+				}
+
+	annotation PBI_Id = 470f697e4396468f889ab6dab95b6215
+

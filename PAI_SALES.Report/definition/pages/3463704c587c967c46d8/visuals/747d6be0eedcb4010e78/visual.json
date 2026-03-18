@@ -1,0 +1,16 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.6.0/schema.json",
+  "name": "747d6be0eedcb4010e78",
+  "position": {
+    "x": 81.666666666666671,
+    "y": 126.66666666666667,
+    "z": 0,
+    "height": 340,
+    "width": 1081.6666666666667,
+    "tabOrder": 0
+  },
+  "visualGroup": {
+    "displayName": "What if Section",
+    "groupMode": "ScaleMode"
+  }
+}

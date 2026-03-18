@@ -1,0 +1,80 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.0.0/schema.json",
+  "name": "082ed0a0175200902564",
+  "displayName": "RANGE BASED PRODUCT COMPARISON",
+  "displayOption": "FitToPage",
+  "height": 1060,
+  "width": 1617,
+  "objects": {
+    "displayArea": [
+      {
+        "properties": {
+          "verticalAlignment": {
+            "expr": {
+              "Literal": {
+                "Value": "'Middle'"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "background": [
+      {
+        "properties": {
+          "image": {
+            "image": {
+              "name": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'Frame 52.png'"
+                  }
+                }
+              },
+              "url": {
+                "expr": {
+                  "ResourcePackageItem": {
+                    "PackageName": "RegisteredResources",
+                    "PackageType": 1,
+                    "ItemName": "Frame_525081211787827624.png"
+                  }
+                }
+              },
+              "scaling": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'Fill'"
+                  }
+                }
+              }
+            }
+          },
+          "transparency": {
+            "expr": {
+              "Literal": {
+                "Value": "0D"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "visualInteractions": [
+    {
+      "source": "6e1c6d243d056acb52dc",
+      "target": "5f5a9c52176e3872e0c0",
+      "type": "DataFilter"
+    },
+    {
+      "source": "7892d244ed5514b46144",
+      "target": "5f5a9c52176e3872e0c0",
+      "type": "DataFilter"
+    },
+    {
+      "source": "72290e52105a086c4000",
+      "target": "d66d055060a760d50a70",
+      "type": "NoFilter"
+    }
+  ]
+}

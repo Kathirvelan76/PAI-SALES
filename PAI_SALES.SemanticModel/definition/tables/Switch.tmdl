@@ -1,0 +1,51 @@
+table Switch
+	lineageTag: baccc9f5-8c98-4b3c-8589-cf64658fd100
+
+	column Switch
+		lineageTag: 0c64d280-8aa6-4252-9b26-52948d680b84
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Switch Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Switch Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Switch Fields'
+		isHidden
+		lineageTag: 93ebc74b-a7f3-48ae-bb99-d7c3414a8783
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Switch Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Switch Order'
+		isHidden
+		formatString: 0
+		lineageTag: b302f1ac-b0f2-4731-9f04-f0db187896e9
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Switch = calculated
+		mode: import
+		source =
+				{
+				    ("Gross", NAMEOF('Measure'[Sales Chart]), 0),
+				    ("Net", NAMEOF('Measure'[Net Chart]), 1),
+				    ("Quantity", NAMEOF('Measure'[Quantity Chart]), 2),
+				    ("GP", NAMEOF('Measure'[Profit Chart]), 3),
+				    ("GP %", NAMEOF('Measure'[% Gross Profit]), 4)
+				}
+
+	annotation PBI_Id = cecf0cab47784eadaeb3186e2a987c03
+

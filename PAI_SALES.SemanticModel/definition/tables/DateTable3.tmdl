@@ -1,0 +1,23 @@
+table DateTable3
+	lineageTag: 57994aac-a291-4c91-ac66-47ab80e4fc3f
+
+	column Date
+		formatString: General Date
+		lineageTag: c32c0a07-64e0-4c63-bff1-2945537b32fa
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Date]
+
+		variation Variation
+			isDefault
+			relationship: 94305862-6bdc-4562-bffc-54c5083f5402
+			defaultHierarchy: LocalDateTable_e8743fae-0a20-4ede-8a1c-91c9e52aa74f.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DateTable3 = calculated
+		mode: import
+		source = CALENDAR(DATE(2022,1,1),DATE(2030,12,31))
+
+	annotation PBI_Id = 86ff750451db44a091cb944538ee28a2
+

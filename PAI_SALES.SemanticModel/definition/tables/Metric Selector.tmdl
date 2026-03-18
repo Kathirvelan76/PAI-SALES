@@ -1,0 +1,43 @@
+table 'Metric Selector'
+	lineageTag: a8889df3-6676-4406-a50c-a7b25ce60489
+
+	column Metric
+		dataType: string
+		lineageTag: 810c49c4-fd87-49ad-9e35-b8e55fdcc5ae
+		summarizeBy: none
+		sourceColumn: Metric
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column SortOrder =
+			
+			SWITCH (
+			    'Metric Selector'[Metric],
+			    "Gross", 1,
+			    "Net", 2,
+			    "Quantity", 3,
+			    "GP", 4,
+			    "GP %", 5,
+			    BLANK()
+			)
+		formatString: 0
+		lineageTag: 688fe520-459b-499b-9e77-3af42a88e591
+		summarizeBy: sum
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Metric Selector' = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45Wci/KLy5WitWJVvJLLQHTgaWJeSWZJZVgjnsAlFJQVYqNBQA=", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Metric = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Metric", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

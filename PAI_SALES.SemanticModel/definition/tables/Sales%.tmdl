@@ -1,0 +1,35 @@
+table Sales%
+	lineageTag: 009a41d9-03c6-4b06-a93f-76e91d5d76bb
+
+	measure 'Sales% Value' = SELECTEDVALUE('Sales%'[Sales%], 0)
+		lineageTag: 198dec02-0d02-43c6-bba9-83788da1596e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Sales Driver' = ```
+			
+			[Sales% Value] 
+			```
+		lineageTag: 44ba15db-12c8-4230-9c93-5f1bec2fd4bb
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Sales%
+		formatString: 0%;-0%;0%
+		lineageTag: 9a95953d-6307-40d9-97cb-eba126c39a60
+		summarizeBy: none
+		sourceColumn: [Value]
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 0
+				}
+
+		annotation SummarizationSetBy = User
+
+	partition Sales% = calculated
+		mode: import
+		source = GENERATESERIES(0, 1, 0.01)
+
+	annotation PBI_Id = 0884882f680449f183a6776512e1eb4e
+

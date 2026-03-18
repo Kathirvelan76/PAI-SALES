@@ -1,0 +1,74 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["Final_Fact","Sale_Invoice","Sale_Return","Cust_Vend_Master","Item_Master","Sales_Employee_Master","Warehouse_Master","RangeStart","RangeEnd","Metric Selector"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table Sale_Invoice
+ref table DateTableTemplate_c44598a8-481e-4825-9daf-9ceb1e07b762
+ref table LocalDateTable_278b53c7-ff97-4951-8fbc-5835d4d4d105
+ref table Sale_Return
+ref table LocalDateTable_37e5deac-fe33-438d-9445-c177822e94f8
+ref table Cust_Vend_Master
+ref table LocalDateTable_8f244a81-56e1-4c44-a29a-172181c66d2c
+ref table Item_Master
+ref table LocalDateTable_d573d698-59ca-4954-8815-70651a36b82a
+ref table LocalDateTable_3fffbbba-1d30-498e-9ea4-35e9706954c6
+ref table Sales_Employee_Master
+ref table Warehouse_Master
+ref table LocalDateTable_53a0e301-bdac-4be3-8c80-aad71035f995
+ref table LocalDateTable_fd3fa8b1-45d2-4e78-863a-dcf766a9f527
+ref table Final_Fact
+ref table LocalDateTable_0d3e4f00-157c-4a28-9d01-c3ae49519d85
+ref table DateTable
+ref table Measure
+ref table LocalDateTable_494b7a3b-b46b-44bd-915a-94c0cdc14d1d
+ref table 'Min Bill Amount'
+ref table 'Max Bill Amount'
+ref table 'Last N Months'
+ref table 'Purchase Count Slicer'
+ref table 'Customer Trend'
+ref table CustomerSeasonSummary
+ref table 'SWITCH 1'
+ref table Switch
+ref table 'Metric Selector'
+ref table 'Axis Parameter'
+ref table '2 Customer Trend'
+ref table LocalDateTable_94cdc250-42ec-4e73-8b74-0cb7fcdc8f0d
+ref table LocalDateTable_ddb248b4-d666-4907-a7df-f5e10f1fc564
+ref table LocalDateTable_c838fe53-c362-41b5-b278-edbeb360fe28
+ref table LocalDateTable_7de6df1c-9de9-43dd-b22e-e590caf27950
+ref table Customer_MainCategory
+ref table MainCat_Master
+ref table Customer_MainCat
+ref table DateTable2
+ref table DateTable3
+ref table DateTable4
+ref table LocalDateTable_51fcd679-5f43-4292-855e-5790fa019000
+ref table LocalDateTable_e3bdf9a9-5273-414f-8d02-22bb763ea74d
+ref table LocalDateTable_e8743fae-0a20-4ede-8a1c-91c9e52aa74f
+ref table DateTable5
+ref table LocalDateTable_638adef9-499c-4bcf-bbd8-0beb37fee7ed
+ref table LocalDateTable_6615849f-d76d-449f-a33d-2e8739d4879f
+ref table 'Metric Switch'
+ref table 'Marketing Expense'
+ref table Sales%
+ref table Volume%
+ref table GP%
+ref table What_IF_Category
+ref table LocalDateTable_2f67ea30-45c2-4637-a127-4bb146005f37
+ref table LocalDateTable_4776a5f4-8e4e-4449-ad64-bada89f4a376
+ref table 'Category Slicer'
+ref table Customers_Never_Bought
+ref table Customers_Never_Bought_ByProperty
+
+ref cultureInfo en-US
+

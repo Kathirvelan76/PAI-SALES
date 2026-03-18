@@ -1,0 +1,49 @@
+table 'SWITCH 1'
+	lineageTag: d34d1931-d502-4c49-b96e-9856f39f4659
+
+	column 'SWITCH 1'
+		lineageTag: b6237cd9-62e9-49ea-95f9-045c0e643f43
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'SWITCH 1 Order'
+
+		relatedColumnDetails
+			groupByColumn: 'SWITCH 1 Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'SWITCH 1 Fields'
+		isHidden
+		lineageTag: 63e44d0a-f718-4c97-b6a7-35bd6c0c2e05
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'SWITCH 1 Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'SWITCH 1 Order'
+		isHidden
+		formatString: 0
+		lineageTag: 9cf98e88-39f9-4a83-974e-30bc1b61dc5f
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'SWITCH 1' = calculated
+		mode: import
+		source =
+				{
+				    ("Value", NAMEOF('Measure'[Sales Chart]), 0),
+				    ("Quantity", NAMEOF('Measure'[Quantity Chart]), 1),
+				    ("Profit", NAMEOF('Measure'[Profit Chart]), 2)
+				}
+
+	annotation PBI_Id = 05c3909f24ae4a8f9bcea13b675a6b52
+

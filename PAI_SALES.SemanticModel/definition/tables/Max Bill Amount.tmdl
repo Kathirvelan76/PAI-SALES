@@ -1,0 +1,36 @@
+table 'Max Bill Amount'
+	lineageTag: c15567d1-69da-4cfd-86a7-5336fb78484e
+
+	column 'Max Bill Amount'
+		formatString: 0
+		lineageTag: a6705cbc-3ebe-4f0f-beec-4a8b6733e8ba
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Max Bill Amount]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Max Bill Amount' = calculated
+		mode: import
+		source = ```
+				
+				DATATABLE(
+				    "Max Bill Amount", INTEGER,
+				    {
+				        {5000},
+				        {15000},
+				        {25000},
+				        {35000},
+				        {50000},
+				        {70000},
+				        {100000},
+				        {150000},
+				        {200000},
+				        {250000}
+				    }
+				)
+				
+				```
+
+	annotation PBI_Id = 1bacefb5744e4e60871e8eb5179eed9e
+

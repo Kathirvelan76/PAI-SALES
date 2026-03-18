@@ -1,0 +1,34 @@
+table Volume%
+	lineageTag: 3807e1b9-f640-4245-af95-4209d180b0ab
+
+	measure 'Volume% Value' = SELECTEDVALUE('Volume%'[Volume%], 0)
+		lineageTag: f6abf430-f2ea-406e-ae7f-43505b46fc4e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Volume Driver' =
+			
+			[Volume% Value]
+		lineageTag: 58ae0331-f8f5-4e82-938b-623815ac0bad
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Volume%
+		formatString: 0%;-0%;0%
+		lineageTag: 79fed82c-bd32-40c8-8b54-eb144b48bdad
+		summarizeBy: none
+		sourceColumn: [Value]
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 0
+				}
+
+		annotation SummarizationSetBy = User
+
+	partition Volume% = calculated
+		mode: import
+		source = GENERATESERIES(0, 1, 0.01)
+
+	annotation PBI_Id = a2b05cf7163b4c87b26f5e288ea40996
+

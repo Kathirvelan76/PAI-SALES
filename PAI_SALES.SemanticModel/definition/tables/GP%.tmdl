@@ -1,0 +1,34 @@
+table GP%
+	lineageTag: 41a6a615-f141-47fd-9d1f-02ef7d9da418
+
+	measure 'GP% Value' = SELECTEDVALUE('GP%'[GP%], 0)
+		lineageTag: 87934343-13d6-4995-a880-c69a18044118
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'GP Driver' =
+			
+			[GP% Value]
+		lineageTag: 0248597b-b5df-4fd8-8037-b4a9f5d7efef
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column GP%
+		formatString: 0%;-0%;0%
+		lineageTag: df372652-89dd-4a2e-b17d-8c43862c7923
+		summarizeBy: none
+		sourceColumn: [Value]
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 0
+				}
+
+		annotation SummarizationSetBy = User
+
+	partition GP% = calculated
+		mode: import
+		source = GENERATESERIES(0, 1, 0.01)
+
+	annotation PBI_Id = 2a197997eeaf4a3cb5d2609ca033397a
+

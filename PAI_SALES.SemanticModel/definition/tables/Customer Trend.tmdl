@@ -1,0 +1,254 @@
+table 'Customer Trend'
+	lineageTag: 3bc65edc-bed9-4c56-9703-f8b111e8e8e7
+
+	column CardCode
+		lineageTag: c29909c4-3000-4162-87bc-3638cb8a8f41
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Final_Fact[CardCode]
+
+		annotation SummarizationSetBy = Automatic
+
+	column CardName
+		lineageTag: 5910d977-1276-4803-a6b4-ddbf55b3c871
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [CardName]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Purchase Count'
+		formatString: 0
+		lineageTag: 2ed0a2a8-2642-4027-881b-6ebb15e89a19
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Purchase Count]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'First Purchase Date'
+		formatString: General Date
+		lineageTag: 7a23242e-2be5-449f-85cd-7128bbce8bf6
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [First Purchase Date]
+
+		variation Variation
+			isDefault
+			relationship: e8b5d9e1-e147-4c4a-ba97-9ab097fbca7d
+			defaultHierarchy: LocalDateTable_94cdc250-42ec-4e73-8b74-0cb7fcdc8f0d.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Last Purchase Date'
+		formatString: General Date
+		lineageTag: 5fbd28d7-46ae-4097-b64c-ad021cbfe6aa
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Last Purchase Date]
+
+		variation Variation
+			isDefault
+			relationship: 2746ab06-29a0-4c6b-bb68-21bb866f8f8d
+			defaultHierarchy: LocalDateTable_ddb248b4-d666-4907-a7df-f5e10f1fc564.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthsSinceLast = ```
+			
+			DATEDIFF (
+			    'Customer Trend'[Last Purchase Date],
+			    TODAY (),
+			    MONTH
+			)
+			
+			```
+		formatString: 0
+		lineageTag: 0fe2d330-2b1c-4246-832a-de82337624dd
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column MonthsBetweenPurchases = ```
+			
+			VAR _FirstDate  = 'Customer Trend'[First Purchase Date]
+			VAR _LastDate   = 'Customer Trend'[Last Purchase Date]
+			VAR _Purchases  = 'Customer Trend'[Purchase Count]
+			VAR _MonthsSpan = DATEDIFF ( _FirstDate, _LastDate, MONTH )
+			RETURN
+			IF ( _Purchases > 1, DIVIDE ( _MonthsSpan, _Purchases - 1 ), BLANK () )
+			
+			```
+		dataType: int64
+		lineageTag: dbd1d1c4-b685-402c-98ce-8b7fc087484c
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column MinBill =
+			
+			VAR CustID = 'Customer Trend'[CardCode]
+			VAR InvoiceTable =
+			    SUMMARIZE (
+			        FILTER (
+			            'Final_Fact',
+			            'Final_Fact'[CardCode] = CustID
+			        ),
+			        'Final_Fact'[DocEntry],
+			        "InvoiceTotal", MAX ( 'Final_Fact'[Doctotal] )
+			    )
+			RETURN
+			MINX ( InvoiceTable, [InvoiceTotal] )
+		lineageTag: e4dee9f4-44fc-450e-a9f9-bc509c67959b
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column MaxBill = ```
+			
+			VAR CustID = 'Customer Trend'[CardCode]
+			VAR InvoiceTable =
+			    SUMMARIZE (
+			        FILTER ( 'Final_Fact', 'Final_Fact'[CardCode] = CustID ),
+			        'Final_Fact'[DocEntry],
+			        "InvoiceTotal", MAX ( 'Final_Fact'[Doctotal] )
+			    )
+			RETURN
+			MAXX ( InvoiceTable, [InvoiceTotal] )
+			
+			```
+		lineageTag: 115beeda-5ff6-4a69-8611-ba43545ed312
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column AvgBill = ```
+			
+			VAR CustID = 'Customer Trend'[CardCode]
+			VAR InvoiceTable =
+			    SUMMARIZE (
+			        FILTER ( 'Final_Fact', 'Final_Fact'[CardCode] = CustID ),
+			        'Final_Fact'[DocEntry],
+			        "InvoiceTotal", MAX ( 'Final_Fact'[Doctotal] )
+			    )
+			RETURN
+			AVERAGEX ( InvoiceTable, [InvoiceTotal] )
+			
+			```
+		lineageTag: e9225857-cbaa-4b2d-8db3-0a703c2edb77
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column IsSeasonal =
+			
+			RELATED ( CustomerSeasonSummary[IsSeasonal] )
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 46815d38-4c25-4a55-923f-a6458499f2ec
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Segment = ```
+			
+			VAR MonthsSinceLast      = 'Customer Trend'[MonthsSinceLast]
+			VAR MonthsBetween        = 'Customer Trend'[MonthsBetweenPurchases]
+			VAR MinBill              = 'Customer Trend'[MinBill]
+			VAR MaxBill              = 'Customer Trend'[MaxBill]
+			VAR AvgBill              = 'Customer Trend'[AvgBill]
+			VAR Purchases            = 'Customer Trend'[Purchase Count]
+			VAR _FirstDate            = 'Customer Trend'[First Purchase Date]
+			VAR IsSeasonalCustomer   = 'Customer Trend'[IsSeasonal]
+			
+			VAR IsLifetimeSuccessful =
+			    NOT ISBLANK ( MonthsBetween )
+			        && MonthsBetween <= 18
+			
+			VAR IsLoyal =
+			    MaxBill >= 30000
+			        && NOT ISBLANK ( MonthsBetween )
+			        && MonthsBetween <= 36
+			
+			VAR IsHighValue =
+			    MaxBill >= 70000
+			        && NOT ISBLANK ( MonthsBetween )
+			        && MonthsBetween <= 18
+			
+			VAR IsNew =
+			    DATEDIFF ( _FirstDate, TODAY (), MONTH ) <= 6
+			
+			VAR IsOneTimeHighSpender =
+			    MaxBill >= 80000
+			        && Purchases = 1
+			        && MonthsSinceLast >= 12
+			
+			VAR IsBudgetFrequent =
+			    AvgBill <= 15000
+			        && MonthsSinceLast <= 18
+			
+			VAR IsAtRisk =
+			    MonthsSinceLast >= 12
+			        && MonthsSinceLast <= 18
+			        && ( IsLoyal || IsHighValue || IsNew )
+			
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			
+			        IsSeasonalCustomer,   "Seasonal Shoppers",
+			        IsAtRisk,             "At-Risk Customers",
+			        IsBudgetFrequent,     "Budget-Conscious Frequent Buyers",
+			        IsOneTimeHighSpender, "One-time High Spenders",
+			        IsHighValue,          "High Value Customers",
+			        IsLoyal,              "Loyal Customers",
+			        IsLifetimeSuccessful, "Lifetime Successful Customers",
+			        IsNew,                "New Customers",
+			        "Unclassified"
+			    )
+			
+			```
+		lineageTag: 48d6267f-0d95-4a9d-8647-6a3af349e3aa
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Last Year' = YEAR('Customer Trend'[Last Purchase Date].[Date])
+		formatString: 0
+		lineageTag: 7f9d80d9-b297-4166-abc6-f07f21ad41d6
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'First Year' = YEAR('Customer Trend'[First Purchase Date].[Date])
+		formatString: 0
+		lineageTag: e10d247c-ed8d-4b53-8ee1-20a0bcb4957a
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Customer Trend' = calculated
+		mode: import
+		source =
+				
+				SUMMARIZE(
+				    FILTER(
+				        'Final_Fact',
+				        'Final_Fact'[Type] = "SI"
+				    ),
+				    'Final_Fact'[CardCode],
+				    "CardName", MAX('Final_Fact'[CardName]),
+				    "Purchase Count", DISTINCTCOUNT('Final_Fact'[DocEntry]),
+				    "First Purchase Date", MIN('Final_Fact'[DocDate]),
+				    "Last Purchase Date", MAX('Final_Fact'[DocDate])
+				)
+
+	annotation PBI_Id = 1e8afab5559346d1a57211275b8d67fd
+

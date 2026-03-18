@@ -1,0 +1,19 @@
+table 'Purchase Count Slicer'
+	lineageTag: 3f1ce1ff-e5c7-43b8-b51e-67bd957762f0
+
+	column 'Count Filter'
+		formatString: 0
+		lineageTag: c9ee37c0-f72b-4ab8-bc9f-40585a76a61b
+		summarizeBy: sum
+		sourceColumn: [Value]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Purchase Count Slicer' = calculated
+		mode: import
+		source =
+				
+				GENERATESERIES(1, 80, 1)
+
+	annotation PBI_Id = 84292ace4d184bb5ab20e7d0decc926e
+

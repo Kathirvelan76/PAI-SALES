@@ -1,0 +1,206 @@
+relationship 49377939-a9a5-417d-b6bb-15f360c507cd
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Sale_Invoice.DocDueDate
+	toColumn: LocalDateTable_278b53c7-ff97-4951-8fbc-5835d4d4d105.Date
+
+relationship 1858f7cd-120c-419b-9904-516918128b47
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Sale_Return.DocDueDate
+	toColumn: LocalDateTable_37e5deac-fe33-438d-9445-c177822e94f8.Date
+
+relationship 9caabb80-e8ed-4a5d-addc-772080d1adc8
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Cust_Vend_Master.SyncDate
+	toColumn: LocalDateTable_8f244a81-56e1-4c44-a29a-172181c66d2c.Date
+
+relationship AutoDetected_1b651483-43ca-4854-999e-011990b89282
+	fromColumn: Sale_Invoice.CardCode
+	toColumn: Cust_Vend_Master.CardCode
+
+relationship AutoDetected_4144c3a5-602a-43b6-8608-a26ccc40df75
+	fromColumn: Sale_Return.CardCode
+	toColumn: Cust_Vend_Master.CardCode
+
+relationship 0a9c5220-f351-4d2a-9cc2-7b0d0f5a79ae
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Item_Master.CreateDate
+	toColumn: LocalDateTable_d573d698-59ca-4954-8815-70651a36b82a.Date
+
+relationship e6ad1c50-8801-42b5-9af2-28ee6a944991
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Item_Master.SyncDate
+	toColumn: LocalDateTable_3fffbbba-1d30-498e-9ea4-35e9706954c6.Date
+
+relationship AutoDetected_2326984b-b6e8-46bf-a708-05e756b1cc66
+	fromColumn: Sale_Invoice.ItemCode
+	toColumn: Item_Master.ItemCode
+
+relationship AutoDetected_62e3ed97-075f-40a3-a8e5-fe36a2a0600d
+	fromColumn: Sale_Return.ItemCode
+	toColumn: Item_Master.ItemCode
+
+relationship 71f94e47-f8fb-4683-b1c0-2429b0786087
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Warehouse_Master.CreateDate
+	toColumn: LocalDateTable_53a0e301-bdac-4be3-8c80-aad71035f995.Date
+
+relationship da163a56-e7e3-4ae1-9212-20dec49abd58
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Warehouse_Master.SyncDate
+	toColumn: LocalDateTable_fd3fa8b1-45d2-4e78-863a-dcf766a9f527.Date
+
+relationship a87f1901-d474-4455-a804-56d97f3c4a16
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Final_Fact.DocDueDate
+	toColumn: LocalDateTable_0d3e4f00-157c-4a28-9d01-c3ae49519d85.Date
+
+relationship AutoDetected_7d70e5b2-e7fc-497c-a8ad-ecc84e8ce3c3
+	fromColumn: Final_Fact.CardCode
+	toColumn: Cust_Vend_Master.CardCode
+
+relationship AutoDetected_09e8f276-f1f1-47e2-a784-49a73ed27380
+	fromColumn: Final_Fact.ItemCode
+	toColumn: Item_Master.ItemCode
+
+relationship ab771892-97d3-e8fd-9b8c-68bbe2db239a
+	fromColumn: Final_Fact.SlpCode
+	toColumn: Sales_Employee_Master.SlpCode
+
+relationship d977e2cd-4792-e0de-7b15-72f5fad725b7
+	fromColumn: Sale_Return.SlpCode
+	toColumn: Sales_Employee_Master.SlpCode
+
+relationship e8fcd9df-0507-bdfc-bfad-32ae6a42e782
+	fromColumn: Sale_Invoice.SlpCode
+	toColumn: Sales_Employee_Master.SlpCode
+
+relationship 5b0bacd0-3c6d-466e-b36c-167d99512649
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Cust_Vend_Master.CreateDate
+	toColumn: LocalDateTable_494b7a3b-b46b-44bd-915a-94c0cdc14d1d.Date
+
+relationship f83fb08e-7b27-883a-c810-12138211b65a
+	fromColumn: Final_Fact.Order_Branch_Code
+	toColumn: Warehouse_Master.WhsCode
+
+relationship 5ceb38a1-b60c-7c59-dea7-58fd31fd5a6c
+	fromColumn: Sale_Invoice.Order_Branch_Code
+	toColumn: Warehouse_Master.WhsCode
+
+relationship 85d9dcf8-a39f-43c4-170c-d5450d73e5c2
+	fromColumn: Sale_Return.Order_Branch_Code
+	toColumn: Warehouse_Master.WhsCode
+
+relationship d089dc23-95ec-cbf7-9944-33a7b1596d85
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: 'Customer Trend'.CardCode
+	toColumn: CustomerSeasonSummary.CardCode
+
+relationship e3f587a2-d03b-c06f-ebfa-52a28f7c5d80
+	fromColumn: Final_Fact.CardCode
+	toColumn: 'Customer Trend'.CardCode
+
+relationship e8b5d9e1-e147-4c4a-ba97-9ab097fbca7d
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Customer Trend'.'First Purchase Date'
+	toColumn: LocalDateTable_94cdc250-42ec-4e73-8b74-0cb7fcdc8f0d.Date
+
+relationship 2746ab06-29a0-4c6b-bb68-21bb866f8f8d
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Customer Trend'.'Last Purchase Date'
+	toColumn: LocalDateTable_ddb248b4-d666-4907-a7df-f5e10f1fc564.Date
+
+relationship fad6e97f-83ae-4b27-9a5d-ec38b8ff516e
+	joinOnDateBehavior: datePartOnly
+	fromColumn: '2 Customer Trend'.'First Purchase Date'
+	toColumn: LocalDateTable_c838fe53-c362-41b5-b278-edbeb360fe28.Date
+
+relationship bfc9d4ab-31b8-4d98-bce3-8d9dbf824e01
+	joinOnDateBehavior: datePartOnly
+	fromColumn: '2 Customer Trend'.'Last Purchase Date'
+	toColumn: LocalDateTable_7de6df1c-9de9-43dd-b22e-e590caf27950.Date
+
+relationship cdb8bbbe-673d-53e2-591a-a6eb6a8ff913
+	fromColumn: '2 Customer Trend'.Order_Branch_Code
+	toColumn: Warehouse_Master.WhsCode
+
+relationship 5992e696-8b47-3b73-d2ba-4614a5ddf68a
+	fromColumn: Customer_MainCategory.Property
+	toColumn: MainCat_Master.'Main Category'
+
+relationship 1cbddd70-59cc-b9ed-ceb4-2adc43e39fd0
+	fromColumn: Customer_MainCategory.CardCode
+	toColumn: Cust_Vend_Master.CardCode
+
+relationship 403539cc-9173-42d6-a2cd-5f308cbb192d
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DateTable4.Date
+	toColumn: LocalDateTable_51fcd679-5f43-4292-855e-5790fa019000.Date
+
+relationship 61d75e7a-29be-402c-8309-b66263d65e6b
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DateTable2.Date
+	toColumn: LocalDateTable_e3bdf9a9-5273-414f-8d02-22bb763ea74d.Date
+
+relationship 94305862-6bdc-4562-bffc-54c5083f5402
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DateTable3.Date
+	toColumn: LocalDateTable_e8743fae-0a20-4ede-8a1c-91c9e52aa74f.Date
+
+relationship 54f620a8-40b7-45d4-b433-aeb41605c710
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DateTable5.Date
+	toColumn: LocalDateTable_638adef9-499c-4bcf-bbd8-0beb37fee7ed.Date
+
+relationship 89a40c0c-637a-de30-e1a9-3065fbe4e5db
+	fromColumn: Item_Master.Property
+	toColumn: MainCat_Master.'Main Category'
+
+relationship 6e02daa7-1490-4e9e-a09d-a37fa2f7bcf2
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Final_Fact.'First Purchase Date'
+	toColumn: LocalDateTable_6615849f-d76d-449f-a33d-2e8739d4879f.Date
+
+relationship b16574bb-40e8-e113-e8e6-8cb397a94da3
+	fromColumn: Final_Fact.DocDate
+	toColumn: DateTable.Date
+
+relationship 31ce99c0-0f78-370a-dd33-0a4a4a03c9af
+	fromColumn: Sale_Invoice.DocDate
+	toColumn: DateTable.Date
+
+relationship b3d78cf9-d28f-2099-7e1f-a3f4c520467b
+	fromColumn: Sale_Return.DocDate
+	toColumn: DateTable.Date
+
+relationship c5e48c17-a93e-2315-d3c8-c98b2c42f074
+	fromColumn: Customer_MainCat.CardCode
+	toColumn: Cust_Vend_Master.CardCode
+
+relationship ceb779cf-ea72-ab81-b846-fb6cc24cb7da
+	crossFilteringBehavior: bothDirections
+	toCardinality: many
+	fromColumn: Customer_MainCat.CardCode
+	toColumn: Final_Fact.CardCode
+
+relationship 502b4bfb-e939-2f23-8f2a-59dffe717f4d
+	crossFilteringBehavior: bothDirections
+	toCardinality: many
+	fromColumn: Customer_MainCategory.CardCode
+	toColumn: Customer_MainCat.CardCode
+
+relationship 67a447ba-9aed-6108-3c9d-45cd82017042
+	fromColumn: Customer_MainCat.Property
+	toColumn: MainCat_Master.'Main Category'
+
+relationship 77e6b5bd-69bd-4449-8e4f-9f86ba493b39
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Customer_MainCat.'First Purchase Date'
+	toColumn: LocalDateTable_2f67ea30-45c2-4637-a127-4bb146005f37.Date
+
+relationship cdc14693-064b-46fa-911d-131d5b0e31cf
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Customer_MainCat.'Last Purchase Date'
+	toColumn: LocalDateTable_4776a5f4-8e4e-4449-ad64-bada89f4a376.Date
+

@@ -1,0 +1,64 @@
+table Sales_Employee_Master
+	lineageTag: 3569c1fe-7736-4a5a-919d-df31893a2c0e
+
+	column SlpCode
+		dataType: int64
+		formatString: 0
+		lineageTag: 31b22eef-5ce1-4545-a9e4-3720a48457b3
+		summarizeBy: none
+		sourceColumn: SlpCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column SlpName
+		dataType: string
+		lineageTag: 92ee56ee-b917-4436-bad2-0b95b5a1304f
+		summarizeBy: none
+		sourceColumn: SlpName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Active
+		dataType: string
+		lineageTag: 97df0962-b0ea-46bc-9767-e3070182557a
+		summarizeBy: none
+		sourceColumn: Active
+
+		annotation SummarizationSetBy = Automatic
+
+	column EmpId
+		dataType: string
+		lineageTag: 0c6a4374-eebf-43d9-ba36-7c23c4193275
+		summarizeBy: none
+		sourceColumn: EmpId
+
+		annotation SummarizationSetBy = Automatic
+
+	column Phone
+		dataType: string
+		lineageTag: aadd700e-f389-4acb-bf52-8957ca44a8a3
+		summarizeBy: none
+		sourceColumn: Phone
+
+		annotation SummarizationSetBy = Automatic
+
+	column Group_Category
+		dataType: string
+		lineageTag: c8acc739-d986-44a6-b153-21221b463119
+		summarizeBy: none
+		sourceColumn: Group_Category
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Sales_Employee_Master = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Databases("PAI-POWER-BI"),
+				    PAI_LIVE = Source{[Name="PAI_LIVE"]}[Data],
+				    dbo_Sales_Employee_Master = PAI_LIVE{[Schema="dbo",Item="Sales_Employee_Master"]}[Data]
+				in
+				    dbo_Sales_Employee_Master
+
+	annotation PBI_ResultType = Table
+

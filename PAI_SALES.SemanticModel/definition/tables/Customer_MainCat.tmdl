@@ -1,0 +1,74 @@
+table Customer_MainCat
+	lineageTag: fbde9ab9-4d56-42c1-97c0-0ef2c7ff263f
+
+	column CardCode
+		lineageTag: 68386b17-9f1e-4ff4-bbf4-b616ad88af65
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Final_Fact[CardCode]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Property
+		lineageTag: dbbb6771-c315-4ac2-a1f0-3710b4ebdaa2
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Item_Master[Property]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Purchase Count'
+		formatString: 0
+		lineageTag: ac147cb7-35a5-49b6-af8d-b8535449a2cc
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Purchase Count]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'First Purchase Date'
+		formatString: General Date
+		lineageTag: dcf8d37d-6efd-4a0f-b550-b14f1f474f80
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [First Purchase Date]
+
+		variation Variation
+			isDefault
+			relationship: 77e6b5bd-69bd-4449-8e4f-9f86ba493b39
+			defaultHierarchy: LocalDateTable_2f67ea30-45c2-4637-a127-4bb146005f37.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Last Purchase Date'
+		formatString: General Date
+		lineageTag: b3ada2cb-0402-4694-ba0f-36cb1bdbec73
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Last Purchase Date]
+
+		variation Variation
+			isDefault
+			relationship: cdc14693-064b-46fa-911d-131d5b0e31cf
+			defaultHierarchy: LocalDateTable_4776a5f4-8e4e-4449-ad64-bada89f4a376.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Customer_MainCat = calculated
+		mode: import
+		source =
+				
+				SUMMARIZE (
+				    FILTER(
+				        Final_Fact,
+				        Final_Fact[Type] = "SI"
+				    ),
+				    Final_Fact[CardCode],
+				    Item_Master[Property],
+				    "Purchase Count", DISTINCTCOUNT ( Final_Fact[DocEntry] ),
+				    "First Purchase Date", MIN ( Final_Fact[DocDate]),
+				    "Last Purchase Date", MAX ( Final_Fact[DocDate])
+				)
+
+	annotation PBI_Id = 8b2379e172b04ea6be2fe3c13a6f2134
+

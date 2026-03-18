@@ -1,0 +1,286 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.6.0/schema.json",
+  "name": "3baf3000546ce03b931b",
+  "position": {
+    "x": 23.888888888888889,
+    "y": 17.72300469483568,
+    "z": 1000,
+    "height": 459.0258215962441,
+    "width": 1176.6666666666667,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Item_Master"
+                    }
+                  },
+                  "Property": "Brand"
+                }
+              },
+              "queryRef": "Item_Master.Brand",
+              "nativeQueryRef": "Brand",
+              "displayName": "Brand"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "Sales Total"
+                }
+              },
+              "queryRef": "Measure.Sales Total",
+              "nativeQueryRef": "Sales Total"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "WhatIf Sales"
+                }
+              },
+              "queryRef": "Measure.WhatIf Sales",
+              "nativeQueryRef": "WhatIf Sales"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "Quantity Total"
+                }
+              },
+              "queryRef": "Measure.Quantity Total",
+              "nativeQueryRef": "Quantity Total"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "WhatIf Volume"
+                }
+              },
+              "queryRef": "Measure.WhatIf Volume",
+              "nativeQueryRef": "WhatIf Volume"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "Profit Total"
+                }
+              },
+              "queryRef": "Measure.Profit Total",
+              "nativeQueryRef": "Profit Total"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "WhatIf GP"
+                }
+              },
+              "queryRef": "Measure.WhatIf GP",
+              "nativeQueryRef": "WhatIf GP"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "% Gross Profit"
+                }
+              },
+              "queryRef": "Measure.% Gross Profit",
+              "nativeQueryRef": "% Gross Profit"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "WhatIf GP %"
+                }
+              },
+              "queryRef": "Measure.WhatIf GP %",
+              "nativeQueryRef": "WhatIf GP %"
+            }
+          ],
+          "fieldParameters": [
+            {
+              "parameterExpr": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "What_IF_Category"
+                    }
+                  },
+                  "Property": "What_IF_Category"
+                }
+              },
+              "index": 0,
+              "length": 1
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Measure"
+                  }
+                },
+                "Property": "% Gross Profit"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
+      }
+    },
+    "objects": {
+      "columnWidth": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "123.33333333333333D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Measure.Sales Total"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "138.99999897247216D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Measure.WhatIf Volume"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "125.76136817888192D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Measure.% Gross Profit"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "126.66666666666667D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Measure.WhatIf GP"
+          }
+        }
+      ],
+      "total": [
+        {
+          "properties": {
+            "totals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "background": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "visualHeader": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "parentGroupName": "e7dae21847240925ea09"
+}

@@ -1,0 +1,61 @@
+table CustomerSeasonSummary
+	lineageTag: 4fec702a-8821-4acd-a3dd-3f8d4838740b
+
+	column CardCode
+		lineageTag: 9eb4a334-7fdc-4ea6-b08d-dabe7b876170
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: Final_Fact[CardCode]
+
+		annotation SummarizationSetBy = Automatic
+
+	column DistinctYearCount
+		formatString: 0
+		lineageTag: 7ecf9ea5-7f28-4399-8546-4c27f2705869
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [DistinctYearCount]
+
+		annotation SummarizationSetBy = Automatic
+
+	column HasOnlyOctToDecMonths
+		formatString: 0
+		lineageTag: 087a8d53-51be-485a-b93e-50e233aaa8e6
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [HasOnlyOctToDecMonths]
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsSeasonal =
+			
+			[HasOnlyOctToDecMonths] = 1
+			    && [DistinctYearCount] >= 2
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 29e63389-a9b0-415c-9314-444801c69c40
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition CustomerSeasonSummary = calculated
+		mode: import
+		source =
+				
+				SUMMARIZE (
+				    'Final_Fact',
+				    'Final_Fact'[CardCode],
+				    "DistinctYearCount",
+				        DISTINCTCOUNT ( 'Final_Fact'[Year] ),
+				    "HasOnlyOctToDecMonths",
+				        MINX (
+				            'Final_Fact',
+				            IF (
+				                MONTH ( 'Final_Fact'[DocDate] ) IN { 10, 11, 12 },
+				                1,
+				                0
+				            )
+				        )
+				)
+
+	annotation PBI_Id = 9df11c2f34434cada1d280ea3c45f40d
+

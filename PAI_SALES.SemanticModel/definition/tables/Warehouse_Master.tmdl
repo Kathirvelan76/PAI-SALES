@@ -1,0 +1,124 @@
+table Warehouse_Master
+	lineageTag: fdb0cfd3-98b7-4894-88ec-5d6c95d43800
+
+	column WhsCode
+		dataType: string
+		lineageTag: 99cda77f-ad99-4d54-a382-e2498a81861a
+		summarizeBy: none
+		sourceColumn: WhsCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column WhsName
+		dataType: string
+		lineageTag: 3b8bbd4e-4187-4b0e-8500-7f908ce6d549
+		summarizeBy: none
+		sourceColumn: WhsName
+
+		annotation SummarizationSetBy = Automatic
+
+	column State
+		dataType: string
+		lineageTag: dccee317-c368-4e49-92b3-669796ac61b9
+		summarizeBy: none
+		sourceColumn: State
+
+		annotation SummarizationSetBy = Automatic
+
+	column Location
+		dataType: int64
+		formatString: 0
+		lineageTag: 3b55dd24-36b0-4cd0-ad5a-baef58d8a3e9
+		summarizeBy: sum
+		sourceColumn: Location
+
+		annotation SummarizationSetBy = Automatic
+
+	column LocationName
+		dataType: string
+		lineageTag: 2575effc-a373-486b-a713-4027d7ae73ea
+		summarizeBy: none
+		sourceColumn: LocationName
+
+		annotation SummarizationSetBy = Automatic
+
+	column CenWhs
+		dataType: string
+		lineageTag: c24945c6-80f9-4227-b819-ba66d30b612f
+		summarizeBy: none
+		sourceColumn: CenWhs
+
+		annotation SummarizationSetBy = Automatic
+
+	column TranWhs
+		dataType: string
+		lineageTag: 5bd9d78a-0854-49f8-94d5-1daea0b7726f
+		summarizeBy: none
+		sourceColumn: TranWhs
+
+		annotation SummarizationSetBy = Automatic
+
+	column BranchType
+		dataType: string
+		lineageTag: 24d2e393-1afe-4889-97e5-f66297e8006e
+		summarizeBy: none
+		sourceColumn: BranchType
+
+		annotation SummarizationSetBy = Automatic
+
+	column BranchLocation
+		dataType: string
+		lineageTag: f92c0c61-8a7a-43f1-9931-de3f14d94551
+		summarizeBy: none
+		sourceColumn: BranchLocation
+
+		annotation SummarizationSetBy = Automatic
+
+	column SiteCode
+		dataType: string
+		lineageTag: b946e437-bda4-47ed-88a3-a2a17731b7ee
+		summarizeBy: none
+		sourceColumn: SiteCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column CreateDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: aa3a4d92-24b1-43ba-8f6d-7618e653c70d
+		summarizeBy: none
+		sourceColumn: CreateDate
+
+		variation Variation
+			isDefault
+			relationship: 71f94e47-f8fb-4683-b1c0-2429b0786087
+			defaultHierarchy: LocalDateTable_53a0e301-bdac-4be3-8c80-aad71035f995.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column SyncDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 85c81936-921c-435d-b153-82325898e98d
+		summarizeBy: none
+		sourceColumn: SyncDate
+
+		variation Variation
+			isDefault
+			relationship: da163a56-e7e3-4ae1-9212-20dec49abd58
+			defaultHierarchy: LocalDateTable_fd3fa8b1-45d2-4e78-863a-dcf766a9f527.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Warehouse_Master = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Databases("PAI-POWER-BI"),
+				    PAI_LIVE = Source{[Name="PAI_LIVE"]}[Data],
+				    dbo_Warehouse_Master = PAI_LIVE{[Schema="dbo",Item="Warehouse_Master"]}[Data]
+				in
+				    dbo_Warehouse_Master
+
+	annotation PBI_ResultType = Table
+

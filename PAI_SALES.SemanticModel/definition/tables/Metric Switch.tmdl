@@ -1,0 +1,28 @@
+table 'Metric Switch'
+	lineageTag: de9ddbe0-eebe-4ba3-b9b2-9032869b2f59
+
+	column Metric
+		lineageTag: 76abcf7a-fe4c-4b40-a403-d6c712c7ff34
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Metric]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Metric Switch' = calculated
+		mode: import
+		source =
+				
+				DATATABLE(
+				    "Metric", STRING,
+				    {
+				        {"Gross"},
+				        {"Net"},
+				        {"Quantity"},
+				        {"GP"},
+				        {"GP %"}
+				    }
+				)
+
+	annotation PBI_Id = 141cb3d6a7c54bf7b00f8439414d05be
+

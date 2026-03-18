@@ -1,0 +1,19 @@
+table 'Marketing Expense'
+	lineageTag: 222d5471-78cb-414c-9ed0-4e4330907c37
+
+	column Expense
+		formatString: 0
+		lineageTag: eb0e93a1-a9dd-4859-9c42-52c78ae4efe4
+		summarizeBy: sum
+		sourceColumn: [Value]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Marketing Expense' = calculated
+		mode: import
+		source =
+				
+				GENERATESERIES(5000, 7500000, 5000)
+
+	annotation PBI_Id = fc35579921354c84b115df59b71d601e
+

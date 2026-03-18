@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "PAI_SALES"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "2f060b2f-1301-43df-aa73-07fd6c03fd29"
+  }
+}

@@ -1,0 +1,4070 @@
+table Measure
+	lineageTag: 7e554c4a-7b38-47b3-a28e-76ac33b2a1a5
+
+	measure 'Sales Total' = SUM(Final_Fact[GTotal])
+		displayFolder: Sales
+		lineageTag: ce4468b0-9a7a-4e47-aaac-0ccbc70ab655
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Use Sales Total' = ```
+			
+			VAR SelectedUnit = SELECTEDVALUE ( 'Measure'[Unit], "Crores (Cr)" )
+			RETURN
+			    SWITCH (
+			        SelectedUnit,
+			        "Crores (Cr)", FORMAT ( DIVIDE ([Sales Total], 10000000),  "₹0.00" ) & " Cr",
+			        "Lakhs (L)", FORMAT ( DIVIDE ( [Sales Total], 100000 ), "₹0.00" ) & " L",
+			        "Thousands (K)", FORMAT ( DIVIDE ( [Sales Total], 1000 ), "₹0.00" ) & " K",
+			        "Numbers (N)", FORMAT (DIVIDE ( [Sales Total], 1 ), "₹0.00" ),
+			        FORMAT ( DIVIDE ([Sales Total], 10000000),  "₹0.00" ) & " Cr"
+			    )
+			
+			```
+		displayFolder: Sales
+		lineageTag: 883a9f11-ead8-4408-9710-cb85a482aa3d
+
+	measure 'Sales Previous Period' =
+			
+			
+			VAR _HasYear  = HASONEVALUE('DateTable'[Financial Year])
+			VAR _HasMonth = HASONEVALUE('DateTable'[Month No])
+			
+			VAR _SelFY =
+			    SELECTEDVALUE('DateTable'[Financial Year])
+			
+			VAR _SelYear =
+			    VALUE(LEFT(_SelFY,4))
+			
+			VAR _SelMonth =
+			    SELECTEDVALUE('DateTable'[Month No])
+			
+			------------------------------------------------
+			-- Current Sales
+			------------------------------------------------
+			
+			VAR _CurrValue_Numeric =
+			    [Sales Total]
+			
+			------------------------------------------------
+			-- Year Comparison
+			------------------------------------------------
+			
+			VAR _PrevYear_Value =
+			    CALCULATE(
+			        [Sales Total],
+			        REMOVEFILTERS('DateTable'[Financial Year], 'DateTable'[Month No]),
+			        'DateTable'[FY Start Year] = _SelYear - 1
+			    )
+			
+			VAR _CurrYear_Value =
+			    CALCULATE(
+			        [Sales Total],
+			        'DateTable'[FY Start Year] = _SelYear
+			    )
+			
+			------------------------------------------------
+			-- Month Comparison
+			------------------------------------------------
+			
+			VAR _PrevMonth =
+			    IF(_SelMonth = 1, 12, _SelMonth - 1)
+			
+			VAR _PrevMonth_Year =
+			    IF(_SelMonth = 1, _SelYear - 1, _SelYear)
+			
+			VAR _PrevMonth_Value =
+			    CALCULATE(
+			        [Sales Total],
+			        REMOVEFILTERS('DateTable'[Financial Year], 'DateTable'[Month No]),
+			        'DateTable'[FY Start Year] = _PrevMonth_Year,
+			        'DateTable'[Month No] = _PrevMonth
+			    )
+			
+			VAR _CurrMonth_Value =
+			    _CurrValue_Numeric
+			
+			------------------------------------------------
+			-- Differences
+			------------------------------------------------
+			
+			VAR _Diff_Year  = _CurrYear_Value  - _PrevYear_Value
+			VAR _Perc_Year  = DIVIDE(_Diff_Year, _PrevYear_Value)
+			
+			VAR _Diff_Month = _CurrMonth_Value - _PrevMonth_Value
+			VAR _Perc_Month = DIVIDE(_Diff_Month, _PrevMonth_Value)
+			
+			VAR _Arrow_Year  = IF(_Diff_Year > 0,"⇧",IF(_Diff_Year < 0,"⇩",""))
+			VAR _Arrow_Month = IF(_Diff_Month > 0,"⇧",IF(_Diff_Month < 0,"⇩",""))
+			
+			------------------------------------------------
+			-- Unit Handling (same as your previous measure)
+			------------------------------------------------
+			
+			VAR _SelectedUnit =
+			    SELECTEDVALUE('Measure'[Unit], "Crores (Cr)")
+			
+			VAR _Divisor =
+			    SWITCH(
+			        _SelectedUnit,
+			        "Crores (Cr)",   10000000,
+			        "Lakhs (L)",     100000,
+			        "Thousands (K)", 1000,
+			        "Numbers (N)",   1,
+			        1
+			    )
+			
+			VAR _UnitSuffix =
+			    SWITCH(
+			        _SelectedUnit,
+			        "Crores (Cr)",   "Cr",
+			        "Lakhs (L)",     "L",
+			        "Thousands (K)", "K",
+			        "Numbers (N)",   "",
+			        ""
+			    )
+			
+			------------------------------------------------
+			RETURN
+			------------------------------------------------
+			
+			SWITCH(
+			    TRUE(),
+			
+			    _HasYear && NOT _HasMonth,
+			        "vs Previous Year : " &
+			        _Arrow_Year & " ₹" &
+			        FORMAT(DIVIDE(_Diff_Year,_Divisor),"#,##0.00") & " " & _UnitSuffix &
+			        " | " &
+			        FORMAT(_Perc_Year,"0.0%"),
+			
+			    _HasYear && _HasMonth,
+			        "vs Previous Period : " &
+			        _Arrow_Month & " ₹" &
+			        FORMAT(DIVIDE(_Diff_Month,_Divisor),"#,##0.00") & " " & _UnitSuffix &
+			        " | " &
+			        FORMAT(_Perc_Month,"0.0%"),
+			
+			    NOT _HasYear && NOT _HasMonth,
+			        "vs Previous :",
+			
+			    BLANK()
+			)
+		displayFolder: Sales
+		lineageTag: 7666b653-8995-4200-a829-1fda0eff212b
+
+	measure 'Color Sales Previous Period' =
+			
+			
+			VAR _HasYear  = HASONEVALUE('DateTable'[Financial Year])
+			VAR _HasMonth = HASONEVALUE('DateTable'[Month No])
+			
+			VAR _SelFY =
+			    SELECTEDVALUE('DateTable'[Financial Year])
+			
+			VAR _SelYear =
+			    VALUE(LEFT(_SelFY,4))
+			
+			VAR _SelMonth =
+			    SELECTEDVALUE('DateTable'[Month No])
+			
+			VAR _CurrValue_Numeric =
+			    [Sales Total]
+			
+			VAR _PrevYear_Value =
+			    CALCULATE(
+			        [Sales Total],
+			        REMOVEFILTERS('DateTable'[Financial Year], 'DateTable'[Month No]),
+			        'DateTable'[FY Start Year] = _SelYear - 1
+			    )
+			
+			VAR _CurrYear_Value =
+			    CALCULATE(
+			        [Sales Total],
+			        'DateTable'[FY Start Year] = _SelYear
+			    )
+			
+			VAR _PrevMonth =
+			    IF(_SelMonth = 1, 12, _SelMonth - 1)
+			
+			VAR _PrevMonth_Year =
+			    IF(_SelMonth = 1, _SelYear - 1, _SelYear)
+			
+			VAR _PrevMonth_Value =
+			    CALCULATE(
+			        [Sales Total],
+			        REMOVEFILTERS('DateTable'[Financial Year], 'DateTable'[Month No]),
+			        'DateTable'[FY Start Year] = _PrevMonth_Year,
+			        'DateTable'[Month No] = _PrevMonth
+			    )
+			
+			VAR _Diff_Year  = _CurrYear_Value - _PrevYear_Value
+			VAR _Diff_Month = _CurrValue_Numeric - _PrevMonth_Value
+			
+			RETURN
+			SWITCH(
+			    TRUE(),
+			
+			    _HasYear && NOT _HasMonth,
+			        IF(_Diff_Year > 0,"#36A962",IF(_Diff_Year < 0,"#D44343","#000000")),
+			
+			    _HasYear && _HasMonth,
+			        IF(_Diff_Month > 0,"#36A962",IF(_Diff_Month < 0,"#D44343","#000000")),
+			
+			    "#000000"
+			)
+		displayFolder: Sales
+		lineageTag: fbddf05e-320c-4fd9-b0a4-9476a9871c93
+
+	measure 'Quantity Total' = SUM(Final_Fact[Qty])
+		displayFolder: Quantity
+		lineageTag: 8389603c-4bbb-4dda-a171-bbc22ee26d8b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Use Quantity Total' = ```
+			
+			VAR SelectedUnit = SELECTEDVALUE('Measure'[Unit], "Lakhs (L)")
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			        SelectedUnit = "Crores (Cr)", FORMAT(DIVIDE([Quantity Total], 10000000), "0.00") & " Cr",
+			        SelectedUnit = "Lakhs (L)", FORMAT(DIVIDE([Quantity Total], 100000), "0.00") & " L",
+			        SelectedUnit = "Thousands (K)", FORMAT(DIVIDE([Quantity Total], 1000), "0.00") & " K",
+			        SelectedUnit = "Numbers (N)", FORMAT (DIVIDE ( [Quantity Total], 1 ), "0.00" ),
+			        FORMAT(DIVIDE([Quantity Total], 100000), "0.00") & " L" 
+			    )
+			
+			```
+		displayFolder: Quantity
+		lineageTag: 3b28f1a0-eaac-4e31-9468-a5f87bb05669
+
+	measure 'Quantity Previous Period' =
+			
+			
+			VAR _HasYear  = HASONEVALUE('DateTable'[Financial Year])
+			VAR _HasMonth = HASONEVALUE('DateTable'[Month No])
+			
+			VAR _SelFY =
+			    SELECTEDVALUE('DateTable'[Financial Year])
+			
+			VAR _SelYear =
+			    VALUE(LEFT(_SelFY,4))
+			
+			VAR _SelMonth =
+			    SELECTEDVALUE('DateTable'[Month No])
+			
+			------------------------------------------------------
+			-- Unit selection (default Lakhs for quantity)
+			------------------------------------------------------
+			
+			VAR _SelectedUnit =
+			    SELECTEDVALUE('Measure'[Unit], "Lakhs (L)")
+			
+			VAR _Divisor =
+			    SWITCH(
+			        _SelectedUnit,
+			        "Crores (Cr)",   10000000,
+			        "Lakhs (L)",     100000,
+			        "Thousands (K)", 1000,
+			        "Numbers (N)", 1,
+			        1
+			    )
+			
+			VAR _UnitSuffix =
+			    SWITCH(
+			        _SelectedUnit,
+			        "Crores (Cr)",   "Cr",
+			        "Lakhs (L)",     "L",
+			        "Thousands (K)", "K",
+			        "Numbers (N)", "",
+			        ""
+			    )
+			
+			------------------------------------------------------
+			-- Year comparison
+			------------------------------------------------------
+			
+			VAR _PrevYear_Total =
+			    CALCULATE(
+			        DIVIDE([Quantity Total], _Divisor),
+			        REMOVEFILTERS('DateTable'[Financial Year], 'DateTable'[Month No]),
+			        'DateTable'[FY Start Year] = _SelYear - 1
+			    )
+			
+			VAR _CurrYear_Total =
+			    CALCULATE(
+			        DIVIDE([Quantity Total], _Divisor),
+			        'DateTable'[FY Start Year] = _SelYear
+			    )
+			
+			------------------------------------------------------
+			-- Month comparison
+			------------------------------------------------------
+			
+			VAR _PrevMonth =
+			    IF(_SelMonth = 1, 12, _SelMonth - 1)
+			
+			VAR _PrevMonthYear =
+			    IF(_SelMonth = 1, _SelYear - 1, _SelYear)
+			
+			VAR _PrevMonth_Total =
+			    CALCULATE(
+			        DIVIDE([Quantity Total], _Divisor),
+			        REMOVEFILTERS('DateTable'[Financial Year], 'DateTable'[Month No]),
+			        'DateTable'[FY Start Year] = _PrevMonthYear,
+			        'DateTable'[Month No] = _PrevMonth
+			    )
+			
+			VAR _CurrMonth_Total =
+			    CALCULATE(
+			        DIVIDE([Quantity Total], _Divisor)
+			    )
+			
+			------------------------------------------------------
+			-- Differences
+			------------------------------------------------------
+			
+			VAR _Diff_Year  = _CurrYear_Total  - _PrevYear_Total
+			VAR _Perc_Year  = DIVIDE(_Diff_Year, _PrevYear_Total)
+			
+			VAR _Diff_Month = _CurrMonth_Total - _PrevMonth_Total
+			VAR _Perc_Month = DIVIDE(_Diff_Month, _PrevMonth_Total)
+			
+			VAR _Arrow_Year  =
+			    IF(_Diff_Year > 0,"⇧",IF(_Diff_Year < 0,"⇩",""))
+			
+			VAR _Arrow_Month =
+			    IF(_Diff_Month > 0,"⇧",IF(_Diff_Month < 0,"⇩",""))
+			
+			------------------------------------------------------
+			-- Final Output
+			------------------------------------------------------
+			
+			RETURN
+			SWITCH(
+			    TRUE(),
+			
+			    _HasYear && NOT _HasMonth,
+			        "vs Previous Year : " &
+			        _Arrow_Year & " " &
+			        FORMAT(_Diff_Year,"#,##0.00") & " " & _UnitSuffix &
+			        " | " &
+			        FORMAT(_Perc_Year,"0.0%"),
+			
+			    _HasYear && _HasMonth,
+			        "vs Previous Period : " &
+			        _Arrow_Month & " " &
+			        FORMAT(_Diff_Month,"#,##0.00") & " " & _UnitSuffix &
+			        " | " &
+			        FORMAT(_Perc_Month,"0.0%"),
+			
+			    NOT _HasYear && NOT _HasMonth,
+			        "vs Previous :",
+			
+			    BLANK()
+			)
+		displayFolder: Quantity
+		lineageTag: 1e6f6fb4-b85b-42a9-acd9-3b868de56c1f
+
+	measure 'Color Quantity Previous Period' =
+			
+			
+			VAR _HasYear  = HASONEVALUE('DateTable'[Financial Year])
+			VAR _HasMonth = HASONEVALUE('DateTable'[Month No])
+			
+			VAR _SelFY =
+			    SELECTEDVALUE('DateTable'[Financial Year])
+			
+			VAR _SelYear =
+			    VALUE(LEFT(_SelFY,4))
+			
+			VAR _SelMonth =
+			    SELECTEDVALUE('DateTable'[Month No])
+			
+			VAR _PrevYear_Total =
+			    CALCULATE(
+			        [Quantity Total],
+			        REMOVEFILTERS('DateTable'[Financial Year], 'DateTable'[Month No]),
+			        'DateTable'[FY Start Year] = _SelYear - 1
+			    )
+			
+			VAR _CurrYear_Total =
+			    CALCULATE(
+			        [Quantity Total],
+			        'DateTable'[FY Start Year] = _SelYear
+			    )
+			
+			VAR _PrevMonth =
+			    IF(_SelMonth = 1, 12, _SelMonth - 1)
+			
+			VAR _PrevMonthYear =
+			    IF(_SelMonth = 1, _SelYear - 1, _SelYear)
+			
+			VAR _PrevMonth_Total =
+			    CALCULATE(
+			        [Quantity Total],
+			        REMOVEFILTERS('DateTable'[Financial Year], 'DateTable'[Month No]),
+			        'DateTable'[FY Start Year] = _PrevMonthYear,
+			        'DateTable'[Month No] = _PrevMonth
+			    )
+			
+			VAR _CurrMonth_Total =
+			    CALCULATE([Quantity Total])
+			
+			VAR _Diff_Year  = _CurrYear_Total  - _PrevYear_Total
+			VAR _Diff_Month = _CurrMonth_Total - _PrevMonth_Total
+			
+			RETURN
+			SWITCH(
+			    TRUE(),
+			
+			    _HasYear && NOT _HasMonth,
+			        IF(_Diff_Year >= 0, "#36A962", "#D44343"),
+			
+			    _HasYear && _HasMonth,
+			        IF(_Diff_Month >= 0, "#36A962", "#D44343"),
+			
+			    "#000000"
+			)
+		displayFolder: Quantity
+		lineageTag: 775b30c5-3625-4829-af63-3919b2f5e348
+
+	measure 'Customers Total' = DISTINCTCOUNT('Final_Fact'[CardCode])
+		formatString: 0
+		displayFolder: Customers
+		lineageTag: dc28d362-9242-45b1-abea-fabaac0b3438
+
+	measure 'Use Customers Total' = ```
+			
+			VAR SelectedUnit = SELECTEDVALUE ( 'Measure'[Unit], "Lakhs (L)" )
+			RETURN
+			    SWITCH (
+			        SelectedUnit,
+			        "Crores (Cr)", FORMAT ( DIVIDE ( [Customers Total], 10000000 ), "0.00" ) & " Cr",
+			        "Thousands (K)", FORMAT ( DIVIDE ( [Customers Total], 1000 ), "0.00" ) & " K",
+			        "Lakhs (L)", FORMAT ( DIVIDE ( [Customers Total], 100000 ), "0.00" ) & " L",
+			        "Numbers (N)", FORMAT (DIVIDE ( [Customers Total], 1 ), "0.00" ),
+			        FORMAT ( DIVIDE ( [Customers Total], 100000 ), "0.00" ) & " L"
+			    )
+			
+			```
+		displayFolder: Customers
+		lineageTag: 77f555e0-0dac-41cb-a868-0650067a506b
+
+	measure 'Customers Previous Period' =
+			
+			
+			VAR _HasYear  = HASONEVALUE('DateTable'[Financial Year])
+			VAR _HasMonth = HASONEVALUE('DateTable'[Month No])
+			
+			VAR _SelFY =
+			    SELECTEDVALUE('DateTable'[Financial Year])
+			
+			VAR _SelYear =
+			    VALUE(LEFT(_SelFY,4))
+			
+			VAR _SelMonth =
+			    SELECTEDVALUE('DateTable'[Month No])
+			
+			VAR _SelectedUnit =
+			    SELECTEDVALUE('Measure'[Unit], "Lakhs (L)")
+			
+			VAR _Divisor =
+			    SWITCH(
+			        _SelectedUnit,
+			        "Crores (Cr)", 10000000,
+			        "Lakhs (L)", 100000,
+			        "Thousands (K)", 1000,
+			        "Numbers (N)", 1,
+			        1
+			    )
+			
+			VAR _UnitSuffix =
+			    SWITCH(
+			        _SelectedUnit,
+			        "Crores (Cr)", "Cr",
+			        "Lakhs (L)", "L",
+			        "Thousands (K)", "K",
+			        "Numbers (N)", "",
+			        ""
+			    )
+			
+			VAR _PrevYear_Total =
+			    CALCULATE(
+			        DIVIDE([Customers Total], _Divisor),
+			        REMOVEFILTERS('DateTable'[Financial Year], 'DateTable'[Month No]),
+			        'DateTable'[FY Start Year] = _SelYear - 1
+			    )
+			
+			VAR _CurrYear_Total =
+			    CALCULATE(
+			        DIVIDE([Customers Total], _Divisor),
+			        'DateTable'[FY Start Year] = _SelYear
+			    )
+			
+			VAR _PrevMonth =
+			    IF(_SelMonth = 1, 12, _SelMonth - 1)
+			
+			VAR _PrevMonthYear =
+			    IF(_SelMonth = 1, _SelYear - 1, _SelYear)
+			
+			VAR _PrevMonth_Total =
+			    CALCULATE(
+			        DIVIDE([Customers Total], _Divisor),
+			        REMOVEFILTERS('DateTable'[Financial Year], 'DateTable'[Month No]),
+			        'DateTable'[FY Start Year] = _PrevMonthYear,
+			        'DateTable'[Month No] = _PrevMonth
+			    )
+			
+			VAR _CurrMonth_Total =
+			    CALCULATE(
+			        DIVIDE([Customers Total], _Divisor)
+			    )
+			
+			VAR _Diff_Year  = _CurrYear_Total  - _PrevYear_Total
+			VAR _Perc_Year  = DIVIDE(_Diff_Year, _PrevYear_Total)
+			
+			VAR _Diff_Month = _CurrMonth_Total - _PrevMonth_Total
+			VAR _Perc_Month = DIVIDE(_Diff_Month, _PrevMonth_Total)
+			
+			VAR _Arrow_Year  = IF(_Diff_Year > 0,"⇧",IF(_Diff_Year < 0,"⇩",""))
+			VAR _Arrow_Month = IF(_Diff_Month > 0,"⇧",IF(_Diff_Month < 0,"⇩",""))
+			
+			RETURN
+			SWITCH(
+			    TRUE(),
+			
+			    _HasYear && NOT _HasMonth,
+			        "vs Previous Year : " &
+			        _Arrow_Year & " " &
+			        FORMAT(_Diff_Year,"#,##0.00") & " " & _UnitSuffix &
+			        " | " & FORMAT(_Perc_Year,"0.0%"),
+			
+			    _HasYear && _HasMonth,
+			        "vs Previous Period : " &
+			        _Arrow_Month & " " &
+			        FORMAT(_Diff_Month,"#,##0.00") & " " & _UnitSuffix &
+			        " | " & FORMAT(_Perc_Month,"0.0%"),
+			
+			    NOT _HasYear && NOT _HasMonth,
+			        "vs Previous :",
+			
+			    BLANK()
+			)
+		displayFolder: Customers
+		lineageTag: a8f078cb-2a00-4c55-ad81-6149e33ee0e4
+
+	measure 'Color Customers Previous Period' =
+			
+			
+			VAR _HasYear  = HASONEVALUE('DateTable'[Financial Year])
+			VAR _HasMonth = HASONEVALUE('DateTable'[Month No])
+			
+			VAR _SelFY =
+			    SELECTEDVALUE('DateTable'[Financial Year])
+			
+			VAR _SelYear =
+			    VALUE(LEFT(_SelFY,4))
+			
+			VAR _SelMonth =
+			    SELECTEDVALUE('DateTable'[Month No])
+			
+			VAR _SelectedUnit =
+			    SELECTEDVALUE('Measure'[Unit], "Lakhs (L)")
+			
+			VAR _Divisor =
+			    SWITCH(
+			        _SelectedUnit,
+			        "Crores (Cr)", 10000000,
+			        "Lakhs (L)", 100000,
+			        "Thousands (K)", 1000,
+			        "Numbers (N)", 1,
+			        1
+			    )
+			
+			VAR _PrevYear_Total =
+			    CALCULATE(
+			        DIVIDE([Customers Total], _Divisor),
+			        REMOVEFILTERS('DateTable'[Financial Year], 'DateTable'[Month No]),
+			        'DateTable'[FY Start Year] = _SelYear - 1
+			    )
+			
+			VAR _CurrYear_Total =
+			    CALCULATE(
+			        DIVIDE([Customers Total], _Divisor),
+			        'DateTable'[FY Start Year] = _SelYear
+			    )
+			
+			VAR _PrevMonth =
+			    IF(_SelMonth = 1, 12, _SelMonth - 1)
+			
+			VAR _PrevMonthYear =
+			    IF(_SelMonth = 1, _SelYear - 1, _SelYear)
+			
+			VAR _PrevMonth_Total =
+			    CALCULATE(
+			        DIVIDE([Customers Total], _Divisor),
+			        REMOVEFILTERS('DateTable'[Financial Year], 'DateTable'[Month No]),
+			        'DateTable'[FY Start Year] = _PrevMonthYear,
+			        'DateTable'[Month No] = _PrevMonth
+			    )
+			
+			VAR _CurrMonth_Total =
+			    CALCULATE(
+			        DIVIDE([Customers Total], _Divisor)
+			    )
+			
+			VAR _Diff_Year  = _CurrYear_Total  - _PrevYear_Total
+			VAR _Diff_Month = _CurrMonth_Total - _PrevMonth_Total
+			
+			RETURN
+			SWITCH(
+			    TRUE(),
+			
+			    _HasYear && NOT _HasMonth,
+			        IF(_Diff_Year > 0,"#36A962",IF(_Diff_Year < 0,"#D44343","#000000")),
+			
+			    _HasYear && _HasMonth,
+			        IF(_Diff_Month > 0,"#36A962",IF(_Diff_Month < 0,"#D44343","#000000")),
+			
+			    "#000000"
+			)
+		displayFolder: Customers
+		lineageTag: 181c2373-4124-4235-b02e-5796b2d03d30
+
+	measure 'Profit Total' = SUM('Final_Fact'[Gross Profit])
+		displayFolder: Gross Profit
+		lineageTag: 67c4eca0-f598-48d4-9ed3-4a4ac00f303e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Use Profit Total' = ```
+			
+			VAR SelectedUnit = SELECTEDVALUE ( 'Measure'[Unit], "Crores (Cr)" )
+			RETURN
+			    SWITCH (
+			        SelectedUnit,
+			        "Lakhs (L)", FORMAT ( DIVIDE ( [Profit Total], 100000 ), "₹0.00" ) & " L",
+			        "Thousands (K)", FORMAT ( DIVIDE ( [Profit Total], 1000 ), "₹0.00" ) & " K",
+			        "Crores (Cr)", FORMAT ( DIVIDE ( [Profit Total], 10000000 ), "₹0.00" ) & " Cr",
+			        "Numbers (N)", FORMAT (DIVIDE ( [Profit Total], 1 ), "₹0.00" ),
+			        FORMAT ( DIVIDE ( [Profit Total], 10000000 ), "₹0.00" ) & " Cr"
+			    )
+			
+			```
+		displayFolder: Gross Profit
+		lineageTag: 94260b11-707d-458a-8411-93cdeeff5b0c
+
+	measure 'GP Previous Period' =
+			
+			
+			VAR _HasYear  = HASONEVALUE('DateTable'[Financial Year])
+			VAR _HasMonth = HASONEVALUE('DateTable'[Month No])
+			
+			VAR _SelYear =
+			    SELECTEDVALUE('DateTable'[FY Start Year])
+			
+			VAR _SelMonth =
+			    SELECTEDVALUE('DateTable'[Month No])
+			
+			------------------------------------------------
+			-- Current Value
+			------------------------------------------------
+			
+			VAR _CurrValue =
+			    [Profit Total]
+			
+			------------------------------------------------
+			-- Year Comparison (FIXED)
+			------------------------------------------------
+			
+			VAR _PrevYear_Value =
+			    CALCULATE(
+			        [Profit Total],
+			        'DateTable'[FY Start Year] = _SelYear - 1,
+			        REMOVEFILTERS('DateTable'[Month No])
+			    )
+			
+			VAR _CurrYear_Value =
+			    CALCULATE(
+			        [Profit Total],
+			        'DateTable'[FY Start Year] = _SelYear,
+			        REMOVEFILTERS('DateTable'[Month No])
+			    )
+			
+			------------------------------------------------
+			-- Month Comparison (FIXED)
+			------------------------------------------------
+			
+			VAR _PrevMonth =
+			    IF(_SelMonth = 1, 12, _SelMonth - 1)
+			
+			VAR _PrevMonth_Year =
+			    IF(_SelMonth = 1, _SelYear - 1, _SelYear)
+			
+			VAR _PrevMonth_Value =
+			    CALCULATE(
+			        [Profit Total],
+			        'DateTable'[FY Start Year] = _PrevMonth_Year,
+			        'DateTable'[Month No] = _PrevMonth
+			    )
+			
+			VAR _CurrMonth_Value =
+			    CALCULATE(
+			        [Profit Total],
+			        'DateTable'[FY Start Year] = _SelYear,
+			        'DateTable'[Month No] = _SelMonth
+			    )
+			
+			------------------------------------------------
+			-- Differences
+			------------------------------------------------
+			
+			VAR _Diff_Year  = _CurrYear_Value  - _PrevYear_Value
+			VAR _Perc_Year  = DIVIDE(_Diff_Year, _PrevYear_Value)
+			
+			VAR _Diff_Month = _CurrMonth_Value - _PrevMonth_Value
+			VAR _Perc_Month = DIVIDE(_Diff_Month, _PrevMonth_Value)
+			
+			VAR _Arrow_Year  = IF(_Diff_Year > 0,"⇧",IF(_Diff_Year < 0,"⇩",""))
+			VAR _Arrow_Month = IF(_Diff_Month > 0,"⇧",IF(_Diff_Month < 0,"⇩",""))
+			
+			------------------------------------------------
+			-- Unit Handling
+			------------------------------------------------
+			
+			VAR _SelectedUnit =
+			    SELECTEDVALUE('Measure'[Unit], "Crores (Cr)")
+			
+			VAR _Divisor =
+			    SWITCH(
+			        _SelectedUnit,
+			        "Crores (Cr)",   10000000,
+			        "Lakhs (L)",     100000,
+			        "Thousands (K)", 1000,
+			        "Numbers (N)",   1,
+			        1
+			    )
+			
+			VAR _UnitSuffix =
+			    SWITCH(
+			        _SelectedUnit,
+			        "Crores (Cr)",   "Cr",
+			        "Lakhs (L)",     "L",
+			        "Thousands (K)", "K",
+			        "Numbers (N)",   "",
+			        ""
+			    )
+			
+			------------------------------------------------
+			RETURN
+			------------------------------------------------
+			
+			SWITCH(
+			    TRUE(),
+			
+			    _HasYear && NOT _HasMonth,
+			        "vs Previous Year : " &
+			        _Arrow_Year & " ₹" &
+			        FORMAT(DIVIDE(_Diff_Year,_Divisor),"#,##0.00") & " " & _UnitSuffix &
+			        " | " &
+			        FORMAT(_Perc_Year,"0.0%"),
+			
+			    _HasYear && _HasMonth,
+			        "vs Previous Period : " &
+			        _Arrow_Month & " ₹" &
+			        FORMAT(DIVIDE(_Diff_Month,_Divisor),"#,##0.00") & " " & _UnitSuffix &
+			        " | " &
+			        FORMAT(_Perc_Month,"0.0%"),
+			
+			    NOT _HasYear && NOT _HasMonth,
+			        "vs Previous :",
+			
+			    BLANK()
+			)
+		displayFolder: Gross Profit
+		lineageTag: 42006ef3-9e7b-4e81-9c8c-f2d5005dcb8c
+
+	measure 'Color Gross Profit Previous Period' =
+			
+			
+			VAR _HasYear  = HASONEVALUE('DateTable'[Financial Year])
+			VAR _HasMonth = HASONEVALUE('DateTable'[Month No])
+			
+			VAR _SelFY =
+			    SELECTEDVALUE('DateTable'[Financial Year])
+			
+			VAR _SelYear =
+			    VALUE(LEFT(_SelFY,4))
+			
+			VAR _SelMonth =
+			    SELECTEDVALUE('DateTable'[Month No])
+			
+			VAR _CurrValue_Numeric =
+			    [Profit Total]
+			
+			VAR _PrevYear_Value =
+			    CALCULATE(
+			        [Profit Total],
+			        REMOVEFILTERS('DateTable'[Financial Year], 'DateTable'[Month No]),
+			        'DateTable'[FY Start Year] = _SelYear - 1
+			    )
+			
+			VAR _CurrYear_Value =
+			    CALCULATE(
+			        [Profit Total],
+			        'DateTable'[FY Start Year] = _SelYear
+			    )
+			
+			VAR _PrevMonth =
+			    IF(_SelMonth = 1, 12, _SelMonth - 1)
+			
+			VAR _PrevMonth_Year =
+			    IF(_SelMonth = 1, _SelYear - 1, _SelYear)
+			
+			VAR _PrevMonth_Value =
+			    CALCULATE(
+			        [Profit Total],
+			        REMOVEFILTERS('DateTable'[Financial Year], 'DateTable'[Month No]),
+			        'DateTable'[FY Start Year] = _PrevMonth_Year,
+			        'DateTable'[Month No] = _PrevMonth
+			    )
+			
+			VAR _Diff_Year  = _CurrYear_Value - _PrevYear_Value
+			VAR _Diff_Month = _CurrValue_Numeric - _PrevMonth_Value
+			
+			RETURN
+			SWITCH(
+			    TRUE(),
+			
+			    _HasYear && NOT _HasMonth,
+			        IF(_Diff_Year > 0,"#36A962",IF(_Diff_Year < 0,"#D44343","#000000")),
+			
+			    _HasYear && _HasMonth,
+			        IF(_Diff_Month > 0,"#36A962",IF(_Diff_Month < 0,"#D44343","#000000")),
+			
+			    "#000000"
+			)
+		displayFolder: Gross Profit
+		lineageTag: 8d367de8-cd3f-4841-ba95-4de214c2f25f
+
+	measure 'Active Filters' = ```
+			
+			
+			VAR _brand =
+			    IF(
+			        ISFILTERED('Item_Master'[Brand]),
+			        "Brand(" & CONCATENATEX(VALUES('Item_Master'[Brand]), 'Item_Master'[Brand], ", ") & ")",
+			        BLANK()
+			    )
+			
+			VAR _groupCategory =
+			    IF(
+			        ISFILTERED('Item_Master'[Group_Category]),
+			        "Group Category(" & CONCATENATEX(VALUES('Item_Master'[Group_Category]), 'Item_Master'[Group_Category], ", ") & ")",
+			        BLANK()
+			    )
+			
+			VAR _headCategory =
+			    IF(
+			        ISFILTERED('Item_Master'[Head_Category]),
+			        "Head Category(" & CONCATENATEX(VALUES('Item_Master'[Head_Category]), 'Item_Master'[Head_Category], ", ") & ")",
+			        BLANK()
+			    )
+			
+			VAR _subCategory =
+			    IF(
+			        ISFILTERED('Item_Master'[SubCategory]),
+			        "Sub Category(" & CONCATENATEX(VALUES('Item_Master'[SubCategory]), 'Item_Master'[SubCategory], ", ") & ")",
+			        BLANK()
+			    )
+			
+			VAR _size =
+			    IF(
+			        ISFILTERED('Item_Master'[Size]),
+			        "Size(" & CONCATENATEX(VALUES('Item_Master'[Size]), 'Item_Master'[Size], ", ") & ")",
+			        BLANK()
+			    )
+			
+			VAR _segment =
+			    IF(
+			        ISFILTERED('Item_Master'[Segment]),
+			        "Segment(" & CONCATENATEX(VALUES('Item_Master'[Segment]), 'Item_Master'[Segment], ", ") & ")",
+			        BLANK()
+			    )
+			
+			VAR _star =
+			    IF(
+			        ISFILTERED('Item_Master'[Star]),
+			        "Star(" & CONCATENATEX(VALUES('Item_Master'[Star]), 'Item_Master'[Star], ", ") & ")",
+			        BLANK()
+			    )
+			
+			VAR _movement =
+			    IF(
+			        ISFILTERED('Item_Master'[Movement]),
+			        "Movement(" & CONCATENATEX(VALUES('Item_Master'[Movement]), 'Item_Master'[Movement], ", ") & ")",
+			        BLANK()
+			    )
+			
+			VAR _Branch =
+			    IF(
+			        ISFILTERED('Warehouse_Master'[WhsName]),
+			        "Branch(" & CONCATENATEX(VALUES('Warehouse_Master'[WhsName]), 'Warehouse_Master'[WhsName], ", ") & ")",
+			        BLANK()
+			    )
+			
+			VAR _salestype =
+			    IF(
+			        ISFILTERED('Final_Fact'[SalesType]),
+			        "Sales Type(" & CONCATENATEX(VALUES('Final_Fact'[SalesType]), 'Final_Fact'[SalesType], ", ") & ")",
+			        BLANK()
+			    )
+			
+			VAR _businesstype =
+			    IF(
+			        ISFILTERED('Final_Fact'[Business Type]),
+			        "Business Type(" & CONCATENATEX(VALUES('Final_Fact'[Business Type]), 'Final_Fact'[Business Type], ", ") & ")",
+			        BLANK()
+			    )
+			
+			VAR _trnspname =
+			    IF(
+			        ISFILTERED('Final_Fact'[TrnspName]),
+			        "Trnsp Name(" & CONCATENATEX(VALUES('Final_Fact'[TrnspName]), 'Final_Fact'[TrnspName], ", ") & ")",
+			        BLANK()
+			    )
+			
+			Var _month =
+			    If(
+			        ISFILTERED('DateTable'[Month Name]),
+			        "Month(" & CONCATENATEX(VALUES('DateTable'[Month Name]), 'DateTable'[Month Name], ", ") & ")",
+			        BLANK()
+			        )
+			
+			Var _minbill =
+			    If(
+			        ISFILTERED('Min Bill Amount'[Min Bill Amount]),
+			        "Min. Invoice Value(" & CONCATENATEX(VALUES('Min Bill Amount'[Min Bill Amount]), 'Min Bill Amount'[Min Bill Amount], ", ") & ")",
+			        BLANK()
+			        )
+			Var _maxbill =
+			    If(
+			        ISFILTERED('Max Bill Amount'[Max Bill Amount]),
+			        "Max. Invoice Value(" & CONCATENATEX(VALUES('Max Bill Amount'[Max Bill Amount]), 'Max Bill Amount'[Max Bill Amount], ", ") & ")",
+			        BLANK()
+			        )
+			Var _purchasecount =
+			    If(
+			        ISFILTERED('Purchase Count Slicer'[Count Filter]),
+			        "Purchase Count(" & CONCATENATEX(VALUES('Purchase Count Slicer'[Count Filter]), 'Purchase Count Slicer'[Count Filter], ", ") & ")",
+			        BLANK()
+			        )
+			Var _LastNmonth =
+			    If(
+			        ISFILTERED('Last N Months'[Value]),
+			        "Last N Months(" & CONCATENATEX(VALUES('Last N Months'[Value]), 'Last N Months'[Value], ", ") & ")",
+			        BLANK()
+			        )
+			
+			Var _year =
+			    If(
+			        ISFILTERED('DateTable'[Year]),
+			        "Year(" & CONCATENATEX(VALUES('DateTable'[Year]), 'DateTable'[Year], ", ") & ")",
+			        BLANK()
+			        )
+			
+			Var _state =
+			    If(
+			        ISFILTERED('Warehouse_Master'[State]),
+			        "State(" & CONCATENATEX(VALUES('Warehouse_Master'[State]), 'Warehouse_Master'[State], ", ") & ")",
+			        BLANK()
+			        )
+			
+			Var _mainCategory =
+			    If(
+			        ISFILTERED('Item_Master'[Property]),
+			        "Main Category(" & CONCATENATEX(VALUES('Item_Master'[Property]), 'Item_Master'[Property], ", ") & ")",
+			        BLANK()
+			        )
+			
+			Var _custseg =
+			    If(
+			        ISFILTERED('Customer Trend'[Segment]),
+			        "Customer Segment(" & CONCATENATEX(VALUES('Customer Trend'[Segment]), 'Customer Trend'[Segment], ", ") & ")",
+			        BLANK()
+			        )
+			    
+			Var _range =
+			    If(
+			        ISFILTERED('Final_Fact'[Gtotal Range]),
+			        "Range(" & CONCATENATEX(VALUES('Final_Fact'[Gtotal Range]), 'Final_Fact'[Gtotal Range], ", ") & ")",
+			        BLANK()
+			        )
+			
+			Var _date=
+			    If(
+			        ISFILTERED('DateTable'[Date]),
+			        "Date(" & CONCATENATEX(VALUES('DateTable'[Date]), 'DateTable'[Date], ", ") & ")",
+			        BLANK()
+			        )
+			
+			Var _finyear=
+			    If(
+			        ISFILTERED('DateTable'[Financial Year]),
+			        "Finc.Year(" & CONCATENATEX(VALUES('DateTable'[Financial Year]), 'DateTable'[Financial Year], ", ") & ")",
+			        BLANK()
+			        )
+			
+			Var _newold=
+			    If(
+			        ISFILTERED('Final_Fact'[New or Old]),
+			        "Customer Type(" & CONCATENATEX(VALUES('Final_Fact'[New or Old]), 'Final_Fact'[New or Old], ", ") & ")",
+			        BLANK()
+			        )
+			
+			Var _mainnew=
+			    If(
+			        ISFILTERED('Category Slicer'[Property]),
+			        "Main Category(" & CONCATENATEX(VALUES('Category Slicer'[Property]), 'Category Slicer'[Property], ", ") & ")",
+			        BLANK()
+			        )
+			
+			Var _itemcount=
+			    If(
+			        ISFILTERED('Final_Fact'[Item Count Chart]),
+			        "Item Count(" & CONCATENATEX(VALUES('Final_Fact'[Item Count Chart]), 'Final_Fact'[Item Count Chart], ", ") & ")",
+			        BLANK()
+			        )
+			
+			Var _basketsize=
+			    If(
+			        ISFILTERED('Final_Fact'[DocTotal Range]),
+			        "Basket Size(" & CONCATENATEX(VALUES('Final_Fact'[DocTotal Range]), 'Final_Fact'[DocTotal Range], ", ") & ")",
+			        BLANK()
+			        )
+			
+			
+			VAR _filters =
+			    CONCATENATEX(
+			        FILTER(
+			            {
+			                _brand,
+			                _groupCategory,
+			                _headCategory,
+			                _subCategory,
+			                _movement,
+			                _size,
+			                _star,
+			                _month,
+			                _minbill,
+			                _maxbill,
+			                _purchasecount,
+			                _LastNmonth,
+			                _segment,
+			                _trnspname,
+			                _businesstype,
+			                _salestype,
+			                _Branch,
+			                _year,
+			                _state,
+			                _mainCategory,
+			                _custseg,
+			                _range,
+			                _date,
+			                _finyear,
+			                _newold,
+			                _mainnew,
+			                _itemcount,
+			                _basketsize
+			
+			
+			
+			            },
+			            [Value] <> BLANK()
+			        ),
+			        [Value],
+			        ", "
+			    )
+			
+			RETURN
+			IF(
+			    LEN(_filters) > 0,
+			    "Active Filters: " & _filters,
+			    "Active Filters: None"
+			)
+			
+			```
+		displayFolder: Extras
+		lineageTag: d21cf035-c062-4d36-828e-63d07df8e0e2
+
+	measure 'Sales Chart' = ```
+			
+			VAR SelectedUnit = SELECTEDVALUE ( 'Measure'[Unit], "Crores (Cr)")
+			RETURN
+			    SWITCH (
+			        SelectedUnit,
+			        "Crores (Cr)", DIVIDE ( [Sales Total], 10000000),
+			        "Lakhs (L)", DIVIDE ( [Sales Total], 100000 ),
+			        "Thousands (K)", DIVIDE ( [Sales Total], 1000 ),
+			        "Numbers (N)", DIVIDE ( [Sales Total], 1 ),
+			        DIVIDE ( [Sales Total], 10000000)  
+			    )
+			```
+		displayFolder: Chart
+		lineageTag: c3872808-8495-4d87-b3d8-8ac09066c558
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Quantity Chart' = ```
+			
+			VAR SelectedUnit = SELECTEDVALUE ( 'Measure'[Unit], "Lakhs (L)" )
+			RETURN
+			    SWITCH (
+			        SelectedUnit,
+			        "Crores (Cr)", DIVIDE ( [Quantity Total],10000000),
+			        "Lakhs (L)", DIVIDE ( [Quantity Total], 100000 ),
+			        "Thousands (K)", DIVIDE([Quantity Total],1000),
+			        "Numbers (N)", DIVIDE ( [Quantity Total], 1 ),
+			        DIVIDE ( [Quantity Total], 100000 )  
+			    )
+			```
+		displayFolder: Chart
+		lineageTag: 5fc59d4d-0190-4e31-a436-2cd59df81b12
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Profit Chart' = ```
+			
+			VAR SelectedUnit = SELECTEDVALUE ( 'Measure'[Unit], "Crores (Cr)" )
+			RETURN
+			    SWITCH (
+			        SelectedUnit,
+			        "Lakhs (L)", DIVIDE ( [Profit Total], 100000 ),
+			        "Thousands (K)", DIVIDE ( [Profit Total], 1000 ),
+			        "Crores (Cr)", DIVIDE ( [Profit Total],10000000),
+			        "Numbers (N)", DIVIDE ( [Profit Total], 1 ),
+			        DIVIDE ( [Profit Total],10000000)
+			    )
+			
+			```
+		displayFolder: Chart
+		lineageTag: 56b73541-31d7-4ce2-9940-8440582a20dc
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Customers Chart' = ```
+			
+			VAR SelectedUnit = SELECTEDVALUE ( 'Measure'[Unit], "Lakhs (L)" )
+			RETURN
+			    SWITCH (
+			        SelectedUnit,
+			        "Crores (Cr)", DIVIDE([Customers Total],10000000),
+			        "Lakhs (L)", DIVIDE ( [Customers Total], 100000 ),
+			        "Thousands (K)", DIVIDE ( [Customers Total], 1000 ),
+			        "Numbers (N)", DIVIDE ( [Customers Total], 1 ),
+			
+			        DIVIDE ( [Customers Total], 100000 )  
+			    )
+			```
+		displayFolder: Chart
+		lineageTag: 33404f2e-5901-4103-b01a-2b3b1add5088
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Avg Basket Value' = ```
+			
+			VAR _Value =
+			    DIVIDE(
+			        SUM('Final_Fact'[Gtotal]),
+			        DISTINCTCOUNT('Final_Fact'[DocEntry]),
+			        0
+			    ) / 1000
+			RETURN
+			"₹" & FORMAT(_Value, "0.00") & "K"
+			
+			
+			
+			```
+		displayFolder: Avg Basket
+		lineageTag: c93b31fa-0888-405e-8d64-7b27873f3fef
+
+	measure 'Avg Basket Previous Period' =
+			
+			
+			VAR _HasYear  = HASONEVALUE('DateTable'[Financial Year])
+			VAR _HasMonth = HASONEVALUE('DateTable'[Month No])
+			
+			VAR _SelFY =
+			    SELECTEDVALUE('DateTable'[Financial Year])
+			
+			VAR _SelYear =
+			    VALUE(LEFT(_SelFY,4))
+			
+			VAR _SelMonth =
+			    SELECTEDVALUE('DateTable'[Month No])
+			
+			------------------------------------------------
+			-- Current Basket Value
+			------------------------------------------------
+			
+			VAR _CurrValue_Numeric =
+			    DIVIDE(
+			        SUM('Final_Fact'[Gtotal]),
+			        DISTINCTCOUNT('Final_Fact'[DocEntry]),
+			        0
+			    ) / 1000
+			
+			------------------------------------------------
+			-- Year Comparison
+			------------------------------------------------
+			
+			VAR _PrevYear_Value =
+			    CALCULATE(
+			        DIVIDE(
+			            SUM('Final_Fact'[Gtotal]),
+			            DISTINCTCOUNT('Final_Fact'[DocEntry]),
+			            0
+			        ) / 1000,
+			        REMOVEFILTERS('DateTable'[Financial Year], 'DateTable'[Month No]),
+			        'DateTable'[FY Start Year] = _SelYear - 1
+			    )
+			
+			VAR _CurrYear_Value =
+			    CALCULATE(
+			        DIVIDE(
+			            SUM('Final_Fact'[Gtotal]),
+			            DISTINCTCOUNT('Final_Fact'[DocEntry]),
+			            0
+			        ) / 1000,
+			        'DateTable'[FY Start Year] = _SelYear
+			    )
+			
+			------------------------------------------------
+			-- Month Comparison
+			------------------------------------------------
+			
+			VAR _PrevMonth =
+			    IF(_SelMonth = 1, 12, _SelMonth - 1)
+			
+			VAR _PrevMonth_Year =
+			    IF(_SelMonth = 1, _SelYear - 1, _SelYear)
+			
+			VAR _PrevMonth_Value =
+			    CALCULATE(
+			        DIVIDE(
+			            SUM('Final_Fact'[Gtotal]),
+			            DISTINCTCOUNT('Final_Fact'[DocEntry]),
+			            0
+			        ) / 1000,
+			        REMOVEFILTERS('DateTable'[Financial Year], 'DateTable'[Month No]),
+			        'DateTable'[FY Start Year] = _PrevMonth_Year,
+			        'DateTable'[Month No] = _PrevMonth
+			    )
+			
+			VAR _CurrMonth_Value =
+			    _CurrValue_Numeric
+			
+			------------------------------------------------
+			-- Differences
+			------------------------------------------------
+			
+			VAR _Diff_Year  = _CurrYear_Value  - _PrevYear_Value
+			VAR _Perc_Year  = DIVIDE(_Diff_Year, _PrevYear_Value)
+			
+			VAR _Diff_Month = _CurrMonth_Value - _PrevMonth_Value
+			VAR _Perc_Month = DIVIDE(_Diff_Month, _PrevMonth_Value)
+			
+			VAR _Arrow_Year  = IF(_Diff_Year > 0,"⇧",IF(_Diff_Year < 0,"⇩",""))
+			VAR _Arrow_Month = IF(_Diff_Month > 0,"⇧",IF(_Diff_Month < 0,"⇩",""))
+			
+			RETURN
+			SWITCH(
+			    TRUE(),
+			
+			    _HasYear && NOT _HasMonth,
+			        "vs Previous Year : " &
+			        _Arrow_Year & " ₹" &
+			        FORMAT(_Diff_Year,"0.00") & "K" &
+			        " | " &
+			        FORMAT(_Perc_Year,"0.0%"),
+			
+			    _HasYear && _HasMonth,
+			        "vs Previous Period : " &
+			        _Arrow_Month & " ₹" &
+			        FORMAT(_Diff_Month,"0.00") & "K" &
+			        " | " &
+			        FORMAT(_Perc_Month,"0.0%"),
+			
+			    NOT _HasYear && NOT _HasMonth,
+			        "vs Previous :",
+			
+			    BLANK()
+			)
+		displayFolder: Avg Basket
+		lineageTag: 07008623-24ce-44cc-a182-7d29b266cf05
+
+	measure 'Color Avg Basket Previous Period' =
+			
+			
+			VAR _HasYear  = HASONEVALUE('DateTable'[Financial Year])
+			VAR _HasMonth = HASONEVALUE('DateTable'[Month No])
+			
+			VAR _SelFY =
+			    SELECTEDVALUE('DateTable'[Financial Year])
+			
+			VAR _SelYear =
+			    VALUE(LEFT(_SelFY,4))
+			
+			VAR _SelMonth =
+			    SELECTEDVALUE('DateTable'[Month No])
+			
+			VAR _CurrValue_Numeric =
+			    DIVIDE(
+			        SUM('Final_Fact'[Gtotal]),
+			        DISTINCTCOUNT('Final_Fact'[DocEntry]),
+			        0
+			    ) / 1000
+			
+			VAR _PrevYear_Value =
+			    CALCULATE(
+			        DIVIDE(
+			            SUM('Final_Fact'[Gtotal]),
+			            DISTINCTCOUNT('Final_Fact'[DocEntry]),
+			            0
+			        ) / 1000,
+			        REMOVEFILTERS('DateTable'[Financial Year], 'DateTable'[Month No]),
+			        'DateTable'[FY Start Year] = _SelYear - 1
+			    )
+			
+			VAR _CurrYear_Value =
+			    CALCULATE(
+			        DIVIDE(
+			            SUM('Final_Fact'[Gtotal]),
+			            DISTINCTCOUNT('Final_Fact'[DocEntry]),
+			            0
+			        ) / 1000,
+			        'DateTable'[FY Start Year] = _SelYear
+			    )
+			
+			VAR _PrevMonth =
+			    IF(_SelMonth = 1, 12, _SelMonth - 1)
+			
+			VAR _PrevMonth_Year =
+			    IF(_SelMonth = 1, _SelYear - 1, _SelYear)
+			
+			VAR _PrevMonth_Value =
+			    CALCULATE(
+			        DIVIDE(
+			            SUM('Final_Fact'[Gtotal]),
+			            DISTINCTCOUNT('Final_Fact'[DocEntry]),
+			            0
+			        ) / 1000,
+			        REMOVEFILTERS('DateTable'[Financial Year], 'DateTable'[Month No]),
+			        'DateTable'[FY Start Year] = _PrevMonth_Year,
+			        'DateTable'[Month No] = _PrevMonth
+			    )
+			
+			VAR _Diff_Year  = _CurrYear_Value - _PrevYear_Value
+			VAR _Diff_Month = _CurrValue_Numeric - _PrevMonth_Value
+			
+			RETURN
+			SWITCH(
+			    TRUE(),
+			
+			    _HasYear && NOT _HasMonth,
+			        IF(_Diff_Year > 0,"#36A962",IF(_Diff_Year < 0,"#D44343","#000000")),
+			
+			    _HasYear && _HasMonth,
+			        IF(_Diff_Month > 0,"#36A962",IF(_Diff_Month < 0,"#D44343","#000000")),
+			
+			    "#000000"
+			)
+		displayFolder: Avg Basket
+		lineageTag: 54417b59-8803-42e8-9a5b-4d18cea1adb3
+
+	measure 'Seg.Customers Chart' = ```
+			
+			VAR SelectedUnit = SELECTEDVALUE ( 'Measure'[Unit], "Lakhs (L)" )
+			RETURN
+			    SWITCH (
+			        SelectedUnit,
+			        "Crores (Cr)", DIVIDE([Customers Total],10000000),
+			        "Lakhs (L)", DIVIDE ( [Customers Total], 100000 ),
+			        "Thousands (K)", DIVIDE ( [Customers Total], 1000 ),
+			        "Numbers (N)", DIVIDE ( [Customers Total], 1 ),
+			        DIVIDE ( [Customers Total], 100000 )  
+			    )
+			```
+		displayFolder: Chart
+		lineageTag: 2906818c-90a5-4a39-b47e-453436f4fa63
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Count Filter Selected' = ```
+			
+			SELECTEDVALUE('Purchase Count Slicer'[Count Filter], 1) 
+			// Default to 1 purchase if no selection is made
+			```
+		formatString: 0
+		displayFolder: Extras
+		lineageTag: 6fa52b73-a0a6-483a-a35b-35d84fe1cefe
+
+	measure 'DMax Value Selected' = ```
+			
+			SELECTEDVALUE('Max Bill Amount'[Max Bill Amount], 500000) 
+			// Default minimum to 0
+			```
+		formatString: 0
+		displayFolder: Extras
+		lineageTag: 944cc67e-3c2f-4abb-a90a-652c633e8e3e
+
+	measure 'DMin Value Selected' = ```
+			
+			SELECTEDVALUE('Min Bill Amount'[Min Bill Amount], 0) 
+			// Default minimum to 0
+			```
+		formatString: 0
+		displayFolder: Extras
+		lineageTag: 38f198df-9d20-4626-a6a3-d12a76d89eff
+
+	measure 'N Months Selected' = ```
+			
+			SELECTEDVALUE('Last N Months'[Value], 60) 
+			// Default to 2 months if no selection is made
+			```
+		formatString: 0
+		displayFolder: Extras
+		lineageTag: c397d256-e0d1-4268-8831-200d2e60a1db
+
+	measure 'Filter Customer by Purchase Count' = ```
+			
+			// 1. Capture Inputs
+			VAR SelectedNMonths = [N Months Selected] 
+			VAR SelectedCount = [Count Filter Selected] 
+			VAR MinValue = [DMin Value Selected] 
+			VAR MaxValue = [DMax Value Selected] 
+			
+			// 2. Define Time Window
+			VAR TodayDate = TODAY() 
+			// EDATE finds the date that is 'SelectedNMonths' before TodayDate
+			VAR StartDate = EDATE(TodayDate, -SelectedNMonths) 
+			
+			// 3. Find Qualified Invoices for the current Customer
+			VAR QualifiedInvoices = 
+			    CALCULATETABLE(
+			        // We only want to count distinct invoices
+			        DISTINCT('Final_Fact'[DocEntry]),
+			        
+			        // Context filter 1: Date Range
+			        'DateTable'[Date] >= StartDate,
+			        'DateTable'[Date] <= TodayDate,
+			        
+			        // Context filter 2: Invoice Value Range
+			        // Filter based on DocTotal, not GTotal, as requested
+			        'Final_Fact'[Doctotal] >= MinValue,
+			        'Final_Fact'[Doctotal] <= MaxValue
+			    )
+			
+			// 4. Calculate the Actual Purchase Count
+			VAR ActualPurchaseCount = 
+			    COUNTROWS(QualifiedInvoices)
+			
+			// 5. Final Check
+			RETURN 
+			    IF(
+			        ActualPurchaseCount = SelectedCount,
+			        1, // YES: This customer meets all criteria
+			        0  // NO: This customer fails the criteria
+			    )
+			```
+		formatString: 0
+		displayFolder: Extras
+		lineageTag: 3e53ae8c-dd71-4aaf-94aa-ba9b69d37f07
+
+	measure '2 Use Quantity Total' = ```
+			
+			VAR SelectedUnit = SELECTEDVALUE('Measure'[Unit], "Lakhs (L)")
+			RETURN
+			    SWITCH(
+			        TRUE(),
+			        SelectedUnit = "Crores (Cr)", FORMAT(DIVIDE([Quantity Total], 10000000), "0.00") & " Cr",
+			        SelectedUnit = "Thousands (K)", FORMAT(DIVIDE([Quantity Total], 1000), "0.00") & " K",
+			        SelectedUnit = "Lakhs (L)", FORMAT(DIVIDE([Quantity Total], 100000), "0.00") & " L",
+			        SelectedUnit = "Numbers (N)", FORMAT (DIVIDE ( [Quantity Total], 1 ), "0.00" ),
+			        FORMAT(DIVIDE([Quantity Total], 100000), "0.00") & " L" 
+			    )
+			
+			```
+		displayFolder: Quantity
+		lineageTag: 3e5dd930-5fd5-411e-b829-ea0b1eef8061
+
+	measure '2 Quantity Previous Period' = ```
+			
+			
+			VAR _HasYear  = ISFILTERED('DateTable'[FY Start Year])
+			VAR _HasMonth = ISFILTERED('DateTable'[Month No])
+			
+			VAR _SelYear  = SELECTEDVALUE('DateTable'[FY Start Year])
+			VAR _SelMonth = SELECTEDVALUE('DateTable'[Month No])
+			
+			-- Unit selection (default to Lakhs)
+			VAR _SelectedUnit = SELECTEDVALUE('Measure'[Unit], "Lakhs (L)")
+			
+			VAR _Divisor =
+			    SWITCH(
+			        _SelectedUnit,
+			        "Crores (Cr)",   10000000,
+			        "Lakhs (L)",     100000,
+			        "Thousands (K)", 1000,
+			        "Numbers (N)", 1,
+			        1
+			    )
+			
+			VAR _UnitSuffix =
+			    SWITCH(
+			        _SelectedUnit,
+			        "Crores (Cr)",   "Cr",
+			        "Lakhs (L)",     "L",
+			        "Thousands (K)", "K",
+			        "Numbers (N)", "",
+			        ""
+			    )
+			
+			------------------------------------------------------
+			-- Case 1: ONLY YEAR selected → Compare full year
+			------------------------------------------------------
+			VAR _PrevYear_Total =
+			    CALCULATE(
+			        DIVIDE([Quantity Total], _Divisor),
+			        REMOVEFILTERS('DateTable'[FY Start Year], 'DateTable'[Month No]),
+			        'DateTable'[FY Start Year] = _SelYear - 1
+			    )
+			
+			VAR _CurrYear_Total =
+			    CALCULATE(
+			        DIVIDE([Quantity Total], _Divisor),
+			        'DateTable'[FY Start Year] = _SelYear
+			    )
+			
+			------------------------------------------------------
+			-- Case 2: YEAR + MONTH selected → Previous month logic
+			------------------------------------------------------
+			VAR _PrevMonth =
+			    IF(_SelMonth = 1, 12, _SelMonth - 1)
+			
+			VAR _PrevMonthYear =
+			    IF(_SelMonth = 1, _SelYear - 1, _SelYear)
+			
+			VAR _PrevMonth_Total =
+			    CALCULATE(
+			        DIVIDE([Quantity Total], _Divisor),
+			        REMOVEFILTERS('DateTable'[FY Start Year], 'DateTable'[Month No]),
+			        'DateTable'[FY Start Year] = _PrevMonthYear,
+			        'DateTable'[Month No] = _PrevMonth
+			    )
+			
+			VAR _CurrMonth_Total =
+			    CALCULATE(
+			        DIVIDE([Quantity Total], _Divisor)
+			    )
+			
+			------------------------------------------------------
+			-- Differences
+			------------------------------------------------------
+			VAR _Diff_Year  = _CurrYear_Total  - _PrevYear_Total
+			VAR _Perc_Year  = DIVIDE(_Diff_Year, _PrevYear_Total)
+			
+			VAR _Diff_Month = _CurrMonth_Total - _PrevMonth_Total
+			VAR _Perc_Month = DIVIDE(_Diff_Month, _PrevMonth_Total)
+			
+			VAR _Arrow_Year  = IF(_Diff_Year  > 0, "⇧", IF(_Diff_Year  < 0, "⇩", ""))
+			VAR _Arrow_Month = IF(_Diff_Month > 0, "⇧", IF(_Diff_Month < 0, "⇩", ""))
+			
+			------------------------------------------------------
+			-- Final Output
+			------------------------------------------------------
+			RETURN
+			SWITCH(
+			    TRUE(),
+			
+			    -- Output if only Year selected
+			    _HasYear && NOT _HasMonth,
+			        "vs Previous Year : " &
+			        _Arrow_Year & " " &
+			        FORMAT(_Diff_Year, "#,##0.00") & " " & _UnitSuffix &
+			        " | " & FORMAT(_Perc_Year, "0.0%"),
+			
+			    -- Output if Year + Month selected
+			    _HasYear && _HasMonth,
+			        "vs Previous Period : " &
+			        _Arrow_Month & " " &
+			        FORMAT(_Diff_Month, "#,##0.00") & " " & _UnitSuffix &
+			        " | " & FORMAT(_Perc_Month, "0.0%"),
+			
+			    -- If no time selected
+			    NOT _HasYear && NOT _HasMonth,
+			        "vs Previous :",
+			
+			    BLANK()
+			)
+			
+			```
+		displayFolder: Quantity
+		lineageTag: 4c62bee3-930d-456d-a2f1-c405c210c6ed
+
+	measure '2 Sales Chart' = ```
+			
+			VAR SelectedUnit = SELECTEDVALUE ( 'Measure'[Unit], "Crores (Cr)" )
+			RETURN
+			    SWITCH (
+			        SelectedUnit,
+			        "Thousands (K)", DIVIDE ( [Sales Total], 1000 ),
+			        "Lakhs (L)", DIVIDE ( [Sales Total], 100000 ),
+			        "Crores (Cr)", DIVIDE ( [Sales Total], 10000000 ),
+			        "Numbers (N)", DIVIDE ( [Sales Total], 1 ),
+			        DIVIDE ( [Sales Total], 10000000 )  
+			    )
+			```
+		displayFolder: Chart
+		lineageTag: b9fdbb37-7609-40b7-8145-1aa4d6f70184
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Net Price Total' = SUM(Final_Fact[LineTotal])
+		displayFolder: Net Price
+		lineageTag: d14ee624-1b9c-473c-9d31-a11fb8d9f6fc
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Use Net Total' = ```
+			
+			VAR SelectedUnit = SELECTEDVALUE ( 'Measure'[Unit], "Crores (Cr)" )
+			RETURN
+			    SWITCH (
+			        SelectedUnit,
+			        "Lakhs (L)", FORMAT ( DIVIDE ( [Net Price Total], 100000 ), "₹0.00" ) & " L",
+			        "Thousands (K)", FORMAT ( DIVIDE ( [Net Price Total], 1000 ), "₹0.00" ) & " K",
+			        "Crores (Cr)", FORMAT ( DIVIDE ( [Net Price Total], 10000000 ), "₹0.00" ) & " Cr",
+			        "Numbers (N)", FORMAT (DIVIDE ( [Net Price Total], 1 ), "₹0.00" ),
+			        FORMAT ( DIVIDE ( [Net Price Total], 10000000 ), "₹0.00" ) & " Cr"
+			    )
+			
+			```
+		displayFolder: Net Price
+		lineageTag: 004ea023-feb7-45f7-938c-3d450ac4e3e3
+
+	measure 'Net Chart' = ```
+			
+			VAR SelectedUnit = SELECTEDVALUE ( 'Measure'[Unit], "Crores (Cr)" )
+			RETURN
+			    SWITCH (
+			        SelectedUnit,
+			        "Crores (Cr)", DIVIDE([Net Price Total],10000000),
+			        "Lakhs (L)", DIVIDE ( [Net Price Total], 100000 ),
+			        "Thousands (K)", DIVIDE ( [Net Price Total], 1000 ),
+			        "Numbers (N)", DIVIDE ( [Net Price Total], 1 ),
+			        DIVIDE([Net Price Total],10000000)  
+			    )
+			```
+		displayFolder: Chart
+		lineageTag: a58b8d65-ec56-456e-80c0-3aa34db3fa01
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure PY =
+			
+			VAR SelectedMetric =
+			SELECTEDVALUE ( 'Metric Selector'[Metric] )
+			RETURN
+			CALCULATE (
+			SWITCH (
+			SelectedMetric,
+			"Gross", [Sales Chart],
+			"Net", [Net Chart],
+			"Quantity", [Quantity Chart],
+			"GP", [Profit Chart],
+			"GP %", [% Gross Profit],
+			BLANK()
+			),
+			DATEADD ( 'DateTable'[Date], -1, YEAR )
+			)
+		displayFolder: Extras
+		lineageTag: bf2ce9ac-3850-4e46-b303-451b01cef48f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Selected Metric' =
+			
+			SWITCH(
+			    SELECTEDVALUE('Switch'[Switch Order]),
+			    0, [Sales Chart],
+			    1, [Net Chart],
+			    2, [Quantity Chart],
+			    3, [Profit Chart],
+			    4, [% Gross Profit]
+			)
+		displayFolder: Extras
+		lineageTag: 5591b550-a530-4e0d-8fab-1b8a2a0b3499
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure CY =
+			
+			VAR SelectedMetric =
+			SELECTEDVALUE ( 'Metric Selector'[Metric] )
+			RETURN
+			SWITCH (
+			SelectedMetric,
+			"Gross", [Sales Chart],
+			"Net", [Net Chart],
+			"Quantity", [Quantity Chart],
+			"GP", [Profit Chart],
+			"GP %", [% Gross Profit],
+			BLANK()
+			)
+		displayFolder: Extras
+		lineageTag: d0ad695a-440d-4173-81d8-d67d91d01dcb
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% Gross Profit' =
+			
+			DIVIDE([Profit Total],
+			[Sales Total],0)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Gross Profit
+		lineageTag: 209c759d-533d-461a-bc8b-f88e6dd43ab9
+
+	measure 'Gross CY' =
+			
+			CALCULATE(
+			    [Sales Chart],
+			    REMOVEFILTERS('DateTable'),
+			    VALUES(DateTable[FY Start Year])
+			)
+		displayFolder: CY and PY
+		lineageTag: b5feaaa6-6169-4541-8c68-4cbb63b6f9a7
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Gross PY' = ```
+			
+			CALCULATE(
+			    [Sales Chart],
+			    DATEADD ( 'DateTable'[Date], -1, YEAR )
+			)
+			
+			```
+		displayFolder: CY and PY
+		lineageTag: 7d3ee609-155a-47a2-8ac3-dcaa6fc3604c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Metric Variance %' =
+			
+			DIVIDE([Gross Variance], [Gross PY])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Extras
+		lineageTag: 2f793d56-405c-4e71-ad10-f8ea64377f9d
+
+	measure 'Customer Only In Selected Year' =
+			
+			VAR _SelYear =
+			    SELECTEDVALUE ( 'DateTable'[Year] )
+			RETURN
+			IF (
+			    NOT ISBLANK ( _SelYear ) &&
+			    MAX ( '2 Customer Trend'[First Year] ) = _SelYear &&
+			    MAX ( '2 Customer Trend'[Last Year] )  = _SelYear,
+			    1,
+			    0
+			)
+		formatString: 0
+		displayFolder: Only One Year
+		lineageTag: e9b59393-da5d-48ee-bf7b-f1503010dc92
+
+	measure 'Exact Purchase Count Match' =
+			
+			VAR _SelectedCount =
+			    SELECTEDVALUE ( 'Purchase Count Slicer'[Count Filter] )
+			
+			VAR _CustomerPurchaseCount =
+			    MAX ( '2 Customer Trend'[Purchase Count] )
+			
+			RETURN
+			IF (
+			    ISBLANK ( _SelectedCount ) ||
+			    _CustomerPurchaseCount = _SelectedCount,
+			    1,
+			    0
+			)
+		formatString: 0
+		displayFolder: Only One Year
+		lineageTag: c1461954-8465-4fbc-8b4e-92734d00c055
+
+	measure 'Final Eligible Customer' =
+			
+			IF (
+			    [Customer Only In Selected Year] = 1 &&
+			    [Exact Purchase Count Match] = 1,
+			    1,
+			    0
+			)
+		formatString: 0
+		displayFolder: Only One Year
+		lineageTag: d29aa54f-403c-4606-ba0c-07bf5371ff95
+
+	measure CustomerBranchValidFlag =
+			
+			VAR YearsPurchased =
+			    CALCULATE (
+			        DISTINCTCOUNT ( Final_Fact[Year] ),
+			        Final_Fact[Type] = "SI",
+			        ALLEXCEPT ( Final_Fact, Final_Fact[CardCode], Final_Fact[Order_Branch_Code] )
+			    )
+			
+			VAR MinYear =
+			    CALCULATE (
+			        MIN ( Final_Fact[Year] ),
+			        Final_Fact[Type] = "SI",
+			        ALLEXCEPT ( Final_Fact, Final_Fact[CardCode], Final_Fact[Order_Branch_Code] )
+			    )
+			
+			VAR MaxYear =
+			    CALCULATE (
+			        MAX ( Final_Fact[Year] ),
+			        Final_Fact[Type] = "SI",
+			        ALLEXCEPT ( Final_Fact, Final_Fact[CardCode], Final_Fact[Order_Branch_Code] )
+			    )
+			
+			RETURN
+			IF ( YearsPurchased = 4 && MinYear = 2022 && MaxYear = 2025, 1, 0 )
+		formatString: 0
+		displayFolder: Only One Year
+		lineageTag: ea5c1374-830f-430a-b14b-fbf6babb6945
+
+	measure 'Net CY' =
+			
+			CALCULATE(
+			    [Net Chart],
+			    REMOVEFILTERS('DateTable'),
+			    VALUES(DateTable[FY Start Year])
+			)
+		displayFolder: CY and PY
+		lineageTag: 810e8b2e-2a67-4533-96b8-c4f856562bcb
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Quantity CY' =
+			
+			CALCULATE(
+			    [Quantity Chart],
+			    REMOVEFILTERS('DateTable'),
+			    VALUES(DateTable[FY Start Year])
+			)
+		displayFolder: CY and PY
+		lineageTag: 6453e24c-20fb-49d8-b2c9-ab6450b8dcdf
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Profit CY' =
+			
+			CALCULATE(
+			    [Profit Chart],
+			    REMOVEFILTERS('DateTable'),
+			    VALUES(DateTable[FY Start Year])
+			)
+		displayFolder: CY and PY
+		lineageTag: a3c5f3f6-ce69-424f-be4d-704184613bfe
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Net PY' = ```
+			
+			CALCULATE(
+			    [Net Chart],
+			    DATEADD ( 'DateTable'[Date], -1, YEAR )
+			)
+			
+			```
+		displayFolder: CY and PY
+		lineageTag: 1a6e8415-c1f2-42bf-93ab-26b12b32003f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Quantity PY' = ```
+			
+			CALCULATE(
+			    [Quantity Chart],
+			    DATEADD ( 'DateTable'[Date], -1, YEAR )
+			)
+			
+			```
+		displayFolder: CY and PY
+		lineageTag: 03e74579-5d76-434b-90d6-415569bcea17
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Profit PY' = ```
+			
+			CALCULATE(
+			    [Profit Chart],
+			    DATEADD ( 'DateTable'[Date], -1, YEAR )
+			)
+			
+			```
+		displayFolder: CY and PY
+		lineageTag: c8236c2a-1125-4e5b-8a22-a8c4a741db9e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Gross Variance' = [Gross CY] - [Gross PY]
+		displayFolder: CY and PY
+		lineageTag: 04b040d8-3bd3-4aa3-98d6-d82bf027dc88
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Net Variance' = [Net CY] - [Net PY]
+		displayFolder: CY and PY
+		lineageTag: 568eec1c-91e0-4587-bb1f-f286dcee88a4
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Profit Variance' = [Profit CY] - [Profit PY]
+		displayFolder: CY and PY
+		lineageTag: 8911f663-c49a-40d8-a6bd-3370e9056082
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Quantity Variance' = [Quantity CY] - [Quantity PY]
+		displayFolder: CY and PY
+		lineageTag: d5889954-31fb-4fa5-b0c6-e1e887d46e84
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 111CustomerBranchValidFlag =
+			
+			VAR YearsPurchased =
+			    CALCULATE (
+			        DISTINCTCOUNT ( Final_Fact[Year] ),
+			        Final_Fact[Type] = "SI",
+			        ALLEXCEPT ( Final_Fact, Final_Fact[CardCode], Final_Fact[Order_Branch_Code] )
+			    )
+			
+			VAR MinYear =
+			    CALCULATE (
+			        MIN ( Final_Fact[Year] ),
+			        Final_Fact[Type] = "SI",
+			        ALLEXCEPT ( Final_Fact, Final_Fact[CardCode], Final_Fact[Order_Branch_Code] )
+			    )
+			
+			VAR MaxYear =
+			    CALCULATE (
+			        MAX ( Final_Fact[Year] ),
+			        Final_Fact[Type] = "SI",
+			        ALLEXCEPT ( Final_Fact, Final_Fact[CardCode], Final_Fact[Order_Branch_Code] )
+			    )
+			
+			RETURN
+			IF ( YearsPurchased = 4 && MinYear = 2022 && MaxYear = 2025, 1, 0 )
+		formatString: 0
+		displayFolder: Only One Year
+		lineageTag: a6b90a55-7c0e-4a60-9864-3d9086ce926c
+
+	measure Start1 = MIN('DateTable'[Date])
+		formatString: General Date
+		displayFolder: Compare
+		lineageTag: 02a21f58-a59b-48fd-b0a0-224a027f999e
+
+	measure End1 = MAX('DateTable'[Date])
+		formatString: General Date
+		displayFolder: Compare
+		lineageTag: d04ff1c8-7dfd-4c20-942a-fa789cfd44cd
+
+	measure End2 = MAX('DateTable2'[Date])
+		formatString: General Date
+		displayFolder: Compare
+		lineageTag: e3c2b46f-6922-4a09-9f92-50e504712ea6
+
+	measure End3 = MAX('DateTable3'[Date])
+		formatString: General Date
+		displayFolder: Compare
+		lineageTag: c9897c78-83b3-40e8-8d98-f6695762a5f7
+
+	measure End4 = MAX('DateTable4'[Date])
+		formatString: General Date
+		displayFolder: Compare
+		lineageTag: 387ccd17-d5a8-4764-9177-d620a78997ef
+
+	measure End5 = MAX('DateTable5'[Date])
+		formatString: General Date
+		displayFolder: Compare
+		lineageTag: 8f1c573c-3aa2-4509-8dd6-95186977060e
+
+	measure Start2 = MIN('DateTable2'[Date])
+		formatString: General Date
+		displayFolder: Compare
+		lineageTag: c3d1791a-5ea1-44cb-b49a-d94f29dee194
+
+	measure Start3 = MIN('DateTable3'[Date])
+		formatString: General Date
+		displayFolder: Compare
+		lineageTag: d1c3e9f3-967d-461d-990d-2d9b7c04fa7f
+
+	measure Start4 = MIN('DateTable4'[Date])
+		formatString: General Date
+		displayFolder: Compare
+		lineageTag: 6d2b20a6-7f57-4b93-9a76-7eb8d20008cc
+
+	measure Start5 = MIN('DateTable5'[Date])
+		formatString: General Date
+		displayFolder: Compare
+		lineageTag: e2817dd3-4b3f-45c5-9798-1942869fb158
+
+	measure Sales1 = ```
+			
+			VAR StartDate = [Start1]
+			VAR EndDate = [End1]
+			 
+			RETURN
+			CALCULATE(
+			    [Sales Total],
+			    FILTER(
+			        ALL('DateTable'),
+			        'DateTable'[Date] >= StartDate &&
+			        'DateTable'[Date] <= EndDate
+			    )
+			)
+			```
+		displayFolder: Compare
+		lineageTag: 2db8917b-43c2-484b-a046-5111e08b91bc
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Sales2 = ```
+			
+			VAR StartDate = [Start2]
+			VAR EndDate = [End2]
+			 
+			RETURN
+			CALCULATE(
+			    [Sales Total],
+			    FILTER(
+			        ALL('DateTable'),
+			        'DateTable'[Date] >= StartDate &&
+			        'DateTable'[Date] <= EndDate
+			    )
+			)
+			```
+		displayFolder: Compare
+		lineageTag: 77ce5027-606b-458f-85f2-90b4f0ee430b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Sales3 = ```
+			
+			VAR StartDate = [Start3]
+			VAR EndDate = [End3]
+			 
+			RETURN
+			CALCULATE(
+			    [Sales Total],
+			    FILTER(
+			        ALL('DateTable'),
+			        'DateTable'[Date] >= StartDate &&
+			        'DateTable'[Date] <= EndDate
+			    )
+			)
+			```
+		displayFolder: Compare
+		lineageTag: 112ef571-4040-4612-b62d-c0c0389b7362
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Sales4 = ```
+			
+			VAR StartDate = [Start4]
+			VAR EndDate = [End4]
+			 
+			RETURN
+			CALCULATE(
+			    [Sales Total],
+			    FILTER(
+			        ALL('DateTable'),
+			        'DateTable'[Date] >= StartDate &&
+			        'DateTable'[Date] <= EndDate
+			    )
+			)
+			```
+		displayFolder: Compare
+		lineageTag: fd727d48-ee58-4fc1-a460-445d0a10a873
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Sales5 = ```
+			
+			VAR StartDate = [Start5]
+			VAR EndDate = [End5]
+			 
+			RETURN
+			CALCULATE(
+			    [Sales Total],
+			    FILTER(
+			        ALL('DateTable'),
+			        'DateTable'[Date] >= StartDate &&
+			        'DateTable'[Date] <= EndDate
+			    )
+			)
+			```
+		displayFolder: Compare
+		lineageTag: f05b306f-3ba7-4e9a-81a5-788ce0cd015a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Quantity1 = ```
+			
+			VAR StartDate = [Start1]
+			VAR EndDate = [End1]
+			 
+			RETURN
+			CALCULATE(
+			    [Quantity Total],
+			    FILTER(
+			        ALL('DateTable'),
+			        'DateTable'[Date] >= StartDate &&
+			        'DateTable'[Date] <= EndDate
+			    )
+			)
+			```
+		displayFolder: Compare
+		lineageTag: 3f829093-443e-453b-8889-fc43228e5674
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Quantity2 = ```
+			
+			VAR StartDate = [Start2]
+			VAR EndDate = [End2]
+			 
+			RETURN
+			CALCULATE(
+			    [Quantity Total],
+			    FILTER(
+			        ALL('DateTable'),
+			        'DateTable'[Date] >= StartDate &&
+			        'DateTable'[Date] <= EndDate
+			    )
+			)
+			```
+		displayFolder: Compare
+		lineageTag: 510ff58c-c0de-4abf-8730-b9f1372b073e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Quantity3 = ```
+			
+			VAR StartDate = [Start3]
+			VAR EndDate = [End3]
+			 
+			RETURN
+			CALCULATE(
+			    [Quantity Total],
+			    FILTER(
+			        ALL('DateTable'),
+			        'DateTable'[Date] >= StartDate &&
+			        'DateTable'[Date] <= EndDate
+			    )
+			)
+			```
+		displayFolder: Compare
+		lineageTag: 6bbbaae8-9532-48ff-b79f-8afec30ca3a5
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Quantity4 = ```
+			
+			VAR StartDate = [Start4]
+			VAR EndDate = [End4]
+			 
+			RETURN
+			CALCULATE(
+			    [Quantity Total],
+			    FILTER(
+			        ALL('DateTable'),
+			        'DateTable'[Date] >= StartDate &&
+			        'DateTable'[Date] <= EndDate
+			    )
+			)
+			```
+		displayFolder: Compare
+		lineageTag: 34454284-2efe-46a3-8087-295726450039
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Quantity5 = ```
+			
+			VAR StartDate = [Start5]
+			VAR EndDate = [End5]
+			 
+			RETURN
+			CALCULATE(
+			    [Quantity Total],
+			    FILTER(
+			        ALL('DateTable'),
+			        'DateTable'[Date] >= StartDate &&
+			        'DateTable'[Date] <= EndDate
+			    )
+			)
+			```
+		displayFolder: Compare
+		lineageTag: c6a382a0-eb9e-4ea9-ab6f-399aa8c80466
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'KPI Sales2' =
+			
+			VAR SalesValue = [Sales2]
+			
+			VAR SelectedUnit = SELECTEDVALUE ( 'Measure'[Unit], "Crores (Cr)" )
+			
+			RETURN
+			SWITCH (
+			    SelectedUnit,
+			    "Crores (Cr)", FORMAT ( DIVIDE ( SalesValue, 10000000 ), "₹0.00" ) & " Cr",
+			    "Lakhs (L)", FORMAT ( DIVIDE ( SalesValue, 100000 ), "₹0.00" ) & " L",
+			    "Thousands (K)", FORMAT ( DIVIDE ( SalesValue, 1000 ), "₹0.00" ) & " K",
+			    "Numbers (N)", FORMAT ( SalesValue, "₹0.00" ),
+			    FORMAT ( DIVIDE ( SalesValue, 10000000 ), "₹0.00" ) & " Cr"
+			)
+		displayFolder: Compare
+		lineageTag: 3bac4230-4e79-4d36-b6ab-a37e6e388aaf
+
+	measure 'KPI Sales3' =
+			
+			VAR SalesValue = [Sales3]
+			
+			VAR SelectedUnit = SELECTEDVALUE ( 'Measure'[Unit], "Crores (Cr)" )
+			
+			RETURN
+			SWITCH (
+			    SelectedUnit,
+			    "Crores (Cr)", FORMAT ( DIVIDE ( SalesValue, 10000000 ), "₹0.00" ) & " Cr",
+			    "Lakhs (L)", FORMAT ( DIVIDE ( SalesValue, 100000 ), "₹0.00" ) & " L",
+			    "Thousands (K)", FORMAT ( DIVIDE ( SalesValue, 1000 ), "₹0.00" ) & " K",
+			    "Numbers (N)", FORMAT ( SalesValue, "₹0.00" ),
+			    FORMAT ( DIVIDE ( SalesValue, 10000000 ), "₹0.00" ) & " Cr"
+			)
+		displayFolder: Compare
+		lineageTag: f02356df-a3e4-430d-80e5-a16df98b5e6a
+
+	measure 'KPI Sales4' =
+			
+			VAR SalesValue = [Sales4]
+			
+			VAR SelectedUnit = SELECTEDVALUE ( 'Measure'[Unit], "Crores (Cr)" )
+			
+			RETURN
+			SWITCH (
+			    SelectedUnit,
+			    "Crores (Cr)", FORMAT ( DIVIDE ( SalesValue, 10000000 ), "₹0.00" ) & " Cr",
+			    "Lakhs (L)", FORMAT ( DIVIDE ( SalesValue, 100000 ), "₹0.00" ) & " L",
+			    "Thousands (K)", FORMAT ( DIVIDE ( SalesValue, 1000 ), "₹0.00" ) & " K",
+			    "Numbers (N)", FORMAT ( SalesValue, "₹0.00" ),
+			    FORMAT ( DIVIDE ( SalesValue, 10000000 ), "₹0.00" ) & " Cr"
+			)
+		displayFolder: Compare
+		lineageTag: b141f892-0b1e-41a5-9123-9536f45bd5a0
+
+	measure 'KPI Sales5' =
+			
+			VAR SalesValue = [Sales5]
+			
+			VAR SelectedUnit = SELECTEDVALUE ( 'Measure'[Unit], "Crores (Cr)" )
+			
+			RETURN
+			SWITCH (
+			    SelectedUnit,
+			    "Crores (Cr)", FORMAT ( DIVIDE ( SalesValue, 10000000 ), "₹0.00" ) & " Cr",
+			    "Lakhs (L)", FORMAT ( DIVIDE ( SalesValue, 100000 ), "₹0.00" ) & " L",
+			    "Thousands (K)", FORMAT ( DIVIDE ( SalesValue, 1000 ), "₹0.00" ) & " K",
+			    "Numbers (N)", FORMAT ( SalesValue, "₹0.00" ),
+			    FORMAT ( DIVIDE ( SalesValue, 10000000 ), "₹0.00" ) & " Cr"
+			)
+		displayFolder: Compare
+		lineageTag: 65d1ee21-6009-412d-8015-cec923bdcf5f
+
+	measure 'KPI Sales1' =
+			
+			VAR SalesValue = [Sales1]
+			
+			VAR SelectedUnit =
+			    SELECTEDVALUE('Measure'[Unit], "Crores (Cr)")
+			
+			RETURN
+			SWITCH(
+			    SelectedUnit,
+			    "Crores (Cr)", FORMAT(DIVIDE(SalesValue,10000000),"₹0.00") & " Cr",
+			    "Lakhs (L)", FORMAT(DIVIDE(SalesValue,100000),"₹0.00") & " L",
+			    "Thousands (K)", FORMAT(DIVIDE(SalesValue,1000),"₹0.00") & " K",
+			    "Numbers (N)", FORMAT(SalesValue,"₹0.00"),
+			    FORMAT(DIVIDE(SalesValue,10000000),"₹0.00") & " Cr"
+			)
+		displayFolder: Compare
+		lineageTag: 8b096ae5-143b-4c06-b11a-4114cf323e6a
+
+	measure 'KPI Qty1' =
+			
+			VAR SalesValue = [Quantity1]
+			VAR SelectedUnit = SELECTEDVALUE ( 'Measure'[Unit], "Lakhs (L)" )
+			
+			RETURN
+			SWITCH (
+			    SelectedUnit,
+			    "Lakhs (L)", FORMAT ( DIVIDE ( SalesValue, 100000 ), "0.00" ) & " L",
+			    "Thousands (K)", FORMAT ( DIVIDE ( SalesValue, 1000 ), "0.00" ) & " K",
+			    "Numbers (N)", FORMAT ( DIVIDE ( SalesValue, 1),"0" ),
+			    FORMAT ( DIVIDE ( SalesValue, 100000 ), "0.00" ) & " L"
+			)
+		displayFolder: Compare
+		lineageTag: d35168e0-2c9a-4c22-9f5d-121fe6f93201
+
+	measure 'KPI Qty2' =
+			
+			VAR SalesValue = [Quantity2]
+			VAR SelectedUnit = SELECTEDVALUE ( 'Measure'[Unit], "Lakhs (L)" )
+			
+			RETURN
+			SWITCH (
+			    SelectedUnit,
+			    "Lakhs (L)", FORMAT ( DIVIDE ( SalesValue, 100000 ), "0.00" ) & " L",
+			    "Thousands (K)", FORMAT ( DIVIDE ( SalesValue, 1000 ), "0.00" ) & " K",
+			    "Numbers (N)", FORMAT ( DIVIDE ( SalesValue, 1),"0" ),
+			    FORMAT ( DIVIDE ( SalesValue, 100000 ), "0.00" ) & " L"
+			)
+		displayFolder: Compare
+		lineageTag: 5d2131bc-a956-4183-a380-30d5f081092d
+
+	measure 'KPI Qty3' =
+			
+			VAR SalesValue = [Quantity3]
+			VAR SelectedUnit = SELECTEDVALUE ( 'Measure'[Unit], "Lakhs (L)" )
+			
+			RETURN
+			SWITCH (
+			    SelectedUnit,
+			    "Lakhs (L)", FORMAT ( DIVIDE ( SalesValue, 100000 ), "0.00" ) & " L",
+			    "Thousands (K)", FORMAT ( DIVIDE ( SalesValue, 1000 ), "0.00" ) & " K",
+			    "Numbers (N)", FORMAT ( DIVIDE ( SalesValue, 1),"0" ),
+			    FORMAT ( DIVIDE ( SalesValue, 100000 ), "0.00" ) & " L"
+			)
+		displayFolder: Compare
+		lineageTag: c67cbef3-59e8-4323-8604-4dcc143bbe06
+
+	measure 'KPI Qty4' =
+			
+			VAR SalesValue = [Quantity4]
+			VAR SelectedUnit = SELECTEDVALUE ( 'Measure'[Unit], "Lakhs (L)" )
+			
+			RETURN
+			SWITCH (
+			    SelectedUnit,
+			    "Lakhs (L)", FORMAT ( DIVIDE ( SalesValue, 100000 ), "0.00" ) & " L",
+			    "Thousands (K)", FORMAT ( DIVIDE ( SalesValue, 1000 ), "0.00" ) & " K",
+			    "Numbers (N)", FORMAT ( DIVIDE ( SalesValue, 1),"0" ),
+			    FORMAT ( DIVIDE ( SalesValue, 100000 ), "0.00" ) & " L"
+			)
+		displayFolder: Compare
+		lineageTag: 53663425-dc14-4f92-aa3d-66eff856cb6d
+
+	measure 'KPI Qty5' =
+			
+			VAR SalesValue = [Quantity5]
+			VAR SelectedUnit = SELECTEDVALUE ( 'Measure'[Unit], "Lakhs (L)" )
+			
+			RETURN
+			SWITCH (
+			    SelectedUnit,
+			    "Lakhs (L)", FORMAT ( DIVIDE ( SalesValue, 100000 ), "0.00" ) & " L",
+			    "Thousands (K)", FORMAT ( DIVIDE ( SalesValue, 1000 ), "0.00" ) & " K",
+			    "Numbers (N)", FORMAT ( DIVIDE ( SalesValue, 1),"0" ),
+			    FORMAT ( DIVIDE ( SalesValue, 100000 ), "0.00" ) & " L"
+			)
+		displayFolder: Compare
+		lineageTag: 62ae2ef1-8a1b-4a35-acd7-e6fb2adabf2f
+
+	measure 'Net 5' = ```
+			
+			VAR StartDate=[Start5]
+			VAR EndDate=[End5]
+			
+			RETURN
+			CALCULATE(
+			    [Net Price Total],
+			    FILTER(
+			        ALL(DateTable),
+			        DateTable[Date]>=StartDate &&
+			        DateTable[Date]<=EndDate
+			    )
+			)
+			
+			```
+		displayFolder: Compare
+		lineageTag: 3c0d32d6-373b-4cea-ad1a-000cbf24bdd4
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '2 Chart Range' =
+			
+			VAR StartDate = [Start2]
+			VAR EndDate   = [End2]
+			
+			VAR MetricValue =
+			    CALCULATE(
+			        [2 Metric Using],
+			        FILTER(
+			            ALL('DateTable'),
+			            'DateTable'[Date] >= StartDate &&
+			            'DateTable'[Date] <= EndDate
+			        )
+			    )
+			
+			VAR SelectedMetric =
+			    SELECTEDVALUE('Metric Switch'[Metric], "Sales")
+			
+			VAR UnitFromSlicer =
+			    SELECTEDVALUE('Measure'[Unit])
+			
+			VAR DefaultUnit =
+			    IF(
+			        SelectedMetric = "Quantity",
+			        "Lakhs (L)",
+			        "Crores (Cr)"
+			    )
+			
+			VAR FinalUnit =
+			    COALESCE(UnitFromSlicer, DefaultUnit)
+			
+			RETURN
+			SWITCH(
+			    FinalUnit,
+			    "Crores (Cr)", DIVIDE(MetricValue,10000000),
+			    "Lakhs (L)",  DIVIDE(MetricValue,100000),
+			    "Thousands (K)", DIVIDE(MetricValue,1000),
+			    "Numbers (N)", MetricValue,
+			    DIVIDE(MetricValue,10000000)
+			)
+		displayFolder: Compare
+		lineageTag: a1ee7885-afed-4511-a6cf-f803f6e8adbf
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '3 Sales Chart' = ```
+			
+			VAR SelectedUnit = SELECTEDVALUE ( 'Measure'[Unit], "Crores (Cr)")
+			RETURN
+			    SWITCH (
+			        SelectedUnit,
+			        "Crores (Cr)", DIVIDE ( [Sales Total], 10000000),
+			        "Lakhs (L)", DIVIDE ( [Sales Total], 100000 ),
+			        "Thousands (K)", DIVIDE ( [Sales Total], 1000 ),
+			        "Numbers (N)", DIVIDE ( [Sales Total], 1 ),
+			        DIVIDE ( [Sales Total], 10000000)  
+			    )
+			```
+		displayFolder: Chart
+		lineageTag: d4eb1747-c4ba-49fb-8975-bcc4c07f3ff0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '1 Chart Range' =
+			
+			VAR StartDate = [Start1]
+			VAR EndDate   = [End1]
+			
+			VAR MetricValue =
+			    CALCULATE(
+			        [1 Metric Using],
+			        FILTER(
+			            ALL('DateTable'),
+			            'DateTable'[Date] >= StartDate &&
+			            'DateTable'[Date] <= EndDate
+			        )
+			    )
+			
+			VAR SelectedMetric =
+			    SELECTEDVALUE('Metric Switch'[Metric], "Sales")
+			
+			VAR UnitFromSlicer =
+			    SELECTEDVALUE('Measure'[Unit])
+			
+			VAR DefaultUnit =
+			    IF(
+			        SelectedMetric = "Quantity",
+			        "Lakhs (L)",
+			        "Crores (Cr)"
+			    )
+			
+			VAR FinalUnit =
+			    COALESCE(UnitFromSlicer, DefaultUnit)
+			
+			RETURN
+			SWITCH(
+			    FinalUnit,
+			    "Crores (Cr)", DIVIDE(MetricValue,10000000),
+			    "Lakhs (L)",  DIVIDE(MetricValue,100000),
+			    "Thousands (K)", DIVIDE(MetricValue,1000),
+			    "Numbers (N)", MetricValue,
+			    DIVIDE(MetricValue,10000000)
+			)
+		displayFolder: Compare
+		lineageTag: 35e3897d-6b13-4016-b0a1-d054095fc90e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '1 Metric Using' =
+			
+			SWITCH(
+			    SELECTEDVALUE('Metric Switch'[Metric], "Sales"),
+			    "Gross", [Sales1],
+			    "Net", [Net 1],
+			    "Quantity", [Quantity1],
+			    "GP", [Profit 1],
+			    "GP %", [% Profit1]
+			)
+		displayFolder: Compare
+		lineageTag: 92d4c266-45f0-42e7-8c91-c9a9d42a362b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '2 Metric Using' =
+			
+			SWITCH(
+			    SELECTEDVALUE('Metric Switch'[Metric], "Sales"),
+			    "Gross", [Sales2],
+			    "Net", [Net 2],
+			    "Quantity", [Quantity2],
+			    "GP", [Profit 2],
+			    "GP %", [% Profit2]
+			)
+		displayFolder: Compare
+		lineageTag: 92fa5ee7-6ef6-4dee-8904-7b35f9681f28
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '3 Metric Using' =
+			
+			SWITCH(
+			    SELECTEDVALUE('Metric Switch'[Metric], "Sales"),
+			    "Gross", [Sales3],
+			    "Net", [Net 3],
+			    "Quantity", [Quantity3],
+			    "GP", [Profit 3],
+			    "GP %", [% Profit3]
+			)
+		displayFolder: Compare
+		lineageTag: 3ed2163e-df75-4597-8d25-fb22dda1d502
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '4 Metric Using' =
+			
+			SWITCH(
+			    SELECTEDVALUE('Metric Switch'[Metric], "Sales"),
+			    "Gross", [Sales4],
+			    "Net", [Net 4],
+			    "Quantity", [Quantity4],
+			    "GP", [Profit 4],
+			    "GP %", [% Profit4]
+			)
+		displayFolder: Compare
+		lineageTag: 54bc938c-d02d-40d8-99fa-26aca5820f51
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '5 Metric Using' =
+			
+			SWITCH(
+			    SELECTEDVALUE('Metric Switch'[Metric], "Sales"),
+			    "Gross", [Sales5],
+			    "Net", [Net 5],
+			    "Quantity", [Quantity5],
+			    "GP", [Profit 5],
+			    "GP %", [% Profit5]
+			)
+		displayFolder: Compare
+		lineageTag: 32c1ca88-8058-4534-9c46-f083d261fa52
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '3 Chart Range' =
+			
+			VAR StartDate = [Start3]
+			VAR EndDate   = [End3]
+			
+			VAR MetricValue =
+			    CALCULATE(
+			        [3 Metric Using],
+			        FILTER(
+			            ALL('DateTable'),
+			            'DateTable'[Date] >= StartDate &&
+			            'DateTable'[Date] <= EndDate
+			        )
+			    )
+			
+			VAR SelectedMetric =
+			    SELECTEDVALUE('Metric Switch'[Metric], "Sales")
+			
+			VAR UnitFromSlicer =
+			    SELECTEDVALUE('Measure'[Unit])
+			
+			VAR DefaultUnit =
+			    IF(
+			        SelectedMetric = "Quantity",
+			        "Lakhs (L)",
+			        "Crores (Cr)"
+			    )
+			
+			VAR FinalUnit =
+			    COALESCE(UnitFromSlicer, DefaultUnit)
+			
+			RETURN
+			SWITCH(
+			    FinalUnit,
+			    "Crores (Cr)", DIVIDE(MetricValue,10000000),
+			    "Lakhs (L)",  DIVIDE(MetricValue,100000),
+			    "Thousands (K)", DIVIDE(MetricValue,1000),
+			    "Numbers (N)", MetricValue,
+			    DIVIDE(MetricValue,10000000)
+			)
+		displayFolder: Compare
+		lineageTag: 597447b4-bdc2-4329-a663-c0bd5b2e4db1
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '4 Chart Range' =
+			
+			VAR StartDate = [Start4]
+			VAR EndDate   = [End4]
+			
+			VAR MetricValue =
+			    CALCULATE(
+			        [4 Metric Using],
+			        FILTER(
+			            ALL('DateTable'),
+			            'DateTable'[Date] >= StartDate &&
+			            'DateTable'[Date] <= EndDate
+			        )
+			    )
+			
+			VAR SelectedMetric =
+			    SELECTEDVALUE('Metric Switch'[Metric], "Sales")
+			
+			VAR UnitFromSlicer =
+			    SELECTEDVALUE('Measure'[Unit])
+			
+			VAR DefaultUnit =
+			    IF(
+			        SelectedMetric = "Quantity",
+			        "Lakhs (L)",
+			        "Crores (Cr)"
+			    )
+			
+			VAR FinalUnit =
+			    COALESCE(UnitFromSlicer, DefaultUnit)
+			
+			RETURN
+			SWITCH(
+			    FinalUnit,
+			    "Crores (Cr)", DIVIDE(MetricValue,10000000),
+			    "Lakhs (L)",  DIVIDE(MetricValue,100000),
+			    "Thousands (K)", DIVIDE(MetricValue,1000),
+			    "Numbers (N)", MetricValue,
+			    DIVIDE(MetricValue,10000000)
+			)
+		displayFolder: Compare
+		lineageTag: 3f132078-d080-4a6e-8f36-d60e9f076f64
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '5 Chart Range' =
+			
+			VAR StartDate = [Start5]
+			VAR EndDate   = [End5]
+			
+			VAR MetricValue =
+			    CALCULATE(
+			        [5 Metric Using],
+			        FILTER(
+			            ALL('DateTable'),
+			            'DateTable'[Date] >= StartDate &&
+			            'DateTable'[Date] <= EndDate
+			        )
+			    )
+			
+			VAR SelectedMetric =
+			    SELECTEDVALUE('Metric Switch'[Metric], "Sales")
+			
+			VAR UnitFromSlicer =
+			    SELECTEDVALUE('Measure'[Unit])
+			
+			VAR DefaultUnit =
+			    IF(
+			        SelectedMetric = "Quantity",
+			        "Lakhs (L)",
+			        "Crores (Cr)"
+			    )
+			
+			VAR FinalUnit =
+			    COALESCE(UnitFromSlicer, DefaultUnit)
+			
+			RETURN
+			SWITCH(
+			    FinalUnit,
+			    "Crores (Cr)", DIVIDE(MetricValue,10000000),
+			    "Lakhs (L)",  DIVIDE(MetricValue,100000),
+			    "Thousands (K)", DIVIDE(MetricValue,1000),
+			    "Numbers (N)", MetricValue,
+			    DIVIDE(MetricValue,10000000)
+			)
+		displayFolder: Compare
+		lineageTag: bf007459-f2a2-4ee6-9575-66b276817742
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Profit 1' =
+			
+			VAR StartDate=[Start1]
+			VAR EndDate=[End1]
+			
+			RETURN
+			CALCULATE(
+			    [Profit Total],
+			    FILTER(
+			        ALL('DateTable'),
+			        'DateTable'[Date]>=StartDate &&
+			        'DateTable'[Date]<=EndDate
+			    )
+			)
+		displayFolder: Compare
+		lineageTag: 5d322538-a326-460b-a6a3-a1e16b20f971
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Profit 2' =
+			
+			VAR StartDate = [Start2]
+			VAR EndDate = [End2]
+			
+			RETURN
+			CALCULATE(
+			    [Profit Total],
+			    FILTER(
+			        ALL(DateTable),
+			        DateTable[Date]>=StartDate &&
+			        DateTable[Date]<=EndDate
+			    )
+			)
+		displayFolder: Compare
+		lineageTag: b2f9bc55-a67b-449f-94d7-5a124d7112fa
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Profit 3' =
+			
+			VAR StartDate = [Start3]
+			VAR EndDate = [End3]
+			
+			RETURN
+			CALCULATE(
+			    [Profit Total],
+			    FILTER(
+			        ALL(DateTable),
+			        DateTable[Date]>=StartDate &&
+			        DateTable[Date]<=EndDate
+			    )
+			)
+		displayFolder: Compare
+		lineageTag: f3a42ef2-41fd-4c95-92a6-bd55492445de
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Profit 4' =
+			
+			VAR StartDate = [Start4]
+			VAR EndDate = [End4]
+			
+			RETURN
+			CALCULATE(
+			    [Profit Total],
+			    FILTER(
+			        ALL(DateTable),
+			        DateTable[Date]>=StartDate &&
+			        DateTable[Date]<=EndDate
+			    )
+			)
+		displayFolder: Compare
+		lineageTag: 41071a84-a168-4f37-8ddc-cfce675dc226
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Profit 5' =
+			
+			VAR StartDate = [Start5]
+			VAR EndDate = [End5]
+			
+			RETURN
+			CALCULATE(
+			    [Profit Total],
+			    FILTER(
+			        ALL(DateTable),
+			        DateTable[Date]>=StartDate &&
+			        DateTable[Date]<=EndDate
+			    )
+			)
+		displayFolder: Compare
+		lineageTag: f86b02e5-9492-4cf0-8d63-b6d73626f877
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'KPI Profit1' =
+			
+			VAR SalesValue = [Profit 1]
+			
+			VAR SelectedUnit =
+			    SELECTEDVALUE('Measure'[Unit], "Crores (Cr)")
+			
+			RETURN
+			SWITCH(
+			    SelectedUnit,
+			    "Crores (Cr)", FORMAT(DIVIDE(SalesValue,10000000),"₹0.00") & " Cr",
+			    "Lakhs (L)", FORMAT(DIVIDE(SalesValue,100000),"₹0.00") & " L",
+			    "Thousands (K)", FORMAT(DIVIDE(SalesValue,1000),"₹0.00") & " K",
+			    "Numbers (N)", FORMAT(SalesValue,"₹0.00"),
+			    FORMAT(DIVIDE(SalesValue,10000000),"₹0.00") & " Cr"
+			)
+		displayFolder: Compare
+		lineageTag: 932884ff-ea1d-44b4-8161-ac90a8b1af6d
+
+	measure '% Profit1' =
+			
+			DIVIDE([Profit 1],
+			[Sales1],0)* 100
+		displayFolder: Compare
+		lineageTag: 9e80c3db-def7-4f7b-86b1-7887e30f1ce2
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'KPI Profit2' =
+			
+			VAR SalesValue = [Profit 2]
+			
+			VAR SelectedUnit =
+			    SELECTEDVALUE('Measure'[Unit], "Crores (Cr)")
+			
+			RETURN
+			SWITCH(
+			    SelectedUnit,
+			    "Crores (Cr)", FORMAT(DIVIDE(SalesValue,10000000),"₹0.00") & " Cr",
+			    "Lakhs (L)", FORMAT(DIVIDE(SalesValue,100000),"₹0.00") & " L",
+			    "Thousands (K)", FORMAT(DIVIDE(SalesValue,1000),"₹0.00") & " K",
+			    "Numbers (N)", FORMAT(SalesValue,"₹0.00"),
+			    FORMAT(DIVIDE(SalesValue,10000000),"₹0.00") & " Cr"
+			)
+		displayFolder: Compare
+		lineageTag: 836d1d60-4dda-48af-9a73-7526e00b8a84
+
+	measure 'KPI Profit3' =
+			
+			VAR SalesValue = [Profit 3]
+			
+			VAR SelectedUnit =
+			    SELECTEDVALUE('Measure'[Unit], "Crores (Cr)")
+			
+			RETURN
+			SWITCH(
+			    SelectedUnit,
+			    "Crores (Cr)", FORMAT(DIVIDE(SalesValue,10000000),"₹0.00") & " Cr",
+			    "Lakhs (L)", FORMAT(DIVIDE(SalesValue,100000),"₹0.00") & " L",
+			    "Thousands (K)", FORMAT(DIVIDE(SalesValue,1000),"₹0.00") & " K",
+			    "Numbers (N)", FORMAT(SalesValue,"₹0.00"),
+			    FORMAT(DIVIDE(SalesValue,10000000),"₹0.00") & " Cr"
+			)
+		displayFolder: Compare
+		lineageTag: 831c4eca-4111-43d0-b09d-c0f4e86ad184
+
+	measure 'KPI Profit4' =
+			
+			VAR SalesValue = [Profit 4]
+			
+			VAR SelectedUnit =
+			    SELECTEDVALUE('Measure'[Unit], "Crores (Cr)")
+			
+			RETURN
+			SWITCH(
+			    SelectedUnit,
+			    "Crores (Cr)", FORMAT(DIVIDE(SalesValue,10000000),"₹0.00") & " Cr",
+			    "Lakhs (L)", FORMAT(DIVIDE(SalesValue,100000),"₹0.00") & " L",
+			    "Thousands (K)", FORMAT(DIVIDE(SalesValue,1000),"₹0.00") & " K",
+			    "Numbers (N)", FORMAT(SalesValue,"₹0.00"),
+			    FORMAT(DIVIDE(SalesValue,10000000),"₹0.00") & " Cr"
+			)
+		displayFolder: Compare
+		lineageTag: 75ed0530-cb36-4182-8e03-7467627c9284
+
+	measure 'KPI Profit5' =
+			
+			VAR SalesValue = [Profit 5]
+			
+			VAR SelectedUnit =
+			    SELECTEDVALUE('Measure'[Unit], "Crores (Cr)")
+			
+			RETURN
+			SWITCH(
+			    SelectedUnit,
+			    "Crores (Cr)", FORMAT(DIVIDE(SalesValue,10000000),"₹0.00") & " Cr",
+			    "Lakhs (L)", FORMAT(DIVIDE(SalesValue,100000),"₹0.00") & " L",
+			    "Thousands (K)", FORMAT(DIVIDE(SalesValue,1000),"₹0.00") & " K",
+			    "Numbers (N)", FORMAT(SalesValue,"₹0.00"),
+			    FORMAT(DIVIDE(SalesValue,10000000),"₹0.00") & " Cr"
+			)
+		displayFolder: Compare
+		lineageTag: a7071684-9514-4086-b59e-bedfad7e8c3c
+
+	measure '% Profit2' =
+			
+			DIVIDE([Profit 2],
+			[Sales2],0)* 100
+		displayFolder: Compare
+		lineageTag: 2f221a78-7bce-4761-b124-98c2f142bbd5
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% Profit3' =
+			
+			DIVIDE([Profit 3],
+			[Sales3],0)* 100
+		displayFolder: Compare
+		lineageTag: 3523fc73-e125-4c00-ba88-7ac8b27feb34
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% Profit4' =
+			
+			DIVIDE([Profit 4],
+			[Sales4],0)* 100
+		displayFolder: Compare
+		lineageTag: 4ab848d3-af05-4f86-934b-d1d7ac2a7870
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% Profit5' =
+			
+			DIVIDE([Profit 5],
+			[Sales5],0)* 100
+		displayFolder: Compare
+		lineageTag: b7312c90-ee2e-4314-8690-b17be070433b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Net 1' = ```
+			
+			VAR StartDate=[Start1]
+			VAR EndDate=[End1]
+			
+			RETURN
+			CALCULATE(
+			    [Net Price Total],
+			    FILTER(
+			        ALL(DateTable),
+			        DateTable[Date]>=StartDate &&
+			        DateTable[Date]<=EndDate
+			    )
+			)
+			
+			```
+		displayFolder: Compare
+		lineageTag: cc60f2af-348b-44de-a400-8a12dcc6929e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Net 2' = ```
+			
+			VAR StartDate=[Start2]
+			VAR EndDate=[End2]
+			
+			RETURN
+			CALCULATE(
+			    [Net Price Total],
+			    FILTER(
+			        ALL(DateTable),
+			        DateTable[Date]>=StartDate &&
+			        DateTable[Date]<=EndDate
+			    )
+			)
+			
+			```
+		displayFolder: Compare
+		lineageTag: fbc37599-8f33-4d2e-b39c-563ccd6b4aba
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Net 3' = ```
+			
+			VAR StartDate=[Start3]
+			VAR EndDate=[End3]
+			
+			RETURN
+			CALCULATE(
+			    [Net Price Total],
+			    FILTER(
+			        ALL(DateTable),
+			        DateTable[Date]>=StartDate &&
+			        DateTable[Date]<=EndDate
+			    )
+			)
+			
+			```
+		displayFolder: Compare
+		lineageTag: b352134f-c04e-480d-866c-85b6a70e29b2
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Net 4' = ```
+			
+			VAR StartDate=[Start4]
+			VAR EndDate=[End4]
+			
+			RETURN
+			CALCULATE(
+			    [Net Price Total],
+			    FILTER(
+			        ALL(DateTable),
+			        DateTable[Date]>=StartDate &&
+			        DateTable[Date]<=EndDate
+			    )
+			)
+			
+			```
+		displayFolder: Compare
+		lineageTag: 1e64ba40-5a1b-49dc-bf20-a68e0954d526
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'New Customers' =
+			
+			VAR StartDate = MIN(DateTable[Date])
+			VAR EndDate   = MAX(DateTable[Date])
+			
+			RETURN
+			CALCULATE(
+			    DISTINCTCOUNT(Final_Fact[CardCode]),
+			    Final_Fact[First Purchase Date] >= StartDate,
+			    Final_Fact[First Purchase Date] <= EndDate
+			)
+		formatString: 0
+		displayFolder: Campaign
+		lineageTag: d25ff37e-1329-4684-b740-59787a3e0c84
+
+	measure 'Returning Customers' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(Final_Fact[CardCode]),
+			    FILTER(
+			        Final_Fact,
+			        Final_Fact[DocDate] > Final_Fact[First Purchase Date]
+			    )
+			)
+		formatString: 0
+		displayFolder: Campaign
+		lineageTag: 1c4c1e09-bfa0-47df-98e7-84b614a7bec6
+
+	measure Customer_Acquisition_Cost =
+			
+			DIVIDE(
+			SELECTEDVALUE('Marketing Expense'[Expense],0),
+			[New Customers]
+			)
+		formatString: "₹"\ #,0.00;#,0.00\ -"₹";"₹"\ #,0.00
+		displayFolder: Campaign
+		lineageTag: a03d1754-22c7-478a-8e23-9aef8fee9b67
+
+		annotation PBI_FormatHint = {"currencyCulture":"ta-IN"}
+
+	measure Marketing_Effiency_Ratio =
+			
+			DIVIDE(
+			    [Sales Total],
+			    SELECTEDVALUE('Marketing Expense'[Expense],0)
+			)
+		displayFolder: Campaign
+		lineageTag: 05bcf05c-c0ba-4591-bc78-6d6e3101e54c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Retention Rate Customer' =
+			
+			DIVIDE(
+			    [Returning Customers],
+			    [Customers Total]
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Campaign
+		lineageTag: 2f2327d2-1179-46cb-bff2-c2392e8af51f
+
+	measure 'SP Total' = CALCULATE(SUM(Final_Fact[Actual PSP]))
+		displayFolder: Selling Price
+		lineageTag: 62d03b16-706c-4cdc-a5cb-f564c02fdc69
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Scenario Factor' =
+			
+			(1 + [Sales Driver]) *
+			(1 + [Volume Driver]) *
+			(1 + [GP Driver])
+		displayFolder: What if Analysis
+		lineageTag: 103549c9-783d-4d84-a8cd-2d3b60334d70
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'WhatIf Sales' =
+			
+			[Sales Total] * [Scenario Factor]
+		displayFolder: What if Analysis
+		lineageTag: efda22b6-e412-4b18-bcea-bfa4b6cbdd45
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'WhatIf Volume' =
+			
+			[Quantity Total] * [Scenario Factor]
+		displayFolder: What if Analysis
+		lineageTag: 13203312-b9bf-4431-a1fa-69104c11860e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'WhatIf GP' =
+			
+			[Profit Total] * [Scenario Factor]
+		displayFolder: What if Analysis
+		lineageTag: be2fd4b6-2354-437b-86b4-f8085983538f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'WhatIf GP %' =
+			
+			VAR BaseMargin =
+			    DIVIDE([Profit Total],[Sales Total],0)
+			
+			VAR ScenarioMargin =
+			    BaseMargin * (1 + [GP% Value])
+			
+			RETURN
+			ScenarioMargin
+		displayFolder: What if Analysis
+		lineageTag: 7a7457fc-4a71-4951-bdd3-267536608d29
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Customers Who Bought Selected Category' = ```
+			
+			CALCULATETABLE(
+			    VALUES('Cust_Vend_Master'[CardCode]),
+			    REMOVEFILTERS('Warehouse_Master'),        -- ignore branch filter
+			    REMOVEFILTERS('Cust_Vend_Master'),      -- ignore customer filter  
+			    'Item_Master'[Property] = SELECTEDVALUE('Category Slicer'[Property])
+			)
+			```
+		displayFolder: Not Purchased Category
+		lineageTag: 7f7e25d6-0f08-47dd-8364-ea72d836fb54
+
+	measure 'Never Bought Flag' =
+			
+			VAR SelectedProperty =
+			    SELECTEDVALUE('Category Slicer'[Property])
+			
+			VAR CurrentCustomer =
+			    MAX('Cust_Vend_Master'[CardCode])
+			
+			VAR BoughtInProperty =
+			    CALCULATETABLE(
+			        DISTINCT('Customer_MainCategory'[CardCode]),
+			        'Customer_MainCategory'[Property] = SelectedProperty,
+			        REMOVEFILTERS('Cust_Vend_Master'),
+			        REMOVEFILTERS('Warehouse_Master')
+			    )
+			
+			RETURN
+			    IF(
+			        NOT ISBLANK(SelectedProperty),
+			        IF(NOT(CurrentCustomer IN BoughtInProperty), 1, 0),
+			        BLANK()
+			    )
+		formatString: 0
+		displayFolder: Not Purchased Category
+		lineageTag: 0142ce76-844f-4b5c-a458-1812b179f491
+
+	measure 'SP Profit Total' = CALCULATE(SUM(Final_Fact[SP Profit]))
+		displayFolder: Selling Price
+		lineageTag: 76335c60-e4aa-4c90-9c19-a8ad7c23292a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure ASP = DIVIDE([Sales Total],[Quantity Total])
+		displayFolder: Selling Price
+		lineageTag: 1e409b5d-c6a2-4438-82e4-33e6016ec0d4
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'ASP PY' =
+			
+			CALCULATE(
+			[ASP],
+			SAMEPERIODLASTYEAR('DateTable'[Date])
+			)
+		displayFolder: Selling Price
+		lineageTag: 3faaa57e-7880-4ea6-9c31-a75993968b0d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% SP Profit' = ```
+			
+			DIVIDE([SP Profit Total],
+			[Sales Total],0)
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Selling Price
+		lineageTag: d10ee4e8-8c77-4489-9bf0-5f126f391211
+
+	measure 'ASP Var %' =
+			
+			DIVIDE(
+			[ASP] - [ASP PY],
+			[ASP PY]
+			)
+		displayFolder: Selling Price
+		lineageTag: 0565eede-9548-41e8-bdf7-0c7f8b872256
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Avg PSP' =
+			
+			DIVIDE(
+			    SUMX(
+			        Final_Fact,
+			        VAR State = RELATED('Warehouse_Master'[State])
+			        VAR PSP =
+			            SWITCH(
+			                State,
+			                "KA", Final_Fact[U_PSPKA],
+			                "AP", Final_Fact[U_PSPAP],
+			                "TS", Final_Fact[U_PSPTS]
+			            )
+			        RETURN Final_Fact[Qty] * PSP
+			    ),
+			    SUM(Final_Fact[Qty])
+			)
+		displayFolder: Selling Price
+		lineageTag: cc1c6252-281b-4e03-86f1-2282ae9b439b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Sales PY' =
+			
+			CALCULATE(
+			[Sales Total],
+			SAMEPERIODLASTYEAR('DateTable'[Date])
+			)
+		displayFolder: Selling Price
+		lineageTag: 74360e45-bf8e-4a3d-ba74-3777b99e51fb
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Sales Var %' =
+			
+			DIVIDE(
+			    [Sales Total] - [Sales PY],
+			    [Sales PY],
+			    0
+			)
+		displayFolder: Selling Price
+		lineageTag: 5f081f2f-9654-4eeb-aa2d-61b021a475f1
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Use General SP' = ```
+			
+			VAR SelectedUnit = SELECTEDVALUE ( 'Measure'[Unit], "Thousands (K)" )
+			RETURN
+			    SWITCH (
+			        SelectedUnit,
+			        "Thousands (K)", FORMAT ( DIVIDE ( [ASP], 1000 ), "₹0.00" ) & " K",
+			        "Numbers (N)", FORMAT (DIVIDE ( [ASP], 1 ), "₹0.00" ),
+			        FORMAT ( DIVIDE ([ASP], 1000),  "₹0.00" ) & " K"
+			    )
+			
+			```
+		displayFolder: Selling Price
+		lineageTag: e0f53563-d295-4a50-aba7-24d8207d7040
+
+	measure 'Use PSP Avg' = ```
+			
+			VAR SelectedUnit = SELECTEDVALUE ( 'Measure'[Unit], "Thousands (K)" )
+			RETURN
+			    SWITCH (
+			        SelectedUnit,
+			        "Thousands (K)", FORMAT ( DIVIDE ( [Avg PSP], 1000 ), "₹0.00" ) & " K",
+			        "Numbers (N)", FORMAT (DIVIDE ( [Avg PSP], 1 ), "₹0.00" ),
+			        FORMAT ( DIVIDE ([Avg PSP], 1000),  "₹0.00" ) & " K"
+			    )
+			
+			```
+		displayFolder: Selling Price
+		lineageTag: 36a83869-3b13-4f86-8222-236ebadeb9aa
+
+	measure 'ASP Previous Period (Unit)' =
+			
+			
+			VAR _HasYear  = HASONEVALUE('DateTable'[Financial Year])
+			VAR _HasMonth = HASONEVALUE('DateTable'[Month No])
+			
+			VAR _SelFY =
+			    SELECTEDVALUE('DateTable'[Financial Year])
+			
+			VAR _SelYear =
+			    VALUE(LEFT(_SelFY,4))
+			
+			VAR _SelMonth =
+			    SELECTEDVALUE('DateTable'[Month No])
+			
+			------------------------------------------------
+			-- Current (RAW ASP)
+			------------------------------------------------
+			
+			VAR _CurrValue =
+			    [ASP]
+			
+			------------------------------------------------
+			-- Year Comparison
+			------------------------------------------------
+			
+			VAR _PrevYear_Value =
+			    CALCULATE(
+			        [ASP],
+			        REMOVEFILTERS('DateTable'[Financial Year], 'DateTable'[Month No]),
+			        'DateTable'[FY Start Year] = _SelYear - 1
+			    )
+			
+			VAR _CurrYear_Value =
+			    CALCULATE(
+			        [ASP],
+			        'DateTable'[FY Start Year] = _SelYear
+			    )
+			
+			------------------------------------------------
+			-- Month Comparison
+			------------------------------------------------
+			
+			VAR _PrevMonth =
+			    IF(_SelMonth = 1, 12, _SelMonth - 1)
+			
+			VAR _PrevMonth_Year =
+			    IF(_SelMonth = 1, _SelYear - 1, _SelYear)
+			
+			VAR _PrevMonth_Value =
+			    CALCULATE(
+			        [ASP],
+			        REMOVEFILTERS('DateTable'[Financial Year], 'DateTable'[Month No]),
+			        'DateTable'[FY Start Year] = _PrevMonth_Year,
+			        'DateTable'[Month No] = _PrevMonth
+			    )
+			
+			VAR _CurrMonth_Value =
+			    _CurrValue
+			
+			------------------------------------------------
+			-- Differences (RAW)
+			------------------------------------------------
+			
+			VAR _Diff_Year  = _CurrYear_Value  - _PrevYear_Value
+			VAR _Perc_Year  = DIVIDE(_Diff_Year, _PrevYear_Value)
+			
+			VAR _Diff_Month = _CurrMonth_Value - _PrevMonth_Value
+			VAR _Perc_Month = DIVIDE(_Diff_Month, _PrevMonth_Value)
+			
+			VAR _Arrow_Year  = IF(_Diff_Year > 0,"⇧",IF(_Diff_Year < 0,"⇩",""))
+			VAR _Arrow_Month = IF(_Diff_Month > 0,"⇧",IF(_Diff_Month < 0,"⇩",""))
+			
+			------------------------------------------------
+			-- UNIT LOGIC (ONLY HERE)
+			------------------------------------------------
+			
+			VAR SelectedUnit =
+			    SELECTEDVALUE('Measure'[Unit], "Thousands (K)")
+			
+			VAR Divisor =
+			    SWITCH(
+			        SelectedUnit,
+			        "Thousands (K)", 1000,
+			        "Numbers (N)",   1,
+			        1000
+			    )
+			
+			VAR Suffix =
+			    SWITCH(
+			        SelectedUnit,
+			        "Thousands (K)", "K",
+			        "Numbers (N)",   "",
+			        ""
+			    )
+			
+			------------------------------------------------
+			RETURN
+			------------------------------------------------
+			
+			SWITCH(
+			    TRUE(),
+			
+			    _HasYear && NOT _HasMonth,
+			        "vs Previous Year : " &
+			        _Arrow_Year & " ₹" &
+			        FORMAT(DIVIDE(_Diff_Year,Divisor),"#,##0.00") & " " & Suffix &
+			        " | " &
+			        FORMAT(_Perc_Year,"0.0%"),
+			
+			    _HasYear && _HasMonth,
+			        "vs Previous Period : " &
+			        _Arrow_Month & " ₹" &
+			        FORMAT(DIVIDE(_Diff_Month,Divisor),"#,##0.00") & " " & Suffix &
+			        " | " &
+			        FORMAT(_Perc_Month,"0.0%"),
+			
+			    NOT _HasYear && NOT _HasMonth,
+			        "vs Previous :",
+			
+			    BLANK()
+			)
+		displayFolder: Selling Price
+		lineageTag: efb65c00-106f-4140-9cb3-28d7dd01b82a
+
+	measure 'ASP Color Previous Period' =
+			
+			
+			VAR _HasYear  = HASONEVALUE('DateTable'[Financial Year])
+			VAR _HasMonth = HASONEVALUE('DateTable'[Month No])
+			
+			VAR _SelFY =
+			    SELECTEDVALUE('DateTable'[Financial Year])
+			
+			VAR _SelYear =
+			    VALUE(LEFT(_SelFY,4))
+			
+			VAR _SelMonth =
+			    SELECTEDVALUE('DateTable'[Month No])
+			
+			VAR _CurrValue =
+			    [ASP]
+			
+			VAR _PrevYear_Value =
+			    CALCULATE(
+			        [ASP],
+			        REMOVEFILTERS('DateTable'[Financial Year], 'DateTable'[Month No]),
+			        'DateTable'[FY Start Year] = _SelYear - 1
+			    )
+			
+			VAR _CurrYear_Value =
+			    CALCULATE(
+			        [ASP],
+			        'DateTable'[FY Start Year] = _SelYear
+			    )
+			
+			VAR _PrevMonth =
+			    IF(_SelMonth = 1, 12, _SelMonth - 1)
+			
+			VAR _PrevMonth_Year =
+			    IF(_SelMonth = 1, _SelYear - 1, _SelYear)
+			
+			VAR _PrevMonth_Value =
+			    CALCULATE(
+			        [ASP],
+			        REMOVEFILTERS('DateTable'[Financial Year], 'DateTable'[Month No]),
+			        'DateTable'[FY Start Year] = _PrevMonth_Year,
+			        'DateTable'[Month No] = _PrevMonth
+			    )
+			
+			VAR _Diff_Year  = _CurrYear_Value - _PrevYear_Value
+			VAR _Diff_Month = _CurrValue - _PrevMonth_Value
+			
+			RETURN
+			SWITCH(
+			    TRUE(),
+			
+			    _HasYear && NOT _HasMonth,
+			        IF(_Diff_Year > 0,"#36A962",IF(_Diff_Year < 0,"#D44343","#000000")),
+			
+			    _HasYear && _HasMonth,
+			        IF(_Diff_Month > 0,"#36A962",IF(_Diff_Month < 0,"#D44343","#000000")),
+			
+			    "#000000"
+			)
+		displayFolder: Selling Price
+		lineageTag: 7d79644e-e571-4c90-b2a7-0f39b325dbf0
+
+	measure 'Avg PSP Previous Period (Unit)' =
+			
+			
+			VAR _HasYear  = HASONEVALUE('DateTable'[Financial Year])
+			VAR _HasMonth = HASONEVALUE('DateTable'[Month No])
+			
+			VAR _SelFY =
+			    SELECTEDVALUE('DateTable'[Financial Year])
+			
+			VAR _SelYear =
+			    VALUE(LEFT(_SelFY,4))
+			
+			VAR _SelMonth =
+			    SELECTEDVALUE('DateTable'[Month No])
+			
+			------------------------------------------------
+			-- Current Value (RAW)
+			------------------------------------------------
+			
+			VAR _CurrValue =
+			    [Avg PSP]
+			
+			------------------------------------------------
+			-- Year Comparison
+			------------------------------------------------
+			
+			VAR _PrevYear_Value =
+			    CALCULATE(
+			        [Avg PSP],
+			        REMOVEFILTERS('DateTable'[Financial Year], 'DateTable'[Month No]),
+			        'DateTable'[FY Start Year] = _SelYear - 1
+			    )
+			
+			VAR _CurrYear_Value =
+			    CALCULATE(
+			        [Avg PSP],
+			        'DateTable'[FY Start Year] = _SelYear
+			    )
+			
+			------------------------------------------------
+			-- Month Comparison
+			------------------------------------------------
+			
+			VAR _PrevMonth =
+			    IF(_SelMonth = 1, 12, _SelMonth - 1)
+			
+			VAR _PrevMonth_Year =
+			    IF(_SelMonth = 1, _SelYear - 1, _SelYear)
+			
+			VAR _PrevMonth_Value =
+			    CALCULATE(
+			        [Avg PSP],
+			        REMOVEFILTERS('DateTable'[Financial Year], 'DateTable'[Month No]),
+			        'DateTable'[FY Start Year] = _PrevMonth_Year,
+			        'DateTable'[Month No] = _PrevMonth
+			    )
+			
+			VAR _CurrMonth_Value =
+			    _CurrValue
+			
+			------------------------------------------------
+			-- Differences (RAW)
+			------------------------------------------------
+			
+			VAR _Diff_Year  = _CurrYear_Value  - _PrevYear_Value
+			VAR _Perc_Year  = DIVIDE(_Diff_Year, _PrevYear_Value)
+			
+			VAR _Diff_Month = _CurrMonth_Value - _PrevMonth_Value
+			VAR _Perc_Month = DIVIDE(_Diff_Month, _PrevMonth_Value)
+			
+			VAR _Arrow_Year  = IF(_Diff_Year > 0,"⇧",IF(_Diff_Year < 0,"⇩",""))
+			VAR _Arrow_Month = IF(_Diff_Month > 0,"⇧",IF(_Diff_Month < 0,"⇩",""))
+			
+			------------------------------------------------
+			-- UNIT LOGIC (ONLY DISPLAY)
+			------------------------------------------------
+			
+			VAR SelectedUnit =
+			    SELECTEDVALUE('Measure'[Unit], "Thousands (K)")
+			
+			VAR Divisor =
+			    SWITCH(
+			        SelectedUnit,
+			        "Thousands (K)", 1000,
+			        "Numbers (N)",   1,
+			        1000
+			    )
+			
+			VAR Suffix =
+			    SWITCH(
+			        SelectedUnit,
+			        "Thousands (K)", "K",
+			        "Numbers (N)",   "",
+			        ""
+			    )
+			
+			------------------------------------------------
+			RETURN
+			------------------------------------------------
+			
+			SWITCH(
+			    TRUE(),
+			
+			    _HasYear && NOT _HasMonth,
+			        "vs Previous Year : " &
+			        _Arrow_Year & " ₹" &
+			        FORMAT(DIVIDE(_Diff_Year,Divisor),"#,##0.00") & " " & Suffix &
+			        " | " &
+			        FORMAT(_Perc_Year,"0.0%"),
+			
+			    _HasYear && _HasMonth,
+			        "vs Previous Period : " &
+			        _Arrow_Month & " ₹" &
+			        FORMAT(DIVIDE(_Diff_Month,Divisor),"#,##0.00") & " " & Suffix &
+			        " | " &
+			        FORMAT(_Perc_Month,"0.0%"),
+			
+			    NOT _HasYear && NOT _HasMonth,
+			        "vs Previous :",
+			
+			    BLANK()
+			)
+		displayFolder: Selling Price
+		lineageTag: 3e3f1584-a4cf-419c-86c0-b4ebdfb8a8f0
+
+	measure 'Avg PSP Color Previous Period' =
+			
+			
+			VAR _HasYear  = HASONEVALUE('DateTable'[Financial Year])
+			VAR _HasMonth = HASONEVALUE('DateTable'[Month No])
+			
+			VAR _SelFY =
+			    SELECTEDVALUE('DateTable'[Financial Year])
+			
+			VAR _SelYear =
+			    VALUE(LEFT(_SelFY,4))
+			
+			VAR _SelMonth =
+			    SELECTEDVALUE('DateTable'[Month No])
+			
+			VAR _CurrValue =
+			    [Avg PSP]
+			
+			VAR _PrevYear_Value =
+			    CALCULATE(
+			        [Avg PSP],
+			        REMOVEFILTERS('DateTable'[Financial Year], 'DateTable'[Month No]),
+			        'DateTable'[FY Start Year] = _SelYear - 1
+			    )
+			
+			VAR _CurrYear_Value =
+			    CALCULATE(
+			        [Avg PSP],
+			        'DateTable'[FY Start Year] = _SelYear
+			    )
+			
+			VAR _PrevMonth =
+			    IF(_SelMonth = 1, 12, _SelMonth - 1)
+			
+			VAR _PrevMonth_Year =
+			    IF(_SelMonth = 1, _SelYear - 1, _SelYear)
+			
+			VAR _PrevMonth_Value =
+			    CALCULATE(
+			        [Avg PSP],
+			        REMOVEFILTERS('DateTable'[Financial Year], 'DateTable'[Month No]),
+			        'DateTable'[FY Start Year] = _PrevMonth_Year,
+			        'DateTable'[Month No] = _PrevMonth
+			    )
+			
+			VAR _Diff_Year  = _CurrYear_Value - _PrevYear_Value
+			VAR _Diff_Month = _CurrValue - _PrevMonth_Value
+			
+			RETURN
+			SWITCH(
+			    TRUE(),
+			
+			    _HasYear && NOT _HasMonth,
+			        IF(_Diff_Year > 0,"#36A962",IF(_Diff_Year < 0,"#D44343","#000000")),
+			
+			    _HasYear && _HasMonth,
+			        IF(_Diff_Month > 0,"#36A962",IF(_Diff_Month < 0,"#D44343","#000000")),
+			
+			    "#000000"
+			)
+		displayFolder: Selling Price
+		lineageTag: a676d1e9-2f6b-42d2-9c53-bbc5b1d62273
+
+	measure '% Gross Previous Period' =
+			
+			
+			VAR _HasYear  = HASONEVALUE('DateTable'[Financial Year])
+			VAR _HasMonth = HASONEVALUE('DateTable'[Month No])
+			
+			VAR _SelFY =
+			    SELECTEDVALUE('DateTable'[Financial Year])
+			
+			VAR _SelYear =
+			    VALUE(LEFT(_SelFY,4))
+			
+			VAR _SelMonth =
+			    SELECTEDVALUE('DateTable'[Month No])
+			
+			------------------------------------------------
+			-- Current Value
+			------------------------------------------------
+			
+			VAR _CurrValue =
+			    [% Gross Profit]
+			
+			------------------------------------------------
+			-- Year Comparison
+			------------------------------------------------
+			
+			VAR _PrevYear_Value =
+			    CALCULATE(
+			        [% Gross Profit],
+			        REMOVEFILTERS('DateTable'[Financial Year], 'DateTable'[Month No]),
+			        'DateTable'[FY Start Year] = _SelYear - 1
+			    )
+			
+			VAR _CurrYear_Value =
+			    CALCULATE(
+			        [% Gross Profit],
+			        'DateTable'[FY Start Year] = _SelYear
+			    )
+			
+			------------------------------------------------
+			-- Month Comparison
+			------------------------------------------------
+			
+			VAR _PrevMonth =
+			    IF(_SelMonth = 1, 12, _SelMonth - 1)
+			
+			VAR _PrevMonth_Year =
+			    IF(_SelMonth = 1, _SelYear - 1, _SelYear)
+			
+			VAR _PrevMonth_Value =
+			    CALCULATE(
+			        [% Gross Profit],
+			        REMOVEFILTERS('DateTable'[Financial Year], 'DateTable'[Month No]),
+			        'DateTable'[FY Start Year] = _PrevMonth_Year,
+			        'DateTable'[Month No] = _PrevMonth
+			    )
+			
+			VAR _CurrMonth_Value =
+			    _CurrValue
+			
+			------------------------------------------------
+			-- Differences
+			------------------------------------------------
+			
+			VAR _Diff_Year  = _CurrYear_Value  - _PrevYear_Value
+			VAR _Diff_Month = _CurrMonth_Value - _PrevMonth_Value
+			
+			VAR _Arrow_Year  = IF(_Diff_Year > 0,"⇧",IF(_Diff_Year < 0,"⇩",""))
+			VAR _Arrow_Month = IF(_Diff_Month > 0,"⇧",IF(_Diff_Month < 0,"⇩",""))
+			
+			------------------------------------------------
+			RETURN
+			------------------------------------------------
+			
+			SWITCH(
+			    TRUE(),
+			
+			    _HasYear && NOT _HasMonth,
+			        "vs Previous Year : " &
+			        _Arrow_Year & " " &
+			        FORMAT(_Diff_Year,"0.0%"),
+			
+			    _HasYear && _HasMonth,
+			        "vs Previous Period : " &
+			        _Arrow_Month & " " &
+			        FORMAT(_Diff_Month,"0.0%"),
+			
+			    NOT _HasYear && NOT _HasMonth,
+			        "vs Previous :",
+			
+			    BLANK()
+			)
+		displayFolder: Selling Price
+		lineageTag: a1eeb75a-86e2-462d-a4ae-b76b71c22418
+
+	measure '% Gross Color Previous Period' =
+			
+			
+			VAR _HasYear  = HASONEVALUE('DateTable'[Financial Year])
+			VAR _HasMonth = HASONEVALUE('DateTable'[Month No])
+			
+			VAR _SelFY =
+			    SELECTEDVALUE('DateTable'[Financial Year])
+			
+			VAR _SelYear =
+			    VALUE(LEFT(_SelFY,4))
+			
+			VAR _SelMonth =
+			    SELECTEDVALUE('DateTable'[Month No])
+			
+			VAR _CurrValue =
+			    [% Gross Profit]
+			
+			VAR _PrevYear_Value =
+			    CALCULATE(
+			        [% Gross Profit],
+			        REMOVEFILTERS('DateTable'[Financial Year], 'DateTable'[Month No]),
+			        'DateTable'[FY Start Year] = _SelYear - 1
+			    )
+			
+			VAR _CurrYear_Value =
+			    CALCULATE(
+			        [% Gross Profit],
+			        'DateTable'[FY Start Year] = _SelYear
+			    )
+			
+			VAR _PrevMonth =
+			    IF(_SelMonth = 1, 12, _SelMonth - 1)
+			
+			VAR _PrevMonth_Year =
+			    IF(_SelMonth = 1, _SelYear - 1, _SelYear)
+			
+			VAR _PrevMonth_Value =
+			    CALCULATE(
+			        [% Gross Profit],
+			        REMOVEFILTERS('DateTable'[Financial Year], 'DateTable'[Month No]),
+			        'DateTable'[FY Start Year] = _PrevMonth_Year,
+			        'DateTable'[Month No] = _PrevMonth
+			    )
+			
+			VAR _Diff_Year  = _CurrYear_Value - _PrevYear_Value
+			VAR _Diff_Month = _CurrValue - _PrevMonth_Value
+			
+			RETURN
+			SWITCH(
+			    TRUE(),
+			
+			    _HasYear && NOT _HasMonth,
+			        IF(_Diff_Year > 0,"#36A962",IF(_Diff_Year < 0,"#D44343","#000000")),
+			
+			    _HasYear && _HasMonth,
+			        IF(_Diff_Month > 0,"#36A962",IF(_Diff_Month < 0,"#D44343","#000000")),
+			
+			    "#000000"
+			)
+		displayFolder: Selling Price
+		lineageTag: 1f596b35-7902-4071-8309-4627e6a27f92
+
+	measure '% SP Previous Period' =
+			
+			
+			VAR _HasYear  = HASONEVALUE('DateTable'[Financial Year])
+			VAR _HasMonth = HASONEVALUE('DateTable'[Month No])
+			
+			VAR _SelFY =
+			    SELECTEDVALUE('DateTable'[Financial Year])
+			
+			VAR _SelYear =
+			    VALUE(LEFT(_SelFY,4))
+			
+			VAR _SelMonth =
+			    SELECTEDVALUE('DateTable'[Month No])
+			
+			------------------------------------------------
+			-- Current Value
+			------------------------------------------------
+			
+			VAR _CurrValue =
+			    [% SP Profit]
+			
+			------------------------------------------------
+			-- Year Comparison
+			------------------------------------------------
+			
+			VAR _PrevYear_Value =
+			    CALCULATE(
+			        [% SP Profit],
+			        REMOVEFILTERS('DateTable'[Financial Year], 'DateTable'[Month No]),
+			        'DateTable'[FY Start Year] = _SelYear - 1
+			    )
+			
+			VAR _CurrYear_Value =
+			    CALCULATE(
+			        [% SP Profit],
+			        'DateTable'[FY Start Year] = _SelYear
+			    )
+			
+			------------------------------------------------
+			-- Month Comparison
+			------------------------------------------------
+			
+			VAR _PrevMonth =
+			    IF(_SelMonth = 1, 12, _SelMonth - 1)
+			
+			VAR _PrevMonth_Year =
+			    IF(_SelMonth = 1, _SelYear - 1, _SelYear)
+			
+			VAR _PrevMonth_Value =
+			    CALCULATE(
+			        [% SP Profit],
+			        REMOVEFILTERS('DateTable'[Financial Year], 'DateTable'[Month No]),
+			        'DateTable'[FY Start Year] = _PrevMonth_Year,
+			        'DateTable'[Month No] = _PrevMonth
+			    )
+			
+			VAR _CurrMonth_Value =
+			    _CurrValue
+			
+			------------------------------------------------
+			-- Differences
+			------------------------------------------------
+			
+			VAR _Diff_Year  = _CurrYear_Value  - _PrevYear_Value
+			VAR _Diff_Month = _CurrMonth_Value - _PrevMonth_Value
+			
+			VAR _Arrow_Year  = IF(_Diff_Year > 0,"⇧",IF(_Diff_Year < 0,"⇩",""))
+			VAR _Arrow_Month = IF(_Diff_Month > 0,"⇧",IF(_Diff_Month < 0,"⇩",""))
+			
+			------------------------------------------------
+			RETURN
+			------------------------------------------------
+			
+			SWITCH(
+			    TRUE(),
+			
+			    _HasYear && NOT _HasMonth,
+			        "vs Previous Year : " &
+			        _Arrow_Year & " " &
+			        FORMAT(_Diff_Year,"0.0%"),
+			
+			    _HasYear && _HasMonth,
+			        "vs Previous Period : " &
+			        _Arrow_Month & " " &
+			        FORMAT(_Diff_Month,"0.0%"),
+			
+			    NOT _HasYear && NOT _HasMonth,
+			        "vs Previous :",
+			
+			    BLANK()
+			)
+		displayFolder: Selling Price
+		lineageTag: 65c6fdd7-d8d4-4922-8d14-5d040eed442c
+
+	measure '% SP Color Profit Previous Period' =
+			
+			
+			VAR _HasYear  = HASONEVALUE('DateTable'[Financial Year])
+			VAR _HasMonth = HASONEVALUE('DateTable'[Month No])
+			
+			VAR _SelFY =
+			    SELECTEDVALUE('DateTable'[Financial Year])
+			
+			VAR _SelYear =
+			    VALUE(LEFT(_SelFY,4))
+			
+			VAR _SelMonth =
+			    SELECTEDVALUE('DateTable'[Month No])
+			
+			VAR _CurrValue =
+			    [% SP Profit]
+			
+			VAR _PrevYear_Value =
+			    CALCULATE(
+			        [% SP Profit],
+			        REMOVEFILTERS('DateTable'[Financial Year], 'DateTable'[Month No]),
+			        'DateTable'[FY Start Year] = _SelYear - 1
+			    )
+			
+			VAR _CurrYear_Value =
+			    CALCULATE(
+			        [% SP Profit],
+			        'DateTable'[FY Start Year] = _SelYear
+			    )
+			
+			VAR _PrevMonth =
+			    IF(_SelMonth = 1, 12, _SelMonth - 1)
+			
+			VAR _PrevMonth_Year =
+			    IF(_SelMonth = 1, _SelYear - 1, _SelYear)
+			
+			VAR _PrevMonth_Value =
+			    CALCULATE(
+			        [% SP Profit],
+			        REMOVEFILTERS('DateTable'[Financial Year], 'DateTable'[Month No]),
+			        'DateTable'[FY Start Year] = _PrevMonth_Year,
+			        'DateTable'[Month No] = _PrevMonth
+			    )
+			
+			VAR _Diff_Year  = _CurrYear_Value - _PrevYear_Value
+			VAR _Diff_Month = _CurrValue - _PrevMonth_Value
+			
+			RETURN
+			SWITCH(
+			    TRUE(),
+			
+			    _HasYear && NOT _HasMonth,
+			        IF(_Diff_Year > 0,"#36A962",IF(_Diff_Year < 0,"#D44343","#000000")),
+			
+			    _HasYear && _HasMonth,
+			        IF(_Diff_Month > 0,"#36A962",IF(_Diff_Month < 0,"#D44343","#000000")),
+			
+			    "#000000"
+			)
+		displayFolder: Selling Price
+		lineageTag: 7d59dd66-f2a4-4eea-9ecc-9d45190dbab7
+
+	measure Items_Count_Doc =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(Final_Fact[ItemCode]),
+			    ALLEXCEPT(Final_Fact, Final_Fact[DocEntry])
+			)
+		formatString: 0
+		displayFolder: Extras
+		lineageTag: 6c313d95-d7d2-4590-91d6-2a14d6e00983
+
+	column Unit
+		lineageTag: fa86d86e-a46b-4275-8d4e-2d07bbf59e01
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Unit]
+
+		annotation SummarizationSetBy = Automatic
+
+	column No = ```
+			
+			SWITCH(
+			    TRUE(),
+			    'Measure'[Unit] = "Crores (Cr)", 1,
+			    'Measure'[Unit] = "Lakhs (L)", 2,
+			    'Measure'[Unit] = "Thousands (K)", 3,
+			    'Measure'[Unit] = "Numbers (N)", 4
+			    
+			)
+			```
+		formatString: 0
+		lineageTag: 27efe29c-fc1f-4bbd-9683-a64cf6c3c0a5
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Measure = calculated
+		mode: import
+		source =
+				
+				DATATABLE (
+				    "Unit", STRING,
+				    {
+				        {"Crores (Cr)"},
+				        {"Lakhs (L)"},
+				        {"Thousands (K)"},
+				        {"Numbers (N)"}
+				    }
+				)
+
+	annotation PBI_Id = 132caa97c9b840aebb0237e323241bc9
+

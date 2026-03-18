@@ -1,0 +1,20 @@
+table MainCat_Master
+	lineageTag: 60333ca0-70ed-4df7-8c14-47eeb8ffff6a
+
+	column 'Main Category'
+		lineageTag: 67b94ef7-6811-4118-8155-4efe7d942c03
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Main Category]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition MainCat_Master = calculated
+		mode: import
+		source =
+				
+				DISTINCT(
+				    SELECTCOLUMNS(Item_Master,"Main Category",Item_Master[Property]))
+
+	annotation PBI_Id = cd7c2d753cd04d0c963c3dc4782f50ce
+

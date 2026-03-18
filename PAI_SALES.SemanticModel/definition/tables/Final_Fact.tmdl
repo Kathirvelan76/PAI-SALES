@@ -1,0 +1,680 @@
+table Final_Fact
+	lineageTag: 8686a243-b952-40e6-abff-4f0a77c08b66
+
+	refreshPolicy
+		policyType: basic
+		rollingWindowGranularity: year
+		rollingWindowPeriods: 4
+		incrementalGranularity: day
+		incrementalPeriods: 2
+		sourceExpression =
+			let
+			    Source = Table.Combine({Sale_Invoice, Sale_Return}),
+			    #"Filtered Rows" = Table.SelectRows(Source, each [DocDate] >= RangeStart and [DocDate] < RangeEnd),
+			    #"Replaced Value" = Table.ReplaceValue(#"Filtered Rows",",","NA",Replacer.ReplaceText,{"Customer_GSTN"}),
+			    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value",",,,","NA",Replacer.ReplaceText,{"Customer_GSTN"}),
+			    #"Replaced Value2" = Table.ReplaceValue(#"Replaced Value1","-","NA",Replacer.ReplaceText,{"Customer_GSTN"}),
+			    #"Replaced Value3" = Table.ReplaceValue(#"Replaced Value2",".0","NA",Replacer.ReplaceText,{"Customer_GSTN"}),
+			    #"Replaced Value4" = Table.ReplaceValue(#"Replaced Value3","0","NA",Replacer.ReplaceText,{"Customer_GSTN"}),
+			    #"Replaced Value5" = Table.ReplaceValue(#"Replaced Value4","00","NA",Replacer.ReplaceText,{"Customer_GSTN"}),
+			    #"Replaced Value6" = Table.ReplaceValue(#"Replaced Value5","01","NA",Replacer.ReplaceText,{"Customer_GSTN"}),
+			    #"Replaced Value7" = Table.ReplaceValue(#"Replaced Value6",".","NA",Replacer.ReplaceText,{"Customer_GSTN"}),
+			    #"Replaced Value8" = Table.ReplaceValue(#"Replaced Value7","...............","NA",Replacer.ReplaceText,{"Customer_GSTN"}),
+			    #"Replaced Value9" = Table.ReplaceValue(#"Replaced Value8","`","NA",Replacer.ReplaceText,{"Customer_GSTN"}),
+			    #"Replaced Value10" = Table.ReplaceValue(#"Replaced Value9","..","NA",Replacer.ReplaceText,{"Customer_GSTN"}),
+			    #"Replaced Value11" = Table.ReplaceValue(#"Replaced Value10","000000000000000","NA",Replacer.ReplaceText,{"Customer_GSTN"}),
+			    #"Replaced Value12" = Table.ReplaceValue(#"Replaced Value11","1","NA",Replacer.ReplaceText,{"Customer_GSTN"}),
+			    #"Replaced Value13" = Table.ReplaceValue(#"Replaced Value12","","OTHERS",Replacer.ReplaceValue,{"SalesType"}),
+			    #"Replaced Value14" = Table.ReplaceValue(#"Replaced Value13","","OTHERS",Replacer.ReplaceValue,{"InvoiceNo"}),
+			    #"Replaced Value15" = Table.ReplaceValue(#"Replaced Value14","","OTHERS",Replacer.ReplaceValue,{"Email"}),
+			    #"Replaced Value16" = Table.ReplaceValue(#"Replaced Value15","","OTHERS",Replacer.ReplaceValue,{"Comments"})
+			in
+			    #"Replaced Value16"
+
+	column Type
+		dataType: string
+		lineageTag: 4ee8606d-9a87-4e08-a39f-ff49b8d9987a
+		summarizeBy: none
+		sourceColumn: Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column UNIQUEVAL
+		dataType: int64
+		formatString: 0
+		lineageTag: 1ab9ea41-2585-4666-b10e-6089479c03de
+		summarizeBy: sum
+		sourceColumn: UNIQUEVAL
+
+		annotation SummarizationSetBy = Automatic
+
+	column DocNum
+		dataType: int64
+		formatString: 0
+		lineageTag: b6e2275d-71fb-42e5-aaa0-623505f18c39
+		summarizeBy: sum
+		sourceColumn: DocNum
+
+		annotation SummarizationSetBy = Automatic
+
+	column DocEntry
+		dataType: int64
+		formatString: 0
+		lineageTag: e68c300f-b2ed-47fd-9230-37a7b2882dda
+		summarizeBy: sum
+		sourceColumn: DocEntry
+
+		annotation SummarizationSetBy = Automatic
+
+	column DocStatus
+		dataType: string
+		lineageTag: 42e26261-02b4-4eef-b3af-c783994e431d
+		summarizeBy: none
+		sourceColumn: DocStatus
+
+		annotation SummarizationSetBy = Automatic
+
+	column ObjType
+		dataType: string
+		lineageTag: 19b7767c-95c4-4d4d-b45a-8c16069d0445
+		summarizeBy: none
+		sourceColumn: ObjType
+
+		annotation SummarizationSetBy = Automatic
+
+	column DocDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 718bef03-5c76-479d-a590-c92b48490123
+		summarizeBy: none
+		sourceColumn: DocDate
+
+		annotation SummarizationSetBy = Automatic
+
+	column DocDueDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: b25af962-750a-42ea-a4d6-469b6449d45c
+		summarizeBy: none
+		sourceColumn: DocDueDate
+
+		variation Variation
+			isDefault
+			relationship: a87f1901-d474-4455-a804-56d97f3c4a16
+			defaultHierarchy: LocalDateTable_0d3e4f00-157c-4a28-9d01-c3ae49519d85.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column CardCode
+		dataType: string
+		lineageTag: c5601d55-1564-4f6d-a4e4-ada7865c9da1
+		summarizeBy: none
+		sourceColumn: CardCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column CardName
+		dataType: string
+		lineageTag: f76bfdf5-2cbf-499b-868d-4e7e4780a2c4
+		summarizeBy: none
+		sourceColumn: CardName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Address1
+		dataType: string
+		lineageTag: a189e5a1-79a1-4bad-a70f-ac7c728f63e1
+		summarizeBy: none
+		sourceColumn: Address1
+
+		annotation SummarizationSetBy = Automatic
+
+	column Address2
+		dataType: string
+		lineageTag: bc69c3e7-4fb6-4fce-b7be-13ae26dec49b
+		summarizeBy: none
+		sourceColumn: Address2
+
+		annotation SummarizationSetBy = Automatic
+
+	column City
+		dataType: string
+		lineageTag: 378f2108-d462-475c-ad5e-9098c12cae2d
+		summarizeBy: none
+		sourceColumn: City
+
+		annotation SummarizationSetBy = Automatic
+
+	column Pin
+		dataType: string
+		lineageTag: 4e918d75-7bdc-49bd-80f9-a1da0d39d122
+		summarizeBy: none
+		sourceColumn: Pin
+
+		annotation SummarizationSetBy = Automatic
+
+	column StateB
+		dataType: string
+		lineageTag: 12bb3258-7404-4a28-bff0-7884b351c609
+		summarizeBy: none
+		sourceColumn: StateB
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesType
+		dataType: string
+		lineageTag: 54c4345a-655d-4234-891b-b572a331c7f0
+		summarizeBy: none
+		sourceColumn: SalesType
+
+		annotation SummarizationSetBy = Automatic
+
+	column InvoiceNo
+		dataType: string
+		lineageTag: 12515059-7a1d-41af-aeac-86afe4aee5c7
+		summarizeBy: none
+		sourceColumn: InvoiceNo
+
+		annotation SummarizationSetBy = Automatic
+
+	column ItemCode
+		dataType: string
+		lineageTag: 5dd97ab8-2c16-47f9-9a1f-6a53c2876447
+		summarizeBy: none
+		sourceColumn: ItemCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column Qty
+		dataType: double
+		lineageTag: 94177170-43d5-4d0a-bfbd-6305536b1651
+		summarizeBy: sum
+		sourceColumn: Qty
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column OpenQty
+		dataType: double
+		lineageTag: 133e35ff-ce2d-4465-9498-e9fcb7d67098
+		summarizeBy: sum
+		sourceColumn: OpenQty
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Order_Branch_Code
+		dataType: string
+		lineageTag: 885c9aaa-0b94-4820-ac5a-a851c68a9e1f
+		summarizeBy: none
+		sourceColumn: Order_Branch_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column Invoice_Branch_Code
+		dataType: string
+		lineageTag: 080bc86f-0022-4166-b64d-4383e8c02e4f
+		summarizeBy: none
+		sourceColumn: Invoice_Branch_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column Price
+		dataType: double
+		lineageTag: 6dbf0453-ba5b-49d7-b2fd-a65bba7a70dc
+		summarizeBy: sum
+		sourceColumn: Price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column LineTotal
+		dataType: double
+		lineageTag: d535c0cc-d76e-4f91-b3a3-71b8b3ddc227
+		summarizeBy: sum
+		sourceColumn: LineTotal
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column GTotal
+		dataType: double
+		lineageTag: e679dc28-bdd5-4766-a199-c63a7a1498b3
+		summarizeBy: sum
+		sourceColumn: GTotal
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Customer_GSTN
+		dataType: string
+		lineageTag: 60ff944a-3538-4cb8-b5f1-0e7f46d5d2ec
+		summarizeBy: none
+		sourceColumn: Customer_GSTN
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ph_No2
+		dataType: string
+		lineageTag: 34be0452-ce24-444e-9dab-354c1295fddb
+		summarizeBy: none
+		sourceColumn: Ph_No2
+
+		annotation SummarizationSetBy = Automatic
+
+	column SlpCode
+		dataType: int64
+		formatString: 0
+		lineageTag: 0b428a49-5a17-4a8c-b27e-ca1757ca655a
+		summarizeBy: none
+		sourceColumn: SlpCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column Email
+		dataType: string
+		lineageTag: 16a35fea-8ce8-469b-8523-32e7e52d92cf
+		summarizeBy: none
+		sourceColumn: Email
+
+		annotation SummarizationSetBy = Automatic
+
+	column Comments
+		dataType: string
+		lineageTag: 5afe8347-8d27-4888-9f74-74cc79ab856b
+		summarizeBy: none
+		sourceColumn: Comments
+
+		annotation SummarizationSetBy = Automatic
+
+	column U_PSPKA
+		dataType: double
+		lineageTag: 06a52668-47af-4b49-8832-703cf7e49324
+		summarizeBy: sum
+		sourceColumn: U_PSPKA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column U_PSPAP
+		dataType: double
+		lineageTag: 43f5d59d-3e10-4406-803b-a83934e24cc8
+		summarizeBy: sum
+		sourceColumn: U_PSPAP
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column U_PSPTS
+		dataType: double
+		lineageTag: ab5e4606-1dd4-4447-9a3a-b2ad60238c12
+		summarizeBy: sum
+		sourceColumn: U_PSPTS
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column U_PLPKA
+		dataType: double
+		lineageTag: 6a98c02b-9f5e-4e87-becf-367179719adb
+		summarizeBy: sum
+		sourceColumn: U_PLPKA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column U_PLPAP
+		dataType: double
+		lineageTag: ca24e9be-0743-476a-971f-8107e82b869f
+		summarizeBy: sum
+		sourceColumn: U_PLPAP
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column U_PLPTS
+		dataType: double
+		lineageTag: 54d79a06-e99e-4f14-b382-7597c85cb086
+		summarizeBy: sum
+		sourceColumn: U_PLPTS
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column U_MRP
+		dataType: double
+		lineageTag: 120079b1-252a-4b4f-8ed8-ce9193acd6d4
+		summarizeBy: sum
+		sourceColumn: U_MRP
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column U_NLC
+		dataType: double
+		lineageTag: 9844b969-f42c-4c2c-b958-1b8cd9a1bc20
+		summarizeBy: sum
+		sourceColumn: U_NLC
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column VatPrcnt
+		dataType: double
+		lineageTag: a90dbc95-8428-4142-b646-55e18139946a
+		summarizeBy: sum
+		sourceColumn: VatPrcnt
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column GrossBuyPr
+		dataType: double
+		lineageTag: 20e5e4f0-4461-4295-ad4a-99e90f0cca8f
+		summarizeBy: sum
+		sourceColumn: GrossBuyPr
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column VatSum
+		dataType: double
+		lineageTag: 611da1af-d8d6-448e-a837-a634eb37227f
+		summarizeBy: sum
+		sourceColumn: VatSum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Gtotal_Wo_Tax
+		dataType: double
+		lineageTag: 3e003ae7-0ad4-43dd-8026-96edabb6e011
+		summarizeBy: sum
+		sourceColumn: Gtotal_Wo_Tax
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column TrnspCode
+		dataType: int64
+		formatString: 0
+		lineageTag: 5b12b48d-96a5-44c7-9cac-33d26d259ba8
+		summarizeBy: count
+		sourceColumn: TrnspCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column TrnspName
+		dataType: string
+		lineageTag: ad9b95cd-f7cb-47b9-ba5d-6fa94858ae3d
+		summarizeBy: none
+		sourceColumn: TrnspName
+
+		annotation SummarizationSetBy = Automatic
+
+	column U_InvDE
+		dataType: string
+		lineageTag: 10b65151-0163-42e4-91a7-13818c93c5b0
+		summarizeBy: none
+		sourceColumn: U_InvDE
+
+		annotation SummarizationSetBy = Automatic
+
+	column U_InvDN
+		dataType: string
+		lineageTag: 9fbe913b-1859-4a24-b590-c97ff87de73e
+		summarizeBy: none
+		sourceColumn: U_InvDN
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Business Type' =
+			
+			IF ( 'Final_Fact'[Customer_GSTN] = "NA", "B2C", "B2B" )
+		lineageTag: 34c43f5e-f42e-4143-88fa-88839cfa6fc1
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Gtotal Range' =
+			
+			SWITCH (
+			    TRUE(),
+			    'Final_Fact'[Gtotal] < 0, "Sales Return",
+			    'Final_Fact'[Gtotal] <= 5000, "0 - 5000",
+			    'Final_Fact'[Gtotal] <= 20000, "5001 - 20000",
+			    'Final_Fact'[Gtotal] <= 30000, "20001 - 30000",
+			    'Final_Fact'[Gtotal] <= 40000, "30001 - 40000",
+			    'Final_Fact'[Gtotal] <= 50000, "40001 - 50000",
+			    'Final_Fact'[Gtotal] <= 65000, "50001 - 65000",
+			    'Final_Fact'[Gtotal] <= 80000, "65001 - 80000",
+			    'Final_Fact'[Gtotal] <= 100000, "80001 - 100000",
+			    'Final_Fact'[Gtotal] <= 120000, "100001 - 120000",
+			    "Above 120000"
+			)
+		lineageTag: 4e9e241c-03da-4bb6-941a-516c66e5bce6
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Gross Profit' = ```
+			
+			Final_Fact[Gtotal] - (Final_Fact[Qty] * Final_Fact[U_NLC])
+			
+			
+			```
+		lineageTag: 054c8ab7-5b9e-481c-ac44-24cb59350067
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Year = YEAR(Final_Fact[DocDate])
+		formatString: 0
+		lineageTag: e07dfb13-60f0-43fa-a133-2c5f88f4598f
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column DocTotal
+		dataType: double
+		lineageTag: 9f8543cc-8936-446a-837e-8450b989cd84
+		summarizeBy: sum
+		sourceColumn: DocTotal
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Finance_Type =
+			
+			SWITCH(
+			    TRUE(),
+			    Final_Fact[TrnspName] = "NA","Direct",
+			    "Finance"
+			)
+		lineageTag: 0800eb82-8985-4ef8-bb39-ee6c4f3f5f5f
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Finance_Contributors =
+			
+			SWITCH(
+			    TRUE(),
+			    Final_Fact[TrnspName] = "NA", "DIRECT",
+			    Final_Fact[TrnspName] = "BAJAJ FINANCE","BAJAJ",
+			    Final_Fact[TrnspName] = "FUR BAJAJ FINANCE", "FUR BAJAJ",
+			    Final_Fact[TrnspName] = "HDB FINANCE", "HDB",
+			    Final_Fact[TrnspName] = "HDFC BANK LTD","HDFC",
+			    Final_Fact[TrnspName] = "ICICI BANK LTD", "ICICI",
+			    Final_Fact[TrnspName] = "IDFC BANK LTD","IDFC",
+			    Final_Fact[TrnspName] = "KOTAK MAHINDRA BANK LTD","KOTAK",
+			    Final_Fact[TrnspName] = "SAMSUNG FINANCE PLUS","SAMSUNG",
+			    Final_Fact[TrnspName] = "TVS CREDIT SERVICES LTD","TVS",
+			    Final_Fact[TrnspName] = "ZEST MONEY FINANCE","ZEST"
+			)
+		lineageTag: a7b8c594-9a24-45ea-80b7-14091c2f1360
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'First Purchase Date' =
+			
+			CALCULATE(
+			    MIN('Final_Fact'[DocDate]),
+			    ALLEXCEPT('Final_Fact','Final_Fact'[CardCode])
+			)
+		formatString: General Date
+		lineageTag: 0b819d49-d887-4ca6-9c8d-1f9ce10b7800
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: 6e02daa7-1490-4e9e-a09d-a37fa2f7bcf2
+			defaultHierarchy: LocalDateTable_6615849f-d76d-449f-a33d-2e8739d4879f.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'New or Old' = ```
+			
+			VAR First_Date =
+			    Final_Fact[First Purchase Date]
+			 
+			RETURN
+			IF(
+			    YEAR(Final_Fact[DocDate]) = YEAR(First_Date)
+			        &&
+			    MONTH(Final_Fact[DocDate]) = MONTH(First_Date)
+			        &&
+			    DAY(Final_Fact[DocDate]) = DAY(First_Date),
+			    "New",
+			    "Old"
+			)
+			 
+			```
+		lineageTag: f3264924-e632-4241-9dc1-dead4c903486
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Actual PSP' =
+			
+			SWITCH(
+			    RELATED('Warehouse_Master'[State]),
+			    "KA", Final_Fact[U_PSPKA],
+			    "AP", Final_Fact[U_PSPAP],
+			    "TS", Final_Fact[U_PSPTS],
+			    "MH", Final_Fact[U_PSPAP]
+			)
+		lineageTag: 8b279493-722b-4d61-84ea-a37d841b59c6
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'SP Profit' = ```
+			
+			(Final_Fact[Actual PSP]*Final_Fact[Qty]) - (Final_Fact[Qty] * Final_Fact[U_NLC])
+			
+			```
+		lineageTag: c756e6d8-9025-4756-afa8-98a56da8f8b1
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'DocTotal Range' =
+			
+			SWITCH (
+			    TRUE(),
+			    'Final_Fact'[DocTotal] < 0, "Sales Return",
+			    'Final_Fact'[DocTotal] <= 5000, "0 - 5000",
+			    'Final_Fact'[DocTotal] <= 20000, "5001 - 20000",
+			    'Final_Fact'[DocTotal] <= 30000, "20001 - 30000",
+			    'Final_Fact'[DocTotal] <= 40000, "30001 - 40000",
+			    'Final_Fact'[DocTotal] <= 50000, "40001 - 50000",
+			    'Final_Fact'[DocTotal] <= 65000, "50001 - 65000",
+			    'Final_Fact'[DocTotal] <= 80000, "65001 - 80000",
+			    'Final_Fact'[DocTotal] <= 100000, "80001 - 100000",
+			    'Final_Fact'[DocTotal] <= 120000, "100001 - 120000",
+			    "Above 120000"
+			)
+		lineageTag: 15f76232-b821-4797-b484-9c4df966f720
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Item Count' =
+			
+			[Items_Count_Doc]
+		formatString: 0
+		lineageTag: 15ec612d-9593-4c9f-b108-2147042ef6ba
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Item Count Chart' =
+			
+			IF(
+			    [Items_Count_Doc] = 1,
+			    "1 Item",
+			    FORMAT([Items_Count_Doc], "0") & " Items"
+			)
+		lineageTag: ce34ce42-68f2-401f-8003-bf2ac3957de3
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Final_Fact = m
+		mode: import
+		source =
+				let
+				    Source = Table.Combine({Sale_Invoice, Sale_Return}),
+				    #"Filtered Rows" = Table.SelectRows(Source, each [DocDate] >= RangeStart and [DocDate] < RangeEnd),
+				    #"Replaced Value" = Table.ReplaceValue(#"Filtered Rows",",","NA",Replacer.ReplaceText,{"Customer_GSTN"}),
+				    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value",",,,","NA",Replacer.ReplaceText,{"Customer_GSTN"}),
+				    #"Replaced Value2" = Table.ReplaceValue(#"Replaced Value1","-","NA",Replacer.ReplaceText,{"Customer_GSTN"}),
+				    #"Replaced Value3" = Table.ReplaceValue(#"Replaced Value2",".0","NA",Replacer.ReplaceText,{"Customer_GSTN"}),
+				    #"Replaced Value4" = Table.ReplaceValue(#"Replaced Value3","0","NA",Replacer.ReplaceText,{"Customer_GSTN"}),
+				    #"Replaced Value5" = Table.ReplaceValue(#"Replaced Value4","00","NA",Replacer.ReplaceText,{"Customer_GSTN"}),
+				    #"Replaced Value6" = Table.ReplaceValue(#"Replaced Value5","01","NA",Replacer.ReplaceText,{"Customer_GSTN"}),
+				    #"Replaced Value7" = Table.ReplaceValue(#"Replaced Value6",".","NA",Replacer.ReplaceText,{"Customer_GSTN"}),
+				    #"Replaced Value8" = Table.ReplaceValue(#"Replaced Value7","...............","NA",Replacer.ReplaceText,{"Customer_GSTN"}),
+				    #"Replaced Value9" = Table.ReplaceValue(#"Replaced Value8","`","NA",Replacer.ReplaceText,{"Customer_GSTN"}),
+				    #"Replaced Value10" = Table.ReplaceValue(#"Replaced Value9","..","NA",Replacer.ReplaceText,{"Customer_GSTN"}),
+				    #"Replaced Value11" = Table.ReplaceValue(#"Replaced Value10","000000000000000","NA",Replacer.ReplaceText,{"Customer_GSTN"}),
+				    #"Replaced Value12" = Table.ReplaceValue(#"Replaced Value11","1","NA",Replacer.ReplaceText,{"Customer_GSTN"}),
+				    #"Replaced Value13" = Table.ReplaceValue(#"Replaced Value12","","OTHERS",Replacer.ReplaceValue,{"SalesType"}),
+				    #"Replaced Value14" = Table.ReplaceValue(#"Replaced Value13","","OTHERS",Replacer.ReplaceValue,{"InvoiceNo"}),
+				    #"Replaced Value15" = Table.ReplaceValue(#"Replaced Value14","","OTHERS",Replacer.ReplaceValue,{"Email"}),
+				    #"Replaced Value16" = Table.ReplaceValue(#"Replaced Value15","","OTHERS",Replacer.ReplaceValue,{"Comments"})
+				in
+				    #"Replaced Value16"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_IsMQueryFoldable = True
+

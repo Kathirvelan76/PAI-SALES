@@ -1,0 +1,180 @@
+table Cust_Vend_Master
+	lineageTag: 87f8b516-4550-4ab1-9064-e97a07156159
+
+	column CardCode
+		dataType: string
+		lineageTag: afe99ebd-b228-40a2-9992-c216ed58e47b
+		summarizeBy: none
+		sourceColumn: CardCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column CardName
+		dataType: string
+		lineageTag: 6abbee2c-5e95-48d8-8974-533c0fabd1d2
+		summarizeBy: none
+		sourceColumn: CardName
+
+		annotation SummarizationSetBy = Automatic
+
+	column CardType
+		dataType: string
+		lineageTag: cdd97909-030b-44b7-a829-2754db6783b2
+		summarizeBy: none
+		sourceColumn: CardType
+
+		annotation SummarizationSetBy = Automatic
+
+	column GroupCode
+		dataType: int64
+		formatString: 0
+		lineageTag: 6e755842-7834-48f7-94be-25f31974ebfc
+		summarizeBy: count
+		sourceColumn: GroupCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column GroupName
+		dataType: string
+		lineageTag: aa5ddcd0-cab8-437e-b516-0bfe31b0c136
+		summarizeBy: none
+		sourceColumn: GroupName
+
+		annotation SummarizationSetBy = Automatic
+
+	column validFor
+		dataType: string
+		lineageTag: 07ea2ca0-880b-4934-b157-d2c521d3d5a9
+		summarizeBy: none
+		sourceColumn: validFor
+
+		annotation SummarizationSetBy = Automatic
+
+	column U_BPType
+		dataType: string
+		lineageTag: 8dfcfb1a-a206-4b6a-b887-53fb1eeb3490
+		summarizeBy: none
+		sourceColumn: U_BPType
+
+		annotation SummarizationSetBy = Automatic
+
+	column CreateDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: a0bf9910-a895-4da1-8091-6a23c25bf6fb
+		summarizeBy: none
+		sourceColumn: CreateDate
+
+		variation Variation
+			isDefault
+			relationship: 5b0bacd0-3c6d-466e-b36c-167d99512649
+			defaultHierarchy: LocalDateTable_494b7a3b-b46b-44bd-915a-94c0cdc14d1d.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column Finance
+		dataType: string
+		lineageTag: 401fed9a-50b4-4cd7-bc3a-392358422ebb
+		summarizeBy: none
+		sourceColumn: Finance
+
+		annotation SummarizationSetBy = Automatic
+
+	column Online_Sales
+		dataType: string
+		lineageTag: 971cdec1-351b-4762-8554-0cd1b93e4d5e
+		summarizeBy: none
+		sourceColumn: Online_Sales
+
+		annotation SummarizationSetBy = Automatic
+
+	column BP_Prop3
+		dataType: string
+		lineageTag: 48edd58d-ba80-48b7-9ee8-8699d587f508
+		summarizeBy: none
+		sourceColumn: BP_Prop3
+
+		annotation SummarizationSetBy = Automatic
+
+	column Dealers
+		dataType: string
+		lineageTag: 22501f8f-23fc-48ff-8647-9bf2c03018f0
+		summarizeBy: none
+		sourceColumn: Dealers
+
+		annotation SummarizationSetBy = Automatic
+
+	column Shipping_Supplier
+		dataType: string
+		lineageTag: 6cba7228-498d-4b6c-af3e-574dc3d6eaf8
+		summarizeBy: none
+		sourceColumn: Shipping_Supplier
+
+		annotation SummarizationSetBy = Automatic
+
+	column Institution_Customer
+		dataType: string
+		lineageTag: ca0bae1d-7570-4a09-952c-5aeb88f0241a
+		summarizeBy: none
+		sourceColumn: Institution_Customer
+
+		annotation SummarizationSetBy = Automatic
+
+	column Defective_Sales
+		dataType: string
+		lineageTag: 61c565ea-1f86-4cb6-8d28-d9e412962d2e
+		summarizeBy: none
+		sourceColumn: Defective_Sales
+
+		annotation SummarizationSetBy = Automatic
+
+	column Stock_Transfer
+		dataType: string
+		lineageTag: 3074dca2-d121-4d32-af12-1afaf8c86c84
+		summarizeBy: none
+		sourceColumn: Stock_Transfer
+
+		annotation SummarizationSetBy = Automatic
+
+	column Supplier_as_Customer
+		dataType: string
+		lineageTag: 6a5e8d24-3f71-4597-ab6e-ebcb06a56c1f
+		summarizeBy: none
+		sourceColumn: Supplier_as_Customer
+
+		annotation SummarizationSetBy = Automatic
+
+	column QryGroup10
+		dataType: string
+		lineageTag: c51cf332-0334-46c3-bb44-675b8261780f
+		summarizeBy: none
+		sourceColumn: QryGroup10
+
+		annotation SummarizationSetBy = Automatic
+
+	column SyncDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 5691cda8-79af-4aad-a239-8cf4be48bde5
+		summarizeBy: none
+		sourceColumn: SyncDate
+
+		variation Variation
+			isDefault
+			relationship: 9caabb80-e8ed-4a5d-addc-772080d1adc8
+			defaultHierarchy: LocalDateTable_8f244a81-56e1-4c44-a29a-172181c66d2c.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Cust_Vend_Master = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Databases("PAI-POWER-BI"),
+				    PAI_LIVE = Source{[Name="PAI_LIVE"]}[Data],
+				    dbo_Cust_Vend_Master = PAI_LIVE{[Schema="dbo",Item="Cust_Vend_Master"]}[Data]
+				in
+				    dbo_Cust_Vend_Master
+
+	annotation PBI_ResultType = Table
+

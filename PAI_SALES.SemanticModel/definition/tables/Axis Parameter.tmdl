@@ -1,0 +1,54 @@
+table 'Axis Parameter'
+	lineageTag: 8ffb0997-5947-490c-bb87-87a4d97bbc41
+
+	column 'Axis Parameter'
+		lineageTag: 88828075-9bf1-485e-8c0d-2eda0ff53d86
+		summarizeBy: none
+		sourceColumn: [Value1]
+		sortByColumn: 'Axis Parameter Order'
+
+		relatedColumnDetails
+			groupByColumn: 'Axis Parameter Fields'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Axis Parameter Fields'
+		isHidden
+		lineageTag: d5913efe-2745-447d-9ba0-2c7d309f7aec
+		summarizeBy: none
+		sourceColumn: [Value2]
+		sortByColumn: 'Axis Parameter Order'
+
+		extendedProperty ParameterMetadata =
+				{
+				  "version": 3,
+				  "kind": 2
+				}
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Axis Parameter Order'
+		isHidden
+		formatString: 0
+		lineageTag: 9bf3f6f1-ec6f-4c54-80a7-ddbe1c4693da
+		summarizeBy: sum
+		sourceColumn: [Value3]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Axis Parameter' = calculated
+		mode: import
+		source =
+				{
+				    ("State", NAMEOF('Warehouse_Master'[State]), 0),
+				    ("Branch", NAMEOF('Warehouse_Master'[WhsName]), 1),
+				    ("Group Category", NAMEOF('Item_Master'[Group_Category]), 2),
+				    ("Head Category", NAMEOF('Item_Master'[Head_Category]), 3),
+				    ("Main Category", NAMEOF('Item_Master'[Property]), 4),
+				    ("Sub Category", NAMEOF('Item_Master'[SubCategory]), 5),
+				    ("Size", NAMEOF('Item_Master'[Size]), 6),
+				    ("Colour", NAMEOF('Item_Master'[Colour]), 7)
+				}
+
+	annotation PBI_Id = b8a847329fb8440190919e6dd1731479
+

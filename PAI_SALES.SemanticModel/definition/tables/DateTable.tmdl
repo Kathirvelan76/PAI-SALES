@@ -1,0 +1,133 @@
+table DateTable
+	lineageTag: ceb33c26-899e-4c7e-9269-23ae5e5aebae
+	dataCategory: Time
+
+	column Date
+		isKey
+		formatString: General Date
+		lineageTag: 63ee2d6f-e874-4fac-ac55-21c3672a49df
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Date]
+		sortByColumn: 'Month No'
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year
+		formatString: 0
+		lineageTag: ab65a085-cb7a-471c-92bd-d5539149bf0e
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Year]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Name'
+		lineageTag: d79d066f-a3cd-42a9-96f7-46e02a69d6ec
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Month Name]
+		sortByColumn: 'Month No'
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quarter
+		lineageTag: 6d91d685-0b69-4d86-84fe-b570301c40f2
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Quarter]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month No'
+		formatString: 0
+		lineageTag: 81053387-5f26-4c79-9670-9915b275a8d6
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Month No]
+
+		annotation SummarizationSetBy = Automatic
+
+	column Day = FORMAT(DateTable[Date],"ddd")
+		lineageTag: 7d1f17c9-870a-4697-bd27-042f3043c2fa
+		summarizeBy: none
+		sortByColumn: WeekDay
+
+		annotation SummarizationSetBy = Automatic
+
+	column WeekDay = WEEKDAY(DateTable[Date],2)
+		formatString: 0
+		lineageTag: c43fc0e7-3c4f-474e-bd18-c9bb721c76f1
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Financial Year' =
+			
+			Var Y=YEAR('DateTable'[Date])
+			Var M=MONTH(DateTable[Date])
+			RETURN
+			if(
+			    M>=4,
+			    FORMAT(Y,"0000") & "-" & FORMAT(Y+1,"0000"),
+			    FORMAT(Y-1,"0000") & "-" & FORMAT(Y,"0000")
+			)
+		lineageTag: e8e72ad3-7f0a-4861-83f5-e7397983d336
+		summarizeBy: none
+		sortByColumn: 'FY Sort'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'FY Sort' =
+			
+			VAR Y = YEAR('DateTable'[Date])
+			VAR M = MONTH('DateTable'[Date])
+			RETURN IF(M >= 4, Y, Y - 1)
+		formatString: 0
+		lineageTag: b6195cb8-7696-4da4-b747-cdece71febc9
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'FY Start Year' =
+			
+			IF(
+			MONTH('DateTable'[Date]) >= 4,
+			YEAR('DateTable'[Date]),
+			YEAR('DateTable'[Date]) - 1
+			)
+		formatString: 0
+		lineageTag: 581f41d9-1d68-499b-b3cd-50619a2be7bf
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column Dayyy
+		formatString: 0
+		lineageTag: a0f027a1-76ab-49b3-9bef-11c389105919
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Dayyy]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DateTable = calculated
+		mode: import
+		source = ```
+				
+				VAR MinDate = MIN('Final_Fact'[DocDate])
+				VAR MaxDate = MAX('Final_Fact'[DocDate])
+				RETURN
+				ADDCOLUMNS(
+				    CALENDAR(MinDate, MaxDate),
+				    "Year", YEAR([Date]),
+				    "Month No", MONTH([Date]),
+				    "Month Name", FORMAT([Date], "MMM"),
+				    "Quarter", "Q" & QUARTER([Date]),
+				    "Dayyy",DAY([Date])
+				)
+				
+				```
+
+	annotation PBI_Id = b9c69617ac0d4e98a22f6e999e8b232e
+

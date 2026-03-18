@@ -1,0 +1,86 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.0.0/schema.json",
+  "name": "109cab8e20013e909807",
+  "displayName": "SALES COMPARE WITH DATE RANGE",
+  "displayOption": "FitToPage",
+  "height": 1060,
+  "width": 1617,
+  "objects": {
+    "displayArea": [
+      {
+        "properties": {
+          "verticalAlignment": {
+            "expr": {
+              "Literal": {
+                "Value": "'Middle'"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "background": [
+      {
+        "properties": {
+          "image": {
+            "image": {
+              "name": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'Frame 17.png'"
+                  }
+                }
+              },
+              "url": {
+                "expr": {
+                  "ResourcePackageItem": {
+                    "PackageName": "RegisteredResources",
+                    "PackageType": 1,
+                    "ItemName": "Frame_175646085678937731.png"
+                  }
+                }
+              },
+              "scaling": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'Fill'"
+                  }
+                }
+              }
+            }
+          },
+          "transparency": {
+            "expr": {
+              "Literal": {
+                "Value": "0D"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "visibility": "HiddenInViewMode",
+  "visualInteractions": [
+    {
+      "source": "0192e621aaed516b2477",
+      "target": "d816eb049d38901b4590",
+      "type": "DataFilter"
+    },
+    {
+      "source": "0192e621aaed516b2477",
+      "target": "1a4a87d740394805a39b",
+      "type": "NoFilter"
+    },
+    {
+      "source": "f4bb416ba0d22e550b30",
+      "target": "1a4a87d740394805a39b",
+      "type": "DataFilter"
+    },
+    {
+      "source": "f4bb416ba0d22e550b30",
+      "target": "d816eb049d38901b4590",
+      "type": "NoFilter"
+    }
+  ]
+}
