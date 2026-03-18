@@ -142,5 +142,23 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "f892caa6eac5ce901023",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Item_Master"
+              }
+            },
+            "Property": "Property"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
   }
 }

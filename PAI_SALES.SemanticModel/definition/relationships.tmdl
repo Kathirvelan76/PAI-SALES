@@ -204,3 +204,11 @@ relationship cdc14693-064b-46fa-911d-131d5b0e31cf
 	fromColumn: Customer_MainCat.'Last Purchase Date'
 	toColumn: LocalDateTable_4776a5f4-8e4e-4449-ad64-bada89f4a376.Date
 
+relationship AutoDetected_f3a58bd8-b092-43b0-9ee1-4c7b5e26afdc
+	fromColumn: 'Final_Fact A'.ItemCode
+	toColumn: Item_Master.ItemCode
+
+relationship AutoDetected_e82c4981-1e67-44e9-bd14-a1b57859ef74
+	fromColumn: 'Final_Fact B'.ItemCode
+	toColumn: Item_Master.ItemCode
+

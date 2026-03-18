@@ -1,0 +1,53 @@
+table 'Final_Fact B'
+	lineageTag: 7438853e-1262-417a-aad9-6a1451fb56f5
+
+	column DocEntry
+		dataType: int64
+		formatString: 0
+		lineageTag: 083c735f-5bde-494f-a04f-09c1d8e9d596
+		summarizeBy: sum
+		sourceColumn: DocEntry
+
+		annotation SummarizationSetBy = Automatic
+
+	column ItemCode
+		dataType: string
+		lineageTag: 6aebe8cc-4862-435b-982e-514b871352e8
+		summarizeBy: none
+		sourceColumn: ItemCode
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Final_Fact B' = m
+		mode: import
+		source =
+				let
+				    Source = Table.Combine({Sale_Invoice, Sale_Return}),
+				    #"Filtered Rows" = Table.SelectRows(Source, each [DocDate] >= RangeStart and [DocDate] < RangeEnd),
+				    #"Replaced Value" = Table.ReplaceValue(#"Filtered Rows",",","NA",Replacer.ReplaceText,{"Customer_GSTN"}),
+				    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value",",,,","NA",Replacer.ReplaceText,{"Customer_GSTN"}),
+				    #"Replaced Value2" = Table.ReplaceValue(#"Replaced Value1","-","NA",Replacer.ReplaceText,{"Customer_GSTN"}),
+				    #"Replaced Value3" = Table.ReplaceValue(#"Replaced Value2",".0","NA",Replacer.ReplaceText,{"Customer_GSTN"}),
+				    #"Replaced Value4" = Table.ReplaceValue(#"Replaced Value3","0","NA",Replacer.ReplaceText,{"Customer_GSTN"}),
+				    #"Replaced Value5" = Table.ReplaceValue(#"Replaced Value4","00","NA",Replacer.ReplaceText,{"Customer_GSTN"}),
+				    #"Replaced Value6" = Table.ReplaceValue(#"Replaced Value5","01","NA",Replacer.ReplaceText,{"Customer_GSTN"}),
+				    #"Replaced Value7" = Table.ReplaceValue(#"Replaced Value6",".","NA",Replacer.ReplaceText,{"Customer_GSTN"}),
+				    #"Replaced Value8" = Table.ReplaceValue(#"Replaced Value7","...............","NA",Replacer.ReplaceText,{"Customer_GSTN"}),
+				    #"Replaced Value9" = Table.ReplaceValue(#"Replaced Value8","`","NA",Replacer.ReplaceText,{"Customer_GSTN"}),
+				    #"Replaced Value10" = Table.ReplaceValue(#"Replaced Value9","..","NA",Replacer.ReplaceText,{"Customer_GSTN"}),
+				    #"Replaced Value11" = Table.ReplaceValue(#"Replaced Value10","000000000000000","NA",Replacer.ReplaceText,{"Customer_GSTN"}),
+				    #"Replaced Value12" = Table.ReplaceValue(#"Replaced Value11","1","NA",Replacer.ReplaceText,{"Customer_GSTN"}),
+				    #"Replaced Value13" = Table.ReplaceValue(#"Replaced Value12","","OTHERS",Replacer.ReplaceValue,{"SalesType"}),
+				    #"Replaced Value14" = Table.ReplaceValue(#"Replaced Value13","","OTHERS",Replacer.ReplaceValue,{"InvoiceNo"}),
+				    #"Replaced Value15" = Table.ReplaceValue(#"Replaced Value14","","OTHERS",Replacer.ReplaceValue,{"Email"}),
+				    #"Replaced Value16" = Table.ReplaceValue(#"Replaced Value15","","OTHERS",Replacer.ReplaceValue,{"Comments"}),
+				    #"Removed Other Columns" = Table.SelectColumns(#"Replaced Value16",{"DocEntry", "ItemCode"})
+				in
+				    #"Removed Other Columns"
+
+	annotation PBI_IsMQueryFoldable = True
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

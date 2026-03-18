@@ -8,7 +8,7 @@ model Model
 
 annotation __PBI_TimeIntelligenceEnabled = 1
 
-annotation PBI_QueryOrder = ["Final_Fact","Sale_Invoice","Sale_Return","Cust_Vend_Master","Item_Master","Sales_Employee_Master","Warehouse_Master","RangeStart","RangeEnd","Metric Selector"]
+annotation PBI_QueryOrder = ["Final_Fact","Sale_Invoice","Sale_Return","Cust_Vend_Master","Item_Master","Sales_Employee_Master","Warehouse_Master","RangeStart","RangeEnd","Metric Selector","Final_Fact A","Final_Fact B"]
 
 annotation PBI_ProTooling = ["DevMode"]
 
@@ -69,6 +69,8 @@ ref table LocalDateTable_4776a5f4-8e4e-4449-ad64-bada89f4a376
 ref table 'Category Slicer'
 ref table Customers_Never_Bought
 ref table Customers_Never_Bought_ByProperty
+ref table 'Final_Fact A'
+ref table 'Final_Fact B'
 
 ref cultureInfo en-US
 

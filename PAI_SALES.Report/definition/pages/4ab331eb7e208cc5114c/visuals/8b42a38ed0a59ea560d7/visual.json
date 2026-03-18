@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.6.0/schema.json",
-  "name": "1e622c07807694ee1062",
+  "name": "8b42a38ed0a59ea560d7",
   "position": {
-    "x": 111.99786979097325,
-    "y": 146.31979763014246,
-    "z": 2000,
-    "height": 841.7904406869925,
-    "width": 1036.8835041938491,
-    "tabOrder": 2000
+    "x": 1129.5918635170603,
+    "y": 581.37007874015751,
+    "z": 7003,
+    "height": 430.92782152230973,
+    "width": 795.55905511811022,
+    "tabOrder": 7003
   },
   "visual": {
     "visualType": "tableEx",
@@ -20,43 +20,59 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Cust_Vend_Master"
+                      "Entity": "Final_Fact"
                     }
                   },
-                  "Property": "CardCode"
+                  "Property": "Item Count"
                 }
               },
-              "queryRef": "Cust_Vend_Master.CardCode",
-              "nativeQueryRef": "CardCode"
+              "queryRef": "Sum(Final_Fact.Item Count)",
+              "nativeQueryRef": "Item Count"
             },
             {
               "field": {
-                "Column": {
+                "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Cust_Vend_Master"
+                      "Entity": "Measure"
                     }
                   },
-                  "Property": "CardName"
+                  "Property": "Use Sales Total"
                 }
               },
-              "queryRef": "Cust_Vend_Master.CardName",
-              "nativeQueryRef": "CardName"
+              "queryRef": "Measure.Use Sales Total",
+              "nativeQueryRef": "Gross Value",
+              "displayName": "Gross Value"
             },
             {
               "field": {
-                "Column": {
+                "Measure": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "Warehouse_Master"
+                      "Entity": "Measure"
                     }
                   },
-                  "Property": "WhsName"
+                  "Property": "DocEntry Total"
                 }
               },
-              "queryRef": "Warehouse_Master.WhsName",
-              "nativeQueryRef": "Branch",
-              "displayName": "Branch"
+              "queryRef": "Measure.DocEntry Total",
+              "nativeQueryRef": "Total Invoices",
+              "displayName": "Total Invoices"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "Table Avg Basket Total"
+                }
+              },
+              "queryRef": "Measure.Table Avg Basket Total",
+              "nativeQueryRef": "Avg Basket Value",
+              "displayName": "Avg Basket Value"
             }
           ]
         }
@@ -68,10 +84,10 @@
               "Column": {
                 "Expression": {
                   "SourceRef": {
-                    "Entity": "Cust_Vend_Master"
+                    "Entity": "Final_Fact"
                   }
                 },
-                "Property": "CardCode"
+                "Property": "Item Count"
               }
             },
             "direction": "Ascending"
@@ -466,13 +482,13 @@
             "value": {
               "expr": {
                 "Literal": {
-                  "Value": "236.19566089442918D"
+                  "Value": "157.16422830644927D"
                 }
               }
             }
           },
           "selector": {
-            "metadata": "Cust_Vend_Master.CardCode"
+            "metadata": "Sum(Final_Fact.Item Count)"
           }
         },
         {
@@ -480,13 +496,13 @@
             "value": {
               "expr": {
                 "Literal": {
-                  "Value": "499.8886423517705D"
+                  "Value": "199.74934563960866D"
                 }
               }
             }
           },
           "selector": {
-            "metadata": "Cust_Vend_Master.CardName"
+            "metadata": "Measure.Use Sales Total"
           }
         },
         {
@@ -494,13 +510,98 @@
             "value": {
               "expr": {
                 "Literal": {
-                  "Value": "275.10329596699194D"
+                  "Value": "186.29921692690226D"
                 }
               }
             }
           },
           "selector": {
-            "metadata": "Warehouse_Master.WhsName"
+            "metadata": "Measure.DocEntry Total"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "225.74934678536565D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Measure.Table Avg Basket Total"
+          }
+        }
+      ],
+      "total": [
+        {
+          "properties": {
+            "totals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnFormatting": [
+        {
+          "properties": {
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Center'"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Sum(Final_Fact.Item Count)"
+          }
+        },
+        {
+          "properties": {
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Center'"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Measure.Use Sales Total"
+          }
+        },
+        {
+          "properties": {
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Center'"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Measure.DocEntry Total"
+          }
+        },
+        {
+          "properties": {
+            "alignment": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Center'"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Measure.Table Avg Basket Total"
           }
         }
       ]
@@ -597,7 +698,7 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "f6d20cf55a9a218a9a97",
+        "name": "2d3c1865691184ee669e",
         "field": {
           "Measure": {
             "Expression": {
@@ -605,87 +706,52 @@
                 "Entity": "Measure"
               }
             },
-            "Property": "Never Bought Flag"
+            "Property": "Use Sales Total"
           }
         },
-        "type": "Advanced",
-        "filter": {
-          "Version": 2,
-          "From": [
-            {
-              "Name": "m",
-              "Entity": "Measure",
-              "Type": 0
-            }
-          ],
-          "Where": [
-            {
-              "Condition": {
-                "Comparison": {
-                  "ComparisonKind": 0,
-                  "Left": {
-                    "Measure": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Source": "m"
-                        }
-                      },
-                      "Property": "Never Bought Flag"
-                    }
-                  },
-                  "Right": {
-                    "Literal": {
-                      "Value": "1L"
-                    }
-                  }
-                }
-              }
-            }
-          ]
-        },
-        "howCreated": "User"
+        "type": "Advanced"
       },
       {
-        "name": "2bd0a4439175e7179328",
+        "name": "91bbce4b4cc9499b654a",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Measure"
+              }
+            },
+            "Property": "DocEntry Total"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "5a7252af4d4c7b39adfd",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Measure"
+              }
+            },
+            "Property": "Table Avg Basket Total"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "1c80e3f1fdb2329e9d36",
         "field": {
           "Column": {
             "Expression": {
               "SourceRef": {
-                "Entity": "Cust_Vend_Master"
+                "Entity": "Final_Fact"
               }
             },
-            "Property": "CardCode"
+            "Property": "Item Count"
           }
         },
-        "type": "Categorical"
-      },
-      {
-        "name": "8f0e9c4ebafa5822186c",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Cust_Vend_Master"
-              }
-            },
-            "Property": "CardName"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "de37db9119e4c74ace8b",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Warehouse_Master"
-              }
-            },
-            "Property": "WhsName"
-          }
-        },
-        "type": "Categorical"
+        "type": "Advanced"
       }
     ]
   }

@@ -1190,17 +1190,20 @@ table Measure
 			VAR _HasYear  = HASONEVALUE('DateTable'[Financial Year])
 			VAR _HasMonth = HASONEVALUE('DateTable'[Month No])
 			
+			VAR _SelFY =
+			    SELECTEDVALUE('DateTable'[Financial Year])
+			
 			VAR _SelYear =
-			    SELECTEDVALUE('DateTable'[FY Start Year])
+			    VALUE(LEFT(_SelFY,4))
 			
 			VAR _SelMonth =
 			    SELECTEDVALUE('DateTable'[Month No])
 			
 			------------------------------------------------
-			-- Current Value
+			-- Current Sales
 			------------------------------------------------
 			
-			VAR _CurrValue =
+			VAR _CurrValue_Numeric =
 			    [Avg Basket Value]
 			
 			------------------------------------------------
@@ -1210,15 +1213,14 @@ table Measure
 			VAR _PrevYear_Value =
 			    CALCULATE(
 			        [Avg Basket Value],
-			        'DateTable'[FY Start Year] = _SelYear - 1,
-			        REMOVEFILTERS('DateTable'[Month No])
+			        REMOVEFILTERS('DateTable'[Financial Year], 'DateTable'[Month No]),
+			        'DateTable'[FY Start Year] = _SelYear - 1
 			    )
 			
 			VAR _CurrYear_Value =
 			    CALCULATE(
 			        [Avg Basket Value],
-			        'DateTable'[FY Start Year] = _SelYear,
-			        REMOVEFILTERS('DateTable'[Month No])
+			        'DateTable'[FY Start Year] = _SelYear
 			    )
 			
 			------------------------------------------------
@@ -1234,16 +1236,13 @@ table Measure
 			VAR _PrevMonth_Value =
 			    CALCULATE(
 			        [Avg Basket Value],
+			        REMOVEFILTERS('DateTable'[Financial Year], 'DateTable'[Month No]),
 			        'DateTable'[FY Start Year] = _PrevMonth_Year,
 			        'DateTable'[Month No] = _PrevMonth
 			    )
 			
 			VAR _CurrMonth_Value =
-			    CALCULATE(
-			        [Avg Basket Value],
-			        'DateTable'[FY Start Year] = _SelYear,
-			        'DateTable'[Month No] = _SelMonth
-			    )
+			    _CurrValue_Numeric
 			
 			------------------------------------------------
 			-- Differences
@@ -1259,7 +1258,7 @@ table Measure
 			VAR _Arrow_Month = IF(_Diff_Month > 0,"⇧",IF(_Diff_Month < 0,"⇩",""))
 			
 			------------------------------------------------
-			-- Unit Handling (ADDED)
+			-- Unit Handling (same as your previous measure)
 			------------------------------------------------
 			
 			VAR _SelectedUnit =
@@ -4250,14 +4249,29 @@ table Measure
 			RETURN
 			    SWITCH (
 			        SelectedUnit,
-			        "Lakhs (L)", FORMAT ( DIVIDE ( [Avg Basket Value], 100000 ), "₹0.00" ) & " L",
-			        "Numbers (N)", FORMAT (DIVIDE ( [Avg Basket Value], 1 ), "₹0.00" ),
-			        FORMAT ( DIVIDE ( [Avg Basket Value], 1000 ), "₹0.00" ) & " K"
+			        "Lakhs (L)", FORMAT ( DIVIDE ( [Avg Basket Value], 100000 ), "₹0.0" ) & " L",
+			        "Numbers (N)", FORMAT (DIVIDE ( [Avg Basket Value], 1 ), "₹0.0" ),
+			        FORMAT ( DIVIDE ( [Avg Basket Value], 1000 ), "₹0.0" ) & " K"
 			    )
 			
 			```
 		displayFolder: Avg Basket
 		lineageTag: 099d3157-0158-46df-aa8b-da853ba04a40
+
+	measure 'Table Avg Basket Total' = ```
+			
+			VAR SelectedUnit = SELECTEDVALUE ( 'Measure'[Unit], "Thousands (K)" )
+			RETURN
+			    SWITCH (
+			        SelectedUnit,
+			        "Lakhs (L)", FORMAT ( DIVIDE ( [Avg Basket Value], 100000 ), "0.0" ) & " L",
+			        "Numbers (N)", FORMAT (DIVIDE ( [Avg Basket Value], 1 ), "0.0" ),
+			        FORMAT ( DIVIDE ( [Avg Basket Value], 1000 ), "0.0" ) & " K"
+			    )
+			
+			```
+		displayFolder: Avg Basket
+		lineageTag: 38e0a235-a0bc-4d52-aa5a-bd55fedc0439
 
 	column Unit
 		lineageTag: fa86d86e-a46b-4275-8d4e-2d07bbf59e01

@@ -20466,7 +20466,7 @@ cultureInfo en-US
 			        }
 			      ]
 			    },
-			    "measure.avg_basket_previous_period": {
+			    "measure.avg_basket_value_previous_period": {
 			      "Definition": {
 			        "Binding": {
 			          "ConceptualEntity": "Measure",
@@ -20476,108 +20476,108 @@ cultureInfo en-US
 			      "State": "Generated",
 			      "Terms": [
 			        {
-			          "avg basket previous period": {
+			          "avg basket value previous period": {
 			            "State": "Generated"
 			          }
 			        },
 			        {
-			          "average basket previous period": {
+			          "average basket value previous period": {
 			            "Type": "Noun",
 			            "State": "Suggested",
 			            "Source": {
 			              "Agent": "Thesaurus"
 			            },
-			            "Weight": 0.599
+			            "Weight": 0.605
 			          }
 			        },
 			        {
-			          "avg basket previous era": {
+			          "avg basket value previous era": {
 			            "Type": "Noun",
 			            "State": "Suggested",
 			            "Source": {
 			              "Agent": "Thesaurus"
 			            },
-			            "Weight": 0.489
+			            "Weight": 0.494
 			          }
 			        },
 			        {
-			          "avg basket previous epoch": {
+			          "avg basket value previous epoch": {
 			            "Type": "Noun",
 			            "State": "Suggested",
 			            "Source": {
 			              "Agent": "Thesaurus"
 			            },
-			            "Weight": 0.489
+			            "Weight": 0.494
 			          }
 			        },
 			        {
-			          "avg basket previous age": {
+			          "avg basket value previous age": {
 			            "Type": "Noun",
 			            "State": "Suggested",
 			            "Source": {
 			              "Agent": "Thesaurus"
 			            },
-			            "Weight": 0.474
+			            "Weight": 0.479
 			          }
 			        },
 			        {
-			          "avg basket previous stage": {
+			          "avg basket value previous stage": {
 			            "Type": "Noun",
 			            "State": "Suggested",
 			            "Source": {
 			              "Agent": "Thesaurus"
 			            },
-			            "Weight": 0.474
+			            "Weight": 0.479
 			          }
 			        },
 			        {
-			          "avg basket previous phase": {
+			          "avg basket value previous phase": {
 			            "Type": "Noun",
 			            "State": "Suggested",
 			            "Source": {
 			              "Agent": "Thesaurus"
 			            },
-			            "Weight": 0.474
+			            "Weight": 0.479
 			          }
 			        },
 			        {
-			          "avg basket previous episode": {
+			          "avg basket value previous episode": {
 			            "Type": "Noun",
 			            "State": "Suggested",
 			            "Source": {
 			              "Agent": "Thesaurus"
 			            },
-			            "Weight": 0.464
+			            "Weight": 0.469
 			          }
 			        },
 			        {
-			          "avg basket previous interlude": {
+			          "avg basket value previous interlude": {
 			            "Type": "Noun",
 			            "State": "Suggested",
 			            "Source": {
 			              "Agent": "Thesaurus"
 			            },
-			            "Weight": 0.464
+			            "Weight": 0.469
 			          }
 			        },
 			        {
-			          "avg basket previous interval": {
+			          "avg basket value previous interval": {
 			            "Type": "Noun",
 			            "State": "Suggested",
 			            "Source": {
 			              "Agent": "Thesaurus"
 			            },
-			            "Weight": 0.464
+			            "Weight": 0.469
 			          }
 			        },
 			        {
-			          "avg basket previous extent": {
+			          "avg basket value previous extent": {
 			            "Type": "Noun",
 			            "State": "Suggested",
 			            "Source": {
 			              "Agent": "Thesaurus"
 			            },
-			            "Weight": 0.464
+			            "Weight": 0.469
 			          }
 			        }
 			      ]
@@ -43941,6 +43941,16 @@ cultureInfo en-US
 			            },
 			            "Weight": 0.727
 			          }
+			        },
+			        {
+			          "Total Invoices": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
 			        }
 			      ]
 			    },
@@ -44202,6 +44212,108 @@ cultureInfo en-US
 			        },
 			        {
 			          "Total Invoices": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "measure.use_avg_basket_total": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Measure",
+			          "ConceptualProperty": "Use Avg Basket Total"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "use avg basket total": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "use avg basket aggregate": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.748
+			          }
+			        },
+			        {
+			          "use avg basket overall": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.748
+			          }
+			        },
+			        {
+			          "use average basket total": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.599
+			          }
+			        }
+			      ]
+			    },
+			    "measure.table_avg_basket_total": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Measure",
+			          "ConceptualProperty": "Table Avg Basket Total"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "table avg basket total": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "table avg basket aggregate": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.748
+			          }
+			        },
+			        {
+			          "table avg basket overall": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.748
+			          }
+			        },
+			        {
+			          "table average basket total": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.599
+			          }
+			        },
+			        {
+			          "Avg Basket Value": {
 			            "State": "Suggested",
 			            "Source": {
 			              "Type": "External",
@@ -47738,6 +47850,138 @@ cultureInfo en-US
 			          }
 			        }
 			      }
+			    },
+			    "measure_has_table_avg_basket_total": {
+			      "Binding": {
+			        "ConceptualEntity": "Measure"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "measure": {
+			          "Target": {
+			            "Entity": "measure"
+			          }
+			        },
+			        "measure.table_avg_basket_total": {
+			          "Target": {
+			            "Entity": "measure.table_avg_basket_total"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "measure"
+			            },
+			            "Object": {
+			              "Role": "measure.table_avg_basket_total"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "measures_have_table_avg_basket_total"
+			        }
+			      ]
+			    },
+			    "final_fact_has_measure_table_avg_basket_total": {
+			      "Binding": {
+			        "ConceptualEntity": "Final_Fact"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "final_fact": {
+			          "Target": {
+			            "Entity": "final_fact"
+			          }
+			        },
+			        "measure.table_avg_basket_total": {
+			          "Target": {
+			            "Entity": "measure.table_avg_basket_total"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "final_fact"
+			            },
+			            "Object": {
+			              "Role": "measure.table_avg_basket_total"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "final_facts_have_table_avg_basket_total"
+			        }
+			      ]
+			    },
+			    "measure_has_use_avg_basket_total": {
+			      "Binding": {
+			        "ConceptualEntity": "Measure"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "measure": {
+			          "Target": {
+			            "Entity": "measure"
+			          }
+			        },
+			        "measure.use_avg_basket_total": {
+			          "Target": {
+			            "Entity": "measure.use_avg_basket_total"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "measure"
+			            },
+			            "Object": {
+			              "Role": "measure.use_avg_basket_total"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "measures_have_use_avg_basket_total"
+			        }
+			      ]
+			    },
+			    "final_fact_has_measure_use_avg_basket_total": {
+			      "Binding": {
+			        "ConceptualEntity": "Final_Fact"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "final_fact": {
+			          "Target": {
+			            "Entity": "final_fact"
+			          }
+			        },
+			        "measure.use_avg_basket_total": {
+			          "Target": {
+			            "Entity": "measure.use_avg_basket_total"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "final_fact"
+			            },
+			            "Object": {
+			              "Role": "measure.use_avg_basket_total"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "final_facts_have_use_avg_basket_total"
+			        }
+			      ]
 			    },
 			    "measure_has_use_DocEntry_total": {
 			      "Binding": {
@@ -58022,7 +58266,40 @@ cultureInfo en-US
 			        }
 			      ]
 			    },
-			    "final_fact_has_measure_avg_basket_previous_period": {
+			    "measure_has_avg_basket_value_previous_period": {
+			      "Binding": {
+			        "ConceptualEntity": "Measure"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "measure": {
+			          "Target": {
+			            "Entity": "measure"
+			          }
+			        },
+			        "measure.avg_basket_value_previous_period": {
+			          "Target": {
+			            "Entity": "measure.avg_basket_value_previous_period"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "measure"
+			            },
+			            "Object": {
+			              "Role": "measure.avg_basket_value_previous_period"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "measures_have_avg_basket_value_previous_period"
+			        }
+			      ]
+			    },
+			    "final_fact_has_measure_avg_basket_value_previous_period": {
 			      "Binding": {
 			        "ConceptualEntity": "Final_Fact"
 			      },
@@ -58033,9 +58310,9 @@ cultureInfo en-US
 			            "Entity": "final_fact"
 			          }
 			        },
-			        "measure.avg_basket_previous_period": {
+			        "measure.avg_basket_value_previous_period": {
 			          "Target": {
-			            "Entity": "measure.avg_basket_previous_period"
+			            "Entity": "measure.avg_basket_value_previous_period"
 			          }
 			        }
 			      },
@@ -58046,16 +58323,16 @@ cultureInfo en-US
 			              "Role": "final_fact"
 			            },
 			            "Object": {
-			              "Role": "measure.avg_basket_previous_period"
+			              "Role": "measure.avg_basket_value_previous_period"
 			            }
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "final_facts_have_avg_basket_previous_period"
+			          "ID": "final_facts_have_avg_basket_value_previous_period"
 			        }
 			      ]
 			    },
-			    "date_table_has_measure_avg_basket_previous_period": {
+			    "date_table_has_measure_avg_basket_value_previous_period": {
 			      "Binding": {
 			        "ConceptualEntity": "DateTable"
 			      },
@@ -58066,9 +58343,9 @@ cultureInfo en-US
 			            "Entity": "date_table"
 			          }
 			        },
-			        "measure.avg_basket_previous_period": {
+			        "measure.avg_basket_value_previous_period": {
 			          "Target": {
-			            "Entity": "measure.avg_basket_previous_period"
+			            "Entity": "measure.avg_basket_value_previous_period"
 			          }
 			        }
 			      },
@@ -58079,12 +58356,12 @@ cultureInfo en-US
 			              "Role": "date_table"
 			            },
 			            "Object": {
-			              "Role": "measure.avg_basket_previous_period"
+			              "Role": "measure.avg_basket_value_previous_period"
 			            }
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "date_tables_have_avg_basket_previous_period"
+			          "ID": "date_tables_have_avg_basket_value_previous_period"
 			        }
 			      ]
 			    },

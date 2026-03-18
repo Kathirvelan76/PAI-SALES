@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.6.0/schema.json",
   "name": "922f6a7b248bb868584a",
   "position": {
-    "x": 90.857142857142861,
-    "y": 1003.7551020408163,
+    "x": 91.795275590551185,
+    "y": 1012.2979002624672,
     "z": 7002,
-    "height": 38.938775510204081,
-    "width": 519.18367346938771,
+    "height": 38.248031496062993,
+    "width": 517.62335958005247,
     "tabOrder": 7002
   },
   "visual": {
@@ -124,5 +124,23 @@
       ]
     },
     "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "05ef4e985f1ed356bf4e",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Measure"
+              }
+            },
+            "Property": "Unit"
+          }
+        },
+        "type": "Categorical"
+      }
+    ]
   }
 }
