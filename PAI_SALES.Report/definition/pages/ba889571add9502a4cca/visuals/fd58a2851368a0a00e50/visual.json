@@ -71,37 +71,6 @@
                 "Column": {
                   "Expression": {
                     "SourceRef": {
-                      "Entity": "DateTable"
-                    }
-                  },
-                  "Property": "Month Name"
-                }
-              },
-              "queryRef": "DateTable.Month Name",
-              "nativeQueryRef": "Month Name",
-              "active": true
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Warehouse_Master"
-                    }
-                  },
-                  "Property": "WhsName"
-                }
-              },
-              "queryRef": "Warehouse_Master.WhsName",
-              "nativeQueryRef": "Branch",
-              "active": true,
-              "displayName": "Branch"
-            },
-            {
-              "field": {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
                       "Entity": "Item_Master"
                     }
                   },
@@ -267,6 +236,37 @@
               "queryRef": "Item_Master.Brand",
               "nativeQueryRef": "Brand",
               "active": false
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DateTable"
+                    }
+                  },
+                  "Property": "Month Name"
+                }
+              },
+              "queryRef": "DateTable.Month Name",
+              "nativeQueryRef": "Month Name",
+              "active": false
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Warehouse_Master"
+                    }
+                  },
+                  "Property": "WhsName"
+                }
+              },
+              "queryRef": "Warehouse_Master.WhsName",
+              "nativeQueryRef": "Branch",
+              "active": false,
+              "displayName": "Branch"
             }
           ]
         }
@@ -312,32 +312,6 @@
                 }
               }
             ],
-            "isPinned": true
-          },
-          {
-            "queryRefs": [
-              "DateTable.Month Name"
-            ],
-            "isCollapsed": true,
-            "identityKeys": [
-              {
-                "Column": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "DateTable"
-                    }
-                  },
-                  "Property": "Month Name"
-                }
-              }
-            ],
-            "isPinned": true
-          },
-          {
-            "queryRefs": [
-              "Warehouse_Master.WhsName"
-            ],
-            "isCollapsed": true,
             "isPinned": true
           },
           {
@@ -417,34 +391,33 @@
               "Item_Master.Brand"
             ],
             "isCollapsed": true
+          },
+          {
+            "queryRefs": [
+              "DateTable.Month Name"
+            ],
+            "isCollapsed": true,
+            "identityKeys": [
+              {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DateTable"
+                    }
+                  },
+                  "Property": "Month Name"
+                }
+              }
+            ]
+          },
+          {
+            "queryRefs": [
+              "Warehouse_Master.WhsName"
+            ],
+            "isCollapsed": true
           }
         ],
-        "root": {
-          "children": [
-            {
-              "identityValues": [
-                {
-                  "Literal": {
-                    "Value": "'2023-2024'"
-                  }
-                }
-              ],
-              "isToggled": true,
-              "children": [
-                {
-                  "identityValues": [
-                    {
-                      "Literal": {
-                        "Value": "'Sep'"
-                      }
-                    }
-                  ],
-                  "isToggled": true
-                }
-              ]
-            }
-          ]
-        }
+        "root": {}
       }
     ],
     "objects": {

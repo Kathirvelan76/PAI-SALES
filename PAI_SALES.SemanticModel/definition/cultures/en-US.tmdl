@@ -19672,7 +19672,7 @@ cultureInfo en-US
 			        }
 			      ]
 			    },
-			    "measure.gross_profit_previous_period": {
+			    "measure.GP_previous_period": {
 			      "Definition": {
 			        "Binding": {
 			          "ConceptualEntity": "Measure",
@@ -19682,108 +19682,98 @@ cultureInfo en-US
 			      "State": "Generated",
 			      "Terms": [
 			        {
-			          "gross profit previous period": {
+			          "GP previous period": {
 			            "State": "Generated"
 			          }
 			        },
 			        {
-			          "aggregate profit previous period": {
+			          "gp previous era": {
 			            "Type": "Noun",
 			            "State": "Suggested",
 			            "Source": {
 			              "Agent": "Thesaurus"
 			            },
-			            "Weight": 0.665
+			            "Weight": 0.482
 			          }
 			        },
 			        {
-			          "overall profit previous period": {
+			          "gp previous epoch": {
 			            "Type": "Noun",
 			            "State": "Suggested",
 			            "Source": {
 			              "Agent": "Thesaurus"
 			            },
-			            "Weight": 0.665
+			            "Weight": 0.482
 			          }
 			        },
 			        {
-			          "whole profit previous period": {
+			          "gp previous age": {
 			            "Type": "Noun",
 			            "State": "Suggested",
 			            "Source": {
 			              "Agent": "Thesaurus"
 			            },
-			            "Weight": 0.665
+			            "Weight": 0.468
 			          }
 			        },
 			        {
-			          "sum profit previous period": {
+			          "gp previous stage": {
 			            "Type": "Noun",
 			            "State": "Suggested",
 			            "Source": {
 			              "Agent": "Thesaurus"
 			            },
-			            "Weight": 0.599
+			            "Weight": 0.468
 			          }
 			        },
 			        {
-			          "total profit previous period": {
+			          "gp previous phase": {
 			            "Type": "Noun",
 			            "State": "Suggested",
 			            "Source": {
 			              "Agent": "Thesaurus"
 			            },
-			            "Weight": 0.599
+			            "Weight": 0.468
 			          }
 			        },
 			        {
-			          "gross profit previous era": {
+			          "gp previous episode": {
 			            "Type": "Noun",
 			            "State": "Suggested",
 			            "Source": {
 			              "Agent": "Thesaurus"
 			            },
-			            "Weight": 0.489
+			            "Weight": 0.458
 			          }
 			        },
 			        {
-			          "gross profit previous epoch": {
+			          "gp previous interlude": {
 			            "Type": "Noun",
 			            "State": "Suggested",
 			            "Source": {
 			              "Agent": "Thesaurus"
 			            },
-			            "Weight": 0.489
+			            "Weight": 0.458
 			          }
 			        },
 			        {
-			          "gross profit previous age": {
+			          "gp previous interval": {
 			            "Type": "Noun",
 			            "State": "Suggested",
 			            "Source": {
 			              "Agent": "Thesaurus"
 			            },
-			            "Weight": 0.474
+			            "Weight": 0.458
 			          }
 			        },
 			        {
-			          "gross profit previous stage": {
+			          "gp previous extent": {
 			            "Type": "Noun",
 			            "State": "Suggested",
 			            "Source": {
 			              "Agent": "Thesaurus"
 			            },
-			            "Weight": 0.474
-			          }
-			        },
-			        {
-			          "gross profit previous phase": {
-			            "Type": "Noun",
-			            "State": "Suggested",
-			            "Source": {
-			              "Agent": "Thesaurus"
-			            },
-			            "Weight": 0.474
+			            "Weight": 0.458
 			          }
 			        }
 			      ]
@@ -20480,7 +20470,7 @@ cultureInfo en-US
 			      "Definition": {
 			        "Binding": {
 			          "ConceptualEntity": "Measure",
-			          "ConceptualProperty": "Avg Basket Previous Period"
+			          "ConceptualProperty": "Avg Basket Value Previous Period"
 			        }
 			      },
 			      "State": "Generated",
@@ -43917,6 +43907,310 @@ cultureInfo en-US
 			          }
 			        }
 			      ]
+			    },
+			    "measure.DocEntry_total": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Measure",
+			          "ConceptualProperty": "DocEntry Total"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "DocEntry total": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "docentry aggregate": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.727
+			          }
+			        },
+			        {
+			          "docentry overall": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.727
+			          }
+			        }
+			      ]
+			    },
+			    "measure.DocEntry_previous_period": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Measure",
+			          "ConceptualProperty": "DocEntry Previous Period"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "DocEntry previous period": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "docentry previous era": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.482
+			          }
+			        },
+			        {
+			          "docentry previous epoch": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.482
+			          }
+			        },
+			        {
+			          "docentry previous age": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.468
+			          }
+			        },
+			        {
+			          "docentry previous stage": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.468
+			          }
+			        },
+			        {
+			          "docentry previous phase": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.468
+			          }
+			        },
+			        {
+			          "docentry previous episode": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.458
+			          }
+			        },
+			        {
+			          "docentry previous interlude": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.458
+			          }
+			        },
+			        {
+			          "docentry previous interval": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.458
+			          }
+			        },
+			        {
+			          "docentry previous extent": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.458
+			          }
+			        }
+			      ]
+			    },
+			    "measure.color_DocEntry_previous_period": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Measure",
+			          "ConceptualProperty": "Color DocEntry Previous Period"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "color DocEntry previous period": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "color docentry previous era": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.489
+			          }
+			        },
+			        {
+			          "color docentry previous epoch": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.489
+			          }
+			        },
+			        {
+			          "color docentry previous age": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.474
+			          }
+			        },
+			        {
+			          "color docentry previous stage": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.474
+			          }
+			        },
+			        {
+			          "color docentry previous phase": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.474
+			          }
+			        },
+			        {
+			          "color docentry previous episode": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.464
+			          }
+			        },
+			        {
+			          "color docentry previous interlude": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.464
+			          }
+			        },
+			        {
+			          "color docentry previous interval": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.464
+			          }
+			        },
+			        {
+			          "color docentry previous extent": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.464
+			          }
+			        },
+			        {
+			          "color docentry previous cycle": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.45
+			          }
+			        }
+			      ]
+			    },
+			    "measure.use_DocEntry_total": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Measure",
+			          "ConceptualProperty": "Use DocEntry Total"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "use DocEntry total": {
+			            "State": "Generated"
+			          }
+			        },
+			        {
+			          "use docentry aggregate": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.739
+			          }
+			        },
+			        {
+			          "use docentry overall": {
+			            "Type": "Noun",
+			            "State": "Suggested",
+			            "Source": {
+			              "Agent": "Thesaurus"
+			            },
+			            "Weight": 0.739
+			          }
+			        },
+			        {
+			          "Total Invoices": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
 			    }
 			  },
 			  "Relationships": {
@@ -47444,6 +47738,270 @@ cultureInfo en-US
 			          }
 			        }
 			      }
+			    },
+			    "measure_has_use_DocEntry_total": {
+			      "Binding": {
+			        "ConceptualEntity": "Measure"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "measure": {
+			          "Target": {
+			            "Entity": "measure"
+			          }
+			        },
+			        "measure.use_DocEntry_total": {
+			          "Target": {
+			            "Entity": "measure.use_DocEntry_total"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "measure"
+			            },
+			            "Object": {
+			              "Role": "measure.use_DocEntry_total"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "measures_have_use_DocEntry_total"
+			        }
+			      ]
+			    },
+			    "final_fact_has_measure_use_DocEntry_total": {
+			      "Binding": {
+			        "ConceptualEntity": "Final_Fact"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "final_fact": {
+			          "Target": {
+			            "Entity": "final_fact"
+			          }
+			        },
+			        "measure.use_DocEntry_total": {
+			          "Target": {
+			            "Entity": "measure.use_DocEntry_total"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "final_fact"
+			            },
+			            "Object": {
+			              "Role": "measure.use_DocEntry_total"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "final_facts_have_use_DocEntry_total"
+			        }
+			      ]
+			    },
+			    "final_fact_has_measure_color_DocEntry_previous_period": {
+			      "Binding": {
+			        "ConceptualEntity": "Final_Fact"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "final_fact": {
+			          "Target": {
+			            "Entity": "final_fact"
+			          }
+			        },
+			        "measure.color_DocEntry_previous_period": {
+			          "Target": {
+			            "Entity": "measure.color_DocEntry_previous_period"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "final_fact"
+			            },
+			            "Object": {
+			              "Role": "measure.color_DocEntry_previous_period"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "final_facts_have_color_DocEntry_previous_period"
+			        }
+			      ]
+			    },
+			    "date_table_has_measure_color_DocEntry_previous_period": {
+			      "Binding": {
+			        "ConceptualEntity": "DateTable"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "date_table": {
+			          "Target": {
+			            "Entity": "date_table"
+			          }
+			        },
+			        "measure.color_DocEntry_previous_period": {
+			          "Target": {
+			            "Entity": "measure.color_DocEntry_previous_period"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "date_table"
+			            },
+			            "Object": {
+			              "Role": "measure.color_DocEntry_previous_period"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "date_tables_have_color_DocEntry_previous_period"
+			        }
+			      ]
+			    },
+			    "measure_has_DocEntry_previous_period": {
+			      "Binding": {
+			        "ConceptualEntity": "Measure"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "measure": {
+			          "Target": {
+			            "Entity": "measure"
+			          }
+			        },
+			        "measure.DocEntry_previous_period": {
+			          "Target": {
+			            "Entity": "measure.DocEntry_previous_period"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "measure"
+			            },
+			            "Object": {
+			              "Role": "measure.DocEntry_previous_period"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "measures_have_DocEntry_previous_period"
+			        }
+			      ]
+			    },
+			    "final_fact_has_measure_DocEntry_previous_period": {
+			      "Binding": {
+			        "ConceptualEntity": "Final_Fact"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "final_fact": {
+			          "Target": {
+			            "Entity": "final_fact"
+			          }
+			        },
+			        "measure.DocEntry_previous_period": {
+			          "Target": {
+			            "Entity": "measure.DocEntry_previous_period"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "final_fact"
+			            },
+			            "Object": {
+			              "Role": "measure.DocEntry_previous_period"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "final_facts_have_DocEntry_previous_period"
+			        }
+			      ]
+			    },
+			    "date_table_has_measure_DocEntry_previous_period": {
+			      "Binding": {
+			        "ConceptualEntity": "DateTable"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "date_table": {
+			          "Target": {
+			            "Entity": "date_table"
+			          }
+			        },
+			        "measure.DocEntry_previous_period": {
+			          "Target": {
+			            "Entity": "measure.DocEntry_previous_period"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "date_table"
+			            },
+			            "Object": {
+			              "Role": "measure.DocEntry_previous_period"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "date_tables_have_DocEntry_previous_period"
+			        }
+			      ]
+			    },
+			    "final_fact_has_measure_DocEntry_total": {
+			      "Binding": {
+			        "ConceptualEntity": "Final_Fact"
+			      },
+			      "State": "Generated",
+			      "Roles": {
+			        "final_fact": {
+			          "Target": {
+			            "Entity": "final_fact"
+			          }
+			        },
+			        "measure.DocEntry_total": {
+			          "Target": {
+			            "Entity": "measure.DocEntry_total"
+			          }
+			        }
+			      },
+			      "Phrasings": [
+			        {
+			          "Attribute": {
+			            "Subject": {
+			              "Role": "final_fact"
+			            },
+			            "Object": {
+			              "Role": "measure.DocEntry_total"
+			            }
+			          },
+			          "State": "Generated",
+			          "Weight": 0.99,
+			          "ID": "final_facts_have_DocEntry_total"
+			        }
+			      ]
 			    },
 			    "final_fact_has_measure_items_count_doc": {
 			      "Binding": {
@@ -57860,39 +58418,6 @@ cultureInfo en-US
 			        }
 			      ]
 			    },
-			    "measure_has_color_gross_profit_previous_period": {
-			      "Binding": {
-			        "ConceptualEntity": "Measure"
-			      },
-			      "State": "Generated",
-			      "Roles": {
-			        "measure": {
-			          "Target": {
-			            "Entity": "measure"
-			          }
-			        },
-			        "measure.color_gross_profit_previous_period": {
-			          "Target": {
-			            "Entity": "measure.color_gross_profit_previous_period"
-			          }
-			        }
-			      },
-			      "Phrasings": [
-			        {
-			          "Attribute": {
-			            "Subject": {
-			              "Role": "measure"
-			            },
-			            "Object": {
-			              "Role": "measure.color_gross_profit_previous_period"
-			            }
-			          },
-			          "State": "Generated",
-			          "Weight": 0.99,
-			          "ID": "measures_have_color_gross_profit_previous_period"
-			        }
-			      ]
-			    },
 			    "final_fact_has_measure_color_gross_profit_previous_period": {
 			      "Binding": {
 			        "ConceptualEntity": "Final_Fact"
@@ -57959,7 +58484,7 @@ cultureInfo en-US
 			        }
 			      ]
 			    },
-			    "measure_has_gross_profit_previous_period": {
+			    "measure_has_GP_previous_period": {
 			      "Binding": {
 			        "ConceptualEntity": "Measure"
 			      },
@@ -57970,9 +58495,9 @@ cultureInfo en-US
 			            "Entity": "measure"
 			          }
 			        },
-			        "measure.gross_profit_previous_period": {
+			        "measure.GP_previous_period": {
 			          "Target": {
-			            "Entity": "measure.gross_profit_previous_period"
+			            "Entity": "measure.GP_previous_period"
 			          }
 			        }
 			      },
@@ -57983,16 +58508,16 @@ cultureInfo en-US
 			              "Role": "measure"
 			            },
 			            "Object": {
-			              "Role": "measure.gross_profit_previous_period"
+			              "Role": "measure.GP_previous_period"
 			            }
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "measures_have_gross_profit_previous_period"
+			          "ID": "measures_have_GP_previous_period"
 			        }
 			      ]
 			    },
-			    "final_fact_has_measure_gross_profit_previous_period": {
+			    "final_fact_has_measure_GP_previous_period": {
 			      "Binding": {
 			        "ConceptualEntity": "Final_Fact"
 			      },
@@ -58003,9 +58528,9 @@ cultureInfo en-US
 			            "Entity": "final_fact"
 			          }
 			        },
-			        "measure.gross_profit_previous_period": {
+			        "measure.GP_previous_period": {
 			          "Target": {
-			            "Entity": "measure.gross_profit_previous_period"
+			            "Entity": "measure.GP_previous_period"
 			          }
 			        }
 			      },
@@ -58016,16 +58541,16 @@ cultureInfo en-US
 			              "Role": "final_fact"
 			            },
 			            "Object": {
-			              "Role": "measure.gross_profit_previous_period"
+			              "Role": "measure.GP_previous_period"
 			            }
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "final_facts_have_gross_profit_previous_period"
+			          "ID": "final_facts_have_GP_previous_period"
 			        }
 			      ]
 			    },
-			    "date_table_has_measure_gross_profit_previous_period": {
+			    "date_table_has_measure_GP_previous_period": {
 			      "Binding": {
 			        "ConceptualEntity": "DateTable"
 			      },
@@ -58036,9 +58561,9 @@ cultureInfo en-US
 			            "Entity": "date_table"
 			          }
 			        },
-			        "measure.gross_profit_previous_period": {
+			        "measure.GP_previous_period": {
 			          "Target": {
-			            "Entity": "measure.gross_profit_previous_period"
+			            "Entity": "measure.GP_previous_period"
 			          }
 			        }
 			      },
@@ -58049,12 +58574,12 @@ cultureInfo en-US
 			              "Role": "date_table"
 			            },
 			            "Object": {
-			              "Role": "measure.gross_profit_previous_period"
+			              "Role": "measure.GP_previous_period"
 			            }
 			          },
 			          "State": "Generated",
 			          "Weight": 0.99,
-			          "ID": "date_tables_have_gross_profit_previous_period"
+			          "ID": "date_tables_have_GP_previous_period"
 			        }
 			      ]
 			    },

@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.6.0/schema.json",
-  "name": "6b36832b4d4218e5c373",
+  "name": "c01b9364cdf78e337151",
   "position": {
     "x": 0,
-    "y": 336.47302904564316,
-    "z": 3000,
-    "height": 169.33609958506224,
+    "y": 749.91701244813271,
+    "z": 7001,
+    "height": 171.53526970954357,
     "width": 358.46473029045643,
-    "tabOrder": 3000
+    "tabOrder": 7001
   },
   "visual": {
     "visualType": "cardVisual",
@@ -23,12 +23,11 @@
                       "Entity": "Measure"
                     }
                   },
-                  "Property": "Use Customers Total"
+                  "Property": "Use Avg Basket Total"
                 }
               },
-              "queryRef": "Measure.Use Customers Total",
-              "nativeQueryRef": "Total Customers",
-              "displayName": "Total Customers"
+              "queryRef": "Measure.Use Avg Basket Total",
+              "nativeQueryRef": "Use Avg Basket Total"
             }
           ]
         }
@@ -177,34 +176,6 @@
           "selector": {
             "id": "default"
           }
-        },
-        {
-          "properties": {
-            "value": {
-              "expr": {
-                "Measure": {
-                  "Expression": {
-                    "SourceRef": {
-                      "Entity": "Measure"
-                    }
-                  },
-                  "Property": "Customers Previous Period"
-                }
-              }
-            }
-          },
-          "selector": {
-            "data": [
-              {
-                "dataViewWildcard": {
-                  "matchingOption": 0
-                }
-              }
-            ],
-            "metadata": "Measure.Use Customers Total",
-            "id": "field-73c76d8e-0982-e8f5-a9f3-66e12a1e23d3",
-            "order": 0
-          }
         }
       ],
       "referenceLabelLayout": [
@@ -236,68 +207,6 @@
           },
           "selector": {
             "id": "default"
-          }
-        }
-      ],
-      "referenceLabelTitle": [
-        {
-          "properties": {
-            "show": {
-              "expr": {
-                "Literal": {
-                  "Value": "false"
-                }
-              }
-            }
-          },
-          "selector": {
-            "metadata": "Measure.Use Customers Total"
-          }
-        }
-      ],
-      "referenceLabelValue": [
-        {
-          "properties": {
-            "valueFontSize": {
-              "expr": {
-                "Literal": {
-                  "Value": "13D"
-                }
-              }
-            }
-          },
-          "selector": {
-            "metadata": "Measure.Use Customers Total"
-          }
-        },
-        {
-          "properties": {
-            "valueFontColor": {
-              "solid": {
-                "color": {
-                  "expr": {
-                    "Measure": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Measure"
-                        }
-                      },
-                      "Property": "Color Customers Previous Period"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "selector": {
-            "data": [
-              {
-                "dataViewWildcard": {
-                  "matchingOption": 0
-                }
-              }
-            ],
-            "metadata": "Measure.Use Customers Total"
           }
         }
       ]

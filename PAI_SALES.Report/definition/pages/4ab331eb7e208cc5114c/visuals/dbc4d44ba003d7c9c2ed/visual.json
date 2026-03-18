@@ -3,10 +3,10 @@
   "name": "dbc4d44ba003d7c9c2ed",
   "position": {
     "x": 0,
-    "y": 61.196850393700785,
+    "y": 162.73858921161826,
     "z": 2000,
-    "height": 173.39107611548556,
-    "width": 341.68241469816275,
+    "height": 173.7344398340249,
+    "width": 358.46473029045643,
     "tabOrder": 2000
   },
   "visual": {
@@ -27,7 +27,8 @@
                 }
               },
               "queryRef": "Measure.Use Profit Total",
-              "nativeQueryRef": "Use Profit Total"
+              "nativeQueryRef": "Gross Profit",
+              "displayName": "Gross Profit"
             }
           ]
         }
@@ -268,6 +269,36 @@
           "selector": {
             "metadata": "Measure.Use Profit Total"
           }
+        },
+        {
+          "properties": {
+            "valueFontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Measure"
+                        }
+                      },
+                      "Property": "Color Gross Profit Previous Period"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 0
+                }
+              }
+            ],
+            "metadata": "Measure.Use Profit Total"
+          }
         }
       ]
     },
@@ -287,23 +318,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "39115ab23655e0c200b0",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Measure"
-              }
-            },
-            "Property": "Use Profit Total"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

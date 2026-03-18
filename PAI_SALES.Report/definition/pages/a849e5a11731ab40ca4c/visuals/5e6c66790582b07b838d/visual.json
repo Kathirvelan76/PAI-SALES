@@ -66,23 +66,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "84a08617dedc35e8d0e8",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Measure"
-              }
-            },
-            "Property": "Use Profit Total"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

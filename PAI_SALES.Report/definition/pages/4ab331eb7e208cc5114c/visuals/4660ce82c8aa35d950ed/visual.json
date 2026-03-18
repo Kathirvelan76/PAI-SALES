@@ -3,11 +3,11 @@
   "name": "4660ce82c8aa35d950ed",
   "position": {
     "x": 0,
-    "y": 405.42913385826773,
-    "z": 3001,
-    "height": 170.84120734908137,
-    "width": 341.68241469816275,
-    "tabOrder": 3001
+    "y": 547.59336099585062,
+    "z": 4000,
+    "height": 171.53526970954357,
+    "width": 358.46473029045643,
+    "tabOrder": 4000
   },
   "visual": {
     "visualType": "cardVisual",
@@ -17,47 +17,23 @@
           "projections": [
             {
               "field": {
-                "Aggregation": {
+                "Measure": {
                   "Expression": {
-                    "Column": {
-                      "Expression": {
-                        "SourceRef": {
-                          "Entity": "Final_Fact"
-                        }
-                      },
-                      "Property": "DocEntry"
+                    "SourceRef": {
+                      "Entity": "Measure"
                     }
                   },
-                  "Function": 2
+                  "Property": "Use DocEntry Total"
                 }
               },
-              "queryRef": "Sum(Final_Fact.DocEntry)",
-              "nativeQueryRef": "Count of DocEntry"
+              "queryRef": "Measure.Use DocEntry Total",
+              "nativeQueryRef": "Total Invoices",
+              "displayName": "Total Invoices"
             }
           ]
         }
       },
       "sortDefinition": {
-        "sort": [
-          {
-            "field": {
-              "Aggregation": {
-                "Expression": {
-                  "Column": {
-                    "Expression": {
-                      "SourceRef": {
-                        "Entity": "Final_Fact"
-                      }
-                    },
-                    "Property": "DocEntry"
-                  }
-                },
-                "Function": 2
-              }
-            },
-            "direction": "Descending"
-          }
-        ],
         "isDefaultSort": true
       }
     },
@@ -178,20 +154,6 @@
           "selector": {
             "id": "default"
           }
-        },
-        {
-          "properties": {
-            "labelDisplayUnits": {
-              "expr": {
-                "Literal": {
-                  "Value": "1D"
-                }
-              }
-            }
-          },
-          "selector": {
-            "metadata": "Sum(Final_Fact.DocEntry)"
-          }
         }
       ],
       "referenceLabel": [
@@ -214,6 +176,34 @@
           },
           "selector": {
             "id": "default"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure"
+                    }
+                  },
+                  "Property": "DocEntry Previous Period"
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 0
+                }
+              }
+            ],
+            "metadata": "Measure.Use DocEntry Total",
+            "id": "field-09b5956f-537c-7b43-9a97-9930b59d859e",
+            "order": 0
           }
         }
       ],
@@ -248,6 +238,68 @@
             "id": "default"
           }
         }
+      ],
+      "referenceLabelTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Measure.Use DocEntry Total"
+          }
+        }
+      ],
+      "referenceLabelValue": [
+        {
+          "properties": {
+            "valueFontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "13D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Measure.Use DocEntry Total"
+          }
+        },
+        {
+          "properties": {
+            "valueFontColor": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "Measure"
+                        }
+                      },
+                      "Property": "Color DocEntry Previous Period"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "selector": {
+            "data": [
+              {
+                "dataViewWildcard": {
+                  "matchingOption": 0
+                }
+              }
+            ],
+            "metadata": "Measure.Use DocEntry Total"
+          }
+        }
       ]
     },
     "visualContainerObjects": {
@@ -266,28 +318,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "993956518d0e0dbe7a3f",
-        "field": {
-          "Aggregation": {
-            "Expression": {
-              "Column": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "Final_Fact"
-                  }
-                },
-                "Property": "DocEntry"
-              }
-            },
-            "Function": 2
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

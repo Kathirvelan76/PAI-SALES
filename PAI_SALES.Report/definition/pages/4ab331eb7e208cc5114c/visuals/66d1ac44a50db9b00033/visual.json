@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.6.0/schema.json",
   "name": "66d1ac44a50db9b00033",
   "position": {
-    "x": 1002.0984251968504,
-    "y": 665.51574803149606,
-    "z": 3002,
-    "height": 79.045931758530187,
-    "width": 219.28871391076115,
-    "tabOrder": 3002
+    "x": 1644.9792531120331,
+    "y": 39.5850622406639,
+    "z": 5000,
+    "height": 79.1701244813278,
+    "width": 217.71784232365144,
+    "tabOrder": 5000
   },
   "visual": {
     "visualType": "slicer",
@@ -56,6 +56,47 @@
                 "Literal": {
                   "Value": "true"
                 }
+              }
+            },
+            "filter": {
+              "filter": {
+                "Version": 2,
+                "From": [
+                  {
+                    "Name": "d",
+                    "Entity": "DateTable",
+                    "Type": 0
+                  }
+                ],
+                "Where": [
+                  {
+                    "Condition": {
+                      "In": {
+                        "Expressions": [
+                          {
+                            "Column": {
+                              "Expression": {
+                                "SourceRef": {
+                                  "Source": "d"
+                                }
+                              },
+                              "Property": "Financial Year"
+                            }
+                          }
+                        ],
+                        "Values": [
+                          [
+                            {
+                              "Literal": {
+                                "Value": "'2025-2026'"
+                              }
+                            }
+                          ]
+                        ]
+                      }
+                    }
+                  }
+                ]
               }
             }
           }
@@ -141,23 +182,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "cc3d7213560c0ca090bc",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "DateTable"
-              }
-            },
-            "Property": "Financial Year"
-          }
-        },
-        "type": "Categorical"
-      }
-    ]
   }
 }

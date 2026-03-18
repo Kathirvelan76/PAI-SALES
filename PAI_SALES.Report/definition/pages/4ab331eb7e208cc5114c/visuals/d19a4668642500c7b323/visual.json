@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.6.0/schema.json",
   "name": "d19a4668642500c7b323",
   "position": {
-    "x": 367.18110236220474,
-    "y": 61.196850393700785,
+    "x": 393.65145228215766,
+    "y": 162.73858921161826,
     "z": 1000,
-    "height": 425.82808398950129,
-    "width": 721.61286089238843,
+    "height": 424.43983402489624,
+    "width": 721.32780082987551,
     "tabOrder": 1000
   },
   "visual": {
@@ -444,121 +444,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "e3bf8ab2923e5c7dc18a",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Measure"
-              }
-            },
-            "Property": "Sales Chart"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "fd3b7341568cc1a72685",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Final_Fact"
-              }
-            },
-            "Property": "Item Count Chart"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "f90213e7d7500a9a0530",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Item_Master"
-              }
-            },
-            "Property": "Property"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "be738b7bb9e05e420ece",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Item_Master"
-              }
-            },
-            "Property": "SubCategory"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "02c8cbbb5c100527403b",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Item_Master"
-              }
-            },
-            "Property": "Brand"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "de4bbee60726d1cd06e5",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Item_Master"
-              }
-            },
-            "Property": "Colour"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "a36032110604d80700cd",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Item_Master"
-              }
-            },
-            "Property": "Size"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "3ce1ade63476833b621c",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Item_Master"
-              }
-            },
-            "Property": "ItemCode"
-          }
-        },
-        "type": "Categorical"
-      }
-    ]
   }
 }

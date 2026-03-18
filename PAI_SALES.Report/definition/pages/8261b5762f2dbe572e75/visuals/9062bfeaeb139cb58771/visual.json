@@ -208,7 +208,7 @@
                       "Entity": "Measure"
                     }
                   },
-                  "Property": "Avg Basket Previous Period"
+                  "Property": "Avg Basket Value Previous Period"
                 }
               }
             }

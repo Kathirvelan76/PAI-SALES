@@ -4,10 +4,10 @@
   "position": {
     "x": 67.191601049868765,
     "y": 94.068241469816272,
-    "z": 2,
+    "z": 2000,
     "height": 300.68241469816275,
     "width": 478.74015748031496,
-    "tabOrder": 2
+    "tabOrder": 2000
   },
   "visual": {
     "visualType": "cardVisual",
@@ -62,28 +62,5 @@
       }
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "aeb877320851a06b7a94",
-        "field": {
-          "Aggregation": {
-            "Expression": {
-              "Column": {
-                "Expression": {
-                  "SourceRef": {
-                    "Entity": "Final_Fact"
-                  }
-                },
-                "Property": "DocDate"
-              }
-            },
-            "Function": 4
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

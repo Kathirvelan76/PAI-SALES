@@ -4,10 +4,10 @@
   "position": {
     "x": 801.259842519685,
     "y": 337.63779527559052,
-    "z": 1,
+    "z": 1000,
     "height": 78.9501312335958,
     "width": 220.0524934383202,
-    "tabOrder": 1
+    "tabOrder": 1000
   },
   "visual": {
     "visualType": "slicer",
@@ -141,23 +141,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "a739fc25ec660c57e2e4",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "DateTable"
-              }
-            },
-            "Property": "Financial Year"
-          }
-        },
-        "type": "Categorical"
-      }
-    ]
   }
 }

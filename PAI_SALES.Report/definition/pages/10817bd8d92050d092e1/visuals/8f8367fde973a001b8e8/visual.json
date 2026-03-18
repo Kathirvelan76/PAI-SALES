@@ -318,23 +318,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "cfdfbfd46148d101101d",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Measure"
-              }
-            },
-            "Property": "Use PSP Avg"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }
