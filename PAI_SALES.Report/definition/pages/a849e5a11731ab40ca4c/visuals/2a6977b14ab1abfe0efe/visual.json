@@ -1,13 +1,13 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.6.0/schema.json",
-  "name": "5dbd991e0060827e0708",
+  "name": "2a6977b14ab1abfe0efe",
   "position": {
-    "x": 67.191601049868765,
-    "y": 94.068241469816272,
-    "z": 2,
+    "x": 340.997375328084,
+    "y": 419.9475065616798,
+    "z": 3,
     "height": 300.68241469816275,
     "width": 478.74015748031496,
-    "tabOrder": 2
+    "tabOrder": 3
   },
   "visual": {
     "visualType": "cardVisual",
@@ -28,11 +28,11 @@
                       "Property": "DocDate"
                     }
                   },
-                  "Function": 4
+                  "Function": 3
                 }
               },
               "queryRef": "Min(Final_Fact.DocDate)",
-              "nativeQueryRef": "Latest DocDate"
+              "nativeQueryRef": "Earliest DocDate"
             }
           ]
         }
@@ -52,7 +52,7 @@
                     "Property": "DocDate"
                   }
                 },
-                "Function": 4
+                "Function": 3
               }
             },
             "direction": "Ascending"
@@ -66,7 +66,7 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "aeb877320851a06b7a94",
+        "name": "2d138975bc6b94b32fa1",
         "field": {
           "Aggregation": {
             "Expression": {
@@ -79,7 +79,7 @@
                 "Property": "DocDate"
               }
             },
-            "Function": 4
+            "Function": 3
           }
         },
         "type": "Advanced"
