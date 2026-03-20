@@ -644,48 +644,6 @@
           ]
         },
         "howCreated": "User"
-      },
-      {
-        "name": "2bd0a4439175e7179328",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Cust_Vend_Master"
-              }
-            },
-            "Property": "CardCode"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "8f0e9c4ebafa5822186c",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Cust_Vend_Master"
-              }
-            },
-            "Property": "CardName"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "de37db9119e4c74ace8b",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Warehouse_Master"
-              }
-            },
-            "Property": "WhsName"
-          }
-        },
-        "type": "Categorical"
       }
     ]
   }

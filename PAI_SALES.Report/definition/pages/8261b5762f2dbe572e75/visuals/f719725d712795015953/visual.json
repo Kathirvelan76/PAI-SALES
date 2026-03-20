@@ -27,8 +27,9 @@
                 }
               },
               "queryRef": "Final_Fact.SalesType",
-              "nativeQueryRef": "SalesType",
-              "active": true
+              "nativeQueryRef": "Sales Type",
+              "active": true,
+              "displayName": "Sales Type"
             }
           ]
         }

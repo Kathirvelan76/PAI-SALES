@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.6.0/schema.json",
   "name": "c01b9364cdf78e337151",
   "position": {
-    "x": 0,
-    "y": 749.91701244813271,
-    "z": 7001,
-    "height": 171.53526970954357,
-    "width": 358.46473029045643,
-    "tabOrder": 7001
+    "x": 54.08163265306122,
+    "y": 798.24489795918362,
+    "z": 4000,
+    "height": 170.89795918367346,
+    "width": 359.10204081632651,
+    "tabOrder": 4000
   },
   "visual": {
     "visualType": "cardVisual",
@@ -27,7 +27,8 @@
                 }
               },
               "queryRef": "Measure.Use Avg Basket Total",
-              "nativeQueryRef": "Use Avg Basket Total"
+              "nativeQueryRef": "Avg Basket Value",
+              "displayName": "Avg Basket Value"
             }
           ]
         }

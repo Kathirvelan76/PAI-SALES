@@ -27,8 +27,8 @@
                 }
               },
               "queryRef": "Measure.% SP Profit",
-              "nativeQueryRef": "SP Profit %",
-              "displayName": "SP Profit %"
+              "nativeQueryRef": "PAI SP Profit %",
+              "displayName": "PAI SP Profit %"
             }
           ]
         }

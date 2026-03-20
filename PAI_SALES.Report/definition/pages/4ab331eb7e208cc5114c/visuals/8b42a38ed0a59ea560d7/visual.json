@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.6.0/schema.json",
   "name": "8b42a38ed0a59ea560d7",
   "position": {
-    "x": 1129.5918635170603,
-    "y": 581.37007874015751,
-    "z": 7003,
-    "height": 430.92782152230973,
-    "width": 795.55905511811022,
-    "tabOrder": 7003
+    "x": 822.0408163265306,
+    "y": 562.44897959183675,
+    "z": 6000,
+    "height": 424,
+    "width": 770.12244897959181,
+    "tabOrder": 6000
   },
   "visual": {
     "visualType": "tableEx",
@@ -482,7 +482,7 @@
             "value": {
               "expr": {
                 "Literal": {
-                  "Value": "157.16422830644927D"
+                  "Value": "147.9304380229324D"
                 }
               }
             }
@@ -496,7 +496,7 @@
             "value": {
               "expr": {
                 "Literal": {
-                  "Value": "199.74934563960866D"
+                  "Value": "208.57666811818098D"
                 }
               }
             }
@@ -510,7 +510,7 @@
             "value": {
               "expr": {
                 "Literal": {
-                  "Value": "186.29921692690226D"
+                  "Value": "173.91462277711597D"
                 }
               }
             }
@@ -524,13 +524,27 @@
             "value": {
               "expr": {
                 "Literal": {
-                  "Value": "225.74934678536565D"
+                  "Value": "216.96424640523415D"
                 }
               }
             }
           },
           "selector": {
             "metadata": "Measure.Table Avg Basket Total"
+          }
+        },
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "269.1908758704192D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "Item_Master.Head_Category"
           }
         }
       ],
@@ -694,65 +708,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "2d3c1865691184ee669e",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Measure"
-              }
-            },
-            "Property": "Use Sales Total"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "91bbce4b4cc9499b654a",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Measure"
-              }
-            },
-            "Property": "DocEntry Total"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "5a7252af4d4c7b39adfd",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Measure"
-              }
-            },
-            "Property": "Table Avg Basket Total"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "1c80e3f1fdb2329e9d36",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Final_Fact"
-              }
-            },
-            "Property": "Item Count"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

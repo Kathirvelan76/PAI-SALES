@@ -4,7 +4,7 @@
   "displayName": "INVOICE ANALYSIS",
   "displayOption": "FitToPage",
   "height": 1060,
-  "width": 1943,
+  "width": 1617,
   "objects": {
     "displayArea": [
       {
@@ -18,9 +18,48 @@
           }
         }
       }
+    ],
+    "background": [
+      {
+        "properties": {
+          "image": {
+            "image": {
+              "name": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'Frame 57.png'"
+                  }
+                }
+              },
+              "url": {
+                "expr": {
+                  "ResourcePackageItem": {
+                    "PackageName": "RegisteredResources",
+                    "PackageType": 1,
+                    "ItemName": "Frame_577283108097347285.png"
+                  }
+                }
+              },
+              "scaling": {
+                "expr": {
+                  "Literal": {
+                    "Value": "'Fill'"
+                  }
+                }
+              }
+            }
+          },
+          "transparency": {
+            "expr": {
+              "Literal": {
+                "Value": "0D"
+              }
+            }
+          }
+        }
+      }
     ]
   },
-  "visibility": "HiddenInViewMode",
   "visualInteractions": [
     {
       "source": "e9ff08630a5e635e2d6e",

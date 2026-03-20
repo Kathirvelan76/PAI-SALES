@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.6.0/schema.json",
   "name": "e9ff08630a5e635e2d6e",
   "position": {
-    "x": 1137.2414698162729,
-    "y": 124.94356955380577,
+    "x": 822.0408163265306,
+    "y": 125,
     "z": 0,
-    "height": 423.27821522309711,
-    "width": 785.35958005249347,
+    "height": 392,
+    "width": 767.9591836734694,
     "tabOrder": 0
   },
   "visual": {
@@ -434,107 +434,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "5ce700799c499ddf0aab",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Final_Fact"
-              }
-            },
-            "Property": "DocTotal Range"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "6dce28ce17503d3d10f2",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Item_Master"
-              }
-            },
-            "Property": "Property"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "64c26a348fae2b596085",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Item_Master"
-              }
-            },
-            "Property": "SubCategory"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "74f7e3d8caf361e55001",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Item_Master"
-              }
-            },
-            "Property": "Brand"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "5ee1f27180edff9e7faa",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Item_Master"
-              }
-            },
-            "Property": "Size"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "25ac90be3650caba83ca",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Item_Master"
-              }
-            },
-            "Property": "Colour"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "d1a09e343efa4a82403d",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Measure"
-              }
-            },
-            "Property": "Sales Chart"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

@@ -4030,7 +4030,7 @@ table Measure
 			    ALLEXCEPT(Final_Fact, Final_Fact[DocEntry])
 			)
 		formatString: 0
-		displayFolder: Extras
+		displayFolder: DocEntry
 		lineageTag: 6c313d95-d7d2-4590-91d6-2a14d6e00983
 
 	measure 'DocEntry Total' = DISTINCTCOUNT(Final_Fact[DocEntry])
@@ -4233,10 +4233,10 @@ table Measure
 			RETURN
 			    SWITCH(
 			        TRUE(),
-			        SelectedUnit = "Lakhs (L)", FORMAT(DIVIDE([DocEntry Total], 100000), "0.00") & " L",
-			        SelectedUnit = "Thousands (K)", FORMAT(DIVIDE([DocEntry Total], 1000), "0.00") & " K",
-			        SelectedUnit = "Numbers (N)", FORMAT (DIVIDE ( [DocEntry Total], 1 ), "0.00" ),
-			        FORMAT(DIVIDE([DocEntry Total], 100000), "0.00") & " L" 
+			        SelectedUnit = "Lakhs (L)", FORMAT(DIVIDE([DocEntry Total], 100000), "0.0") & " L",
+			        SelectedUnit = "Thousands (K)", FORMAT(DIVIDE([DocEntry Total], 1000), "0.0") & " K",
+			        SelectedUnit = "Numbers (N)", FORMAT (DIVIDE ( [DocEntry Total], 1 ), "0.0" ),
+			        FORMAT(DIVIDE([DocEntry Total], 100000), "0.0") & " L" 
 			    )
 			
 			```
@@ -4272,6 +4272,186 @@ table Measure
 			```
 		displayFolder: Avg Basket
 		lineageTag: 38e0a235-a0bc-4d52-aa5a-bd55fedc0439
+
+	measure 'Single Item Invoice Count' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(Final_Fact[DocEntry]),
+			    Final_Fact[Item Count] = 1
+			)
+		formatString: 0
+		displayFolder: DocEntry
+		lineageTag: b74de671-9da0-4493-9f66-2df16fe7275a
+
+	measure '% Single Item' =
+			
+			DIVIDE([Single Item Invoice Count], [DocEntry Total])
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: DocEntry
+		lineageTag: ba9953fa-3228-4cc3-9afa-0920c39eeaa9
+
+	measure '% Single Previous Period' =
+			
+			
+			VAR _HasYear  = HASONEVALUE('DateTable'[Financial Year])
+			VAR _HasMonth = HASONEVALUE('DateTable'[Month No])
+			
+			VAR _SelFY =
+			    SELECTEDVALUE('DateTable'[Financial Year])
+			
+			VAR _SelYear =
+			    VALUE(LEFT(_SelFY,4))
+			
+			VAR _SelMonth =
+			    SELECTEDVALUE('DateTable'[Month No])
+			
+			------------------------------------------------
+			-- Current Value
+			------------------------------------------------
+			
+			VAR _CurrValue =
+			    [% Single Item]
+			
+			------------------------------------------------
+			-- Year Comparison
+			------------------------------------------------
+			
+			VAR _PrevYear_Value =
+			    CALCULATE(
+			        [% Single Item],
+			        REMOVEFILTERS('DateTable'[Financial Year], 'DateTable'[Month No]),
+			        'DateTable'[FY Start Year] = _SelYear - 1
+			    )
+			
+			VAR _CurrYear_Value =
+			    CALCULATE(
+			        [% Single Item],
+			        'DateTable'[FY Start Year] = _SelYear
+			    )
+			
+			------------------------------------------------
+			-- Month Comparison
+			------------------------------------------------
+			
+			VAR _PrevMonth =
+			    IF(_SelMonth = 1, 12, _SelMonth - 1)
+			
+			VAR _PrevMonth_Year =
+			    IF(_SelMonth = 1, _SelYear - 1, _SelYear)
+			
+			VAR _PrevMonth_Value =
+			    CALCULATE(
+			        [% Single Item],
+			        REMOVEFILTERS('DateTable'[Financial Year], 'DateTable'[Month No]),
+			        'DateTable'[FY Start Year] = _PrevMonth_Year,
+			        'DateTable'[Month No] = _PrevMonth
+			    )
+			
+			VAR _CurrMonth_Value =
+			    _CurrValue
+			
+			------------------------------------------------
+			-- Differences
+			------------------------------------------------
+			
+			VAR _Diff_Year  = _CurrYear_Value  - _PrevYear_Value
+			VAR _Diff_Month = _CurrMonth_Value - _PrevMonth_Value
+			
+			VAR _Arrow_Year  = IF(_Diff_Year > 0,"⇧",IF(_Diff_Year < 0,"⇩",""))
+			VAR _Arrow_Month = IF(_Diff_Month > 0,"⇧",IF(_Diff_Month < 0,"⇩",""))
+			
+			------------------------------------------------
+			RETURN
+			------------------------------------------------
+			
+			SWITCH(
+			    TRUE(),
+			
+			    _HasYear && NOT _HasMonth,
+			        "vs Previous Year : " &
+			        _Arrow_Year & " " &
+			        FORMAT(_Diff_Year,"0.0%"),
+			
+			    _HasYear && _HasMonth,
+			        "vs Previous Period : " &
+			        _Arrow_Month & " " &
+			        FORMAT(_Diff_Month,"0.0%"),
+			
+			    NOT _HasYear && NOT _HasMonth,
+			        "vs Previous :",
+			
+			    BLANK()
+			)
+		displayFolder: DocEntry
+		lineageTag: 9badf38c-a1cd-485b-a905-87a932046d60
+
+	measure '% Single Color Previous Period' =
+			
+			
+			VAR _HasYear  = HASONEVALUE('DateTable'[Financial Year])
+			VAR _HasMonth = HASONEVALUE('DateTable'[Month No])
+			
+			VAR _SelFY =
+			    SELECTEDVALUE('DateTable'[Financial Year])
+			
+			VAR _SelYear =
+			    VALUE(LEFT(_SelFY,4))
+			
+			VAR _SelMonth =
+			    SELECTEDVALUE('DateTable'[Month No])
+			
+			VAR _CurrValue =
+			    [% Single Item]
+			
+			VAR _PrevYear_Value =
+			    CALCULATE(
+			        [% Single Item],
+			        REMOVEFILTERS('DateTable'[Financial Year], 'DateTable'[Month No]),
+			        'DateTable'[FY Start Year] = _SelYear - 1
+			    )
+			
+			VAR _CurrYear_Value =
+			    CALCULATE(
+			        [% Single Item],
+			        'DateTable'[FY Start Year] = _SelYear
+			    )
+			
+			VAR _PrevMonth =
+			    IF(_SelMonth = 1, 12, _SelMonth - 1)
+			
+			VAR _PrevMonth_Year =
+			    IF(_SelMonth = 1, _SelYear - 1, _SelYear)
+			
+			VAR _PrevMonth_Value =
+			    CALCULATE(
+			        [% Single Item],
+			        REMOVEFILTERS('DateTable'[Financial Year], 'DateTable'[Month No]),
+			        'DateTable'[FY Start Year] = _PrevMonth_Year,
+			        'DateTable'[Month No] = _PrevMonth
+			    )
+			
+			VAR _Diff_Year  = _CurrYear_Value - _PrevYear_Value
+			VAR _Diff_Month = _CurrValue - _PrevMonth_Value
+			
+			RETURN
+			SWITCH(
+			    TRUE(),
+			
+			    _HasYear && NOT _HasMonth,
+			        IF(_Diff_Year > 0,"#36A962",IF(_Diff_Year < 0,"#D44343","#000000")),
+			
+			    _HasYear && _HasMonth,
+			        IF(_Diff_Month > 0,"#36A962",IF(_Diff_Month < 0,"#D44343","#000000")),
+			
+			    "#000000"
+			)
+		displayFolder: DocEntry
+		lineageTag: a666737c-4c8b-4591-ac0e-e0faaf4be645
+
+	measure 'Multi Item %' = 1 - [% Single Item]
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: DocEntry
+		lineageTag: 38617bb9-bc12-4458-81d3-6b3d0fda8158
 
 	column Unit
 		lineageTag: fa86d86e-a46b-4275-8d4e-2d07bbf59e01

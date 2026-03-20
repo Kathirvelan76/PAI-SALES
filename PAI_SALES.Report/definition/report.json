@@ -201,6 +201,16 @@
           "name": "Frame_567959118359065384.png",
           "path": "Frame_567959118359065384.png",
           "type": "Image"
+        },
+        {
+          "name": "Frame_577283108097347285.png",
+          "path": "Frame_577283108097347285.png",
+          "type": "Image"
+        },
+        {
+          "name": "Frame_5825273370911224813.png",
+          "path": "Frame_5825273370911224813.png",
+          "type": "Image"
         }
       ]
     }
@@ -211,6 +221,7 @@
     "defaultDrillFilterOtherVisuals": true,
     "allowChangeFilterTypes": true,
     "useEnhancedTooltips": true,
+    "filterPaneHiddenInEditMode": true,
     "useDefaultAggregateDisplayName": true
   }
 }

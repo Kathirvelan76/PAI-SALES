@@ -2,11 +2,11 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.6.0/schema.json",
   "name": "d19a4668642500c7b323",
   "position": {
-    "x": 392.67979002624674,
-    "y": 124.94356955380577,
+    "x": 19.469387755102041,
+    "y": 125.46938775510203,
     "z": 1000,
-    "height": 423.27821522309711,
-    "width": 721.61286089238843,
+    "height": 391,
+    "width": 767.9591836734694,
     "tabOrder": 1000
   },
   "visual": {
@@ -444,121 +444,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "541610ae2ed9daae0dca",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Final_Fact"
-              }
-            },
-            "Property": "Item Count Chart"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "8b354ecbf46946377d80",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Item_Master"
-              }
-            },
-            "Property": "Property"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "24b94e1f8e1703a79c57",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Item_Master"
-              }
-            },
-            "Property": "SubCategory"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "fcc8ba4309706bb9fc90",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Item_Master"
-              }
-            },
-            "Property": "Brand"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "696ed6be7396dd23a2fa",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Item_Master"
-              }
-            },
-            "Property": "Size"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "5c924131bb8f837ed7ab",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Item_Master"
-              }
-            },
-            "Property": "Colour"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "17a8c047bb9a47bee992",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Item_Master"
-              }
-            },
-            "Property": "ItemCode"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "1bcbdf1e7a6b44eb8fed",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Measure"
-              }
-            },
-            "Property": "Sales Chart"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }
