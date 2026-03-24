@@ -4,10 +4,10 @@
   "position": {
     "x": 1302.2857142857142,
     "y": 687.5651811745106,
-    "z": 2004,
+    "z": 6000,
     "height": 90.857142857142861,
     "width": 270.40816326530614,
-    "tabOrder": 2004
+    "tabOrder": 6000
   },
   "visual": {
     "visualType": "slicer",
@@ -128,23 +128,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "187219e95dd8c6c1d7b5",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "Item_Master"
-              }
-            },
-            "Property": "Property"
-          }
-        },
-        "type": "Categorical"
-      }
-    ]
   }
 }

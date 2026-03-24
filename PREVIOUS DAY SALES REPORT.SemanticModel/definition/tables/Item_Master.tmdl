@@ -1,0 +1,197 @@
+table Item_Master
+	lineageTag: 9602c882-52c9-46c3-b7dc-a7700f0ec565
+
+	column ItemCode
+		dataType: string
+		lineageTag: 667f1cc2-a817-4e74-b817-8ea3dc4220bc
+		summarizeBy: none
+		sourceColumn: ItemCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column ItemName
+		dataType: string
+		lineageTag: 01c61e64-0dec-4626-b7d6-c186d4a06582
+		summarizeBy: none
+		sourceColumn: ItemName
+
+		annotation SummarizationSetBy = Automatic
+
+	column FrgnName
+		dataType: string
+		lineageTag: 2c1a2d9a-b5d1-4f67-a0db-f882715a3faa
+		summarizeBy: none
+		sourceColumn: FrgnName
+
+		annotation SummarizationSetBy = Automatic
+
+	column ItmsGrpNam
+		dataType: string
+		lineageTag: 8b53c2cb-7f8d-488c-a30e-f2c437c92bb8
+		summarizeBy: none
+		sourceColumn: ItmsGrpNam
+
+		annotation SummarizationSetBy = Automatic
+
+	column ItmsGrpCod
+		dataType: int64
+		formatString: 0
+		lineageTag: 74b9e4e7-4b58-4866-bac8-3f5074856225
+		summarizeBy: sum
+		sourceColumn: ItmsGrpCod
+
+		annotation SummarizationSetBy = Automatic
+
+	column InvntItem
+		dataType: string
+		lineageTag: 938088cd-1ab6-4363-95f7-a7972da0406f
+		summarizeBy: none
+		sourceColumn: InvntItem
+
+		annotation SummarizationSetBy = Automatic
+
+	column ManSerNum
+		dataType: string
+		lineageTag: 16f4714f-ea7f-4fb4-843c-ecb2f50da9fd
+		summarizeBy: none
+		sourceColumn: ManSerNum
+
+		annotation SummarizationSetBy = Automatic
+
+	column Size
+		dataType: string
+		lineageTag: d9dce6da-9b06-4cbd-8fa9-e5e6ee278eb7
+		summarizeBy: none
+		sourceColumn: Size
+
+		annotation SummarizationSetBy = Automatic
+
+	column Movement
+		dataType: string
+		lineageTag: 7d6dcfc0-8e1a-4068-bfb2-235a5da69dab
+		summarizeBy: none
+		sourceColumn: Movement
+
+		annotation SummarizationSetBy = Automatic
+
+	column Colour
+		dataType: string
+		lineageTag: eafda52a-3e96-4c4d-884a-a59f56ac81a7
+		summarizeBy: none
+		sourceColumn: Colour
+
+		annotation SummarizationSetBy = Automatic
+
+	column U_TaxRate
+		dataType: string
+		lineageTag: f51b72c3-72bd-4255-a458-69643d7f4eaf
+		summarizeBy: none
+		sourceColumn: U_TaxRate
+
+		annotation SummarizationSetBy = Automatic
+
+	column Star
+		dataType: string
+		lineageTag: 4cbcf940-fa50-4c08-9012-6ccb21bad1eb
+		summarizeBy: none
+		sourceColumn: Star
+
+		annotation SummarizationSetBy = Automatic
+
+	column SubCategory
+		dataType: string
+		lineageTag: c4b82ec4-3e50-4b0e-b303-3fe80bd177ac
+		summarizeBy: none
+		sourceColumn: SubCategory
+
+		annotation SummarizationSetBy = Automatic
+
+	column Demo
+		dataType: string
+		lineageTag: 71f341ce-3730-4e28-b652-1ad0f9967003
+		summarizeBy: none
+		sourceColumn: Demo
+
+		annotation SummarizationSetBy = Automatic
+
+	column Group_Category
+		dataType: string
+		lineageTag: 640096fe-7fdc-45a3-a901-5ec83c236bd6
+		summarizeBy: none
+		sourceColumn: Group_Category
+
+		annotation SummarizationSetBy = Automatic
+
+	column Head_Category
+		dataType: string
+		lineageTag: 1c7d180f-a2ff-46d4-aa5c-29b2607b432e
+		summarizeBy: none
+		sourceColumn: Head_Category
+
+		annotation SummarizationSetBy = Automatic
+
+	column Brand
+		dataType: string
+		lineageTag: 360b540f-8be5-4d4b-bdcb-ca70530e4352
+		summarizeBy: none
+		sourceColumn: Brand
+
+		annotation SummarizationSetBy = Automatic
+
+	column Property
+		dataType: string
+		lineageTag: 2d2cb07f-8314-4453-aa8b-85d7a719f9e5
+		summarizeBy: none
+		sourceColumn: Property
+
+		annotation SummarizationSetBy = Automatic
+
+	column Segment
+		dataType: string
+		lineageTag: 4aa432ed-941c-4dc8-a064-621e57f8c746
+		summarizeBy: none
+		sourceColumn: Segment
+
+		annotation SummarizationSetBy = Automatic
+
+	column validFor
+		dataType: string
+		lineageTag: cd27363f-791c-48f1-817e-9aef6100c6e4
+		summarizeBy: none
+		sourceColumn: validFor
+
+		annotation SummarizationSetBy = Automatic
+
+	column CreateDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: f92d66a8-1a10-4bd7-92a6-e9672cd3b751
+		summarizeBy: none
+		sourceColumn: CreateDate
+
+		annotation SummarizationSetBy = Automatic
+
+	column SyncDate
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: bde58dc3-49f1-4d92-9dc8-e806d15a0f8b
+		summarizeBy: none
+		sourceColumn: SyncDate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition Item_Master = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("PAI-POWER-BI", "PAI_LIVE"),
+				    dbo_Item_Master = Source{[Schema="dbo",Item="Item_Master"]}[Data]
+				in
+				    dbo_Item_Master
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

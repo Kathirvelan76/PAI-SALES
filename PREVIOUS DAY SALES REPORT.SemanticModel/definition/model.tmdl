@@ -1,0 +1,24 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_QueryOrder = ["Cust_Vend_Master","Sale_Invoice","Sale_Return","Sales_Employee_Master","Warehouse_Master","Item_Master","RangeStart","RangeEnd","Final_Fact"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table Cust_Vend_Master
+ref table Sale_Invoice
+ref table Sale_Return
+ref table Sales_Employee_Master
+ref table Warehouse_Master
+ref table Item_Master
+ref table Final_Fact
+
+ref cultureInfo en-US
+

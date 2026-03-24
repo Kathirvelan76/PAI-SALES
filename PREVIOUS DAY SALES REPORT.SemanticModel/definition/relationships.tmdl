@@ -1,0 +1,24 @@
+relationship AutoDetected_57318b12-8b60-414d-aa7a-d9bf433681d6
+	fromColumn: Sale_Invoice.CardCode
+	toColumn: Cust_Vend_Master.CardCode
+
+relationship AutoDetected_b980d7ed-aa40-4971-a16e-a41752023d31
+	fromColumn: Sale_Return.CardCode
+	toColumn: Cust_Vend_Master.CardCode
+
+relationship AutoDetected_3413979a-2ecf-4fcb-87c0-fd7052058097
+	fromColumn: Final_Fact.CardCode
+	toColumn: Cust_Vend_Master.CardCode
+
+relationship AutoDetected_3255b538-4c47-4b3c-8c7c-efabec3d62e8
+	fromColumn: Sale_Invoice.ItemCode
+	toColumn: Item_Master.ItemCode
+
+relationship AutoDetected_295a6767-8bc5-4ab4-ad82-742d6567c893
+	fromColumn: Sale_Return.ItemCode
+	toColumn: Item_Master.ItemCode
+
+relationship AutoDetected_b864fc26-8f40-469e-8471-dec4e25568d3
+	fromColumn: Final_Fact.ItemCode
+	toColumn: Item_Master.ItemCode
+

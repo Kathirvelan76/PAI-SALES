@@ -1,0 +1,445 @@
+table Final_Fact
+	lineageTag: e42bbeb8-5d81-4d56-9072-e7953aed215c
+
+	column Type
+		dataType: string
+		lineageTag: 79f20a83-b236-4422-9461-6eeb1588a626
+		summarizeBy: none
+		sourceColumn: Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column UNIQUEVAL
+		dataType: int64
+		formatString: 0
+		lineageTag: 1a4bf633-a3b5-48da-aecc-614edda5923f
+		summarizeBy: sum
+		sourceColumn: UNIQUEVAL
+
+		annotation SummarizationSetBy = Automatic
+
+	column DocNum
+		dataType: int64
+		formatString: 0
+		lineageTag: eba7015a-025c-435a-bde0-0269a85f0950
+		summarizeBy: sum
+		sourceColumn: DocNum
+
+		annotation SummarizationSetBy = Automatic
+
+	column DocEntry
+		dataType: int64
+		formatString: 0
+		lineageTag: 5385b12f-6a14-4752-94fc-6c7da76b2dfb
+		summarizeBy: sum
+		sourceColumn: DocEntry
+
+		annotation SummarizationSetBy = Automatic
+
+	column DocStatus
+		dataType: string
+		lineageTag: 274c49ce-ef55-465f-8d2d-62dcc5e00e88
+		summarizeBy: none
+		sourceColumn: DocStatus
+
+		annotation SummarizationSetBy = Automatic
+
+	column ObjType
+		dataType: string
+		lineageTag: e861f0e1-dc5d-41a0-81ae-4a389120b20f
+		summarizeBy: none
+		sourceColumn: ObjType
+
+		annotation SummarizationSetBy = Automatic
+
+	column DocDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 1c205b39-9512-4039-a085-851403a24cb4
+		summarizeBy: none
+		sourceColumn: DocDate
+
+		annotation SummarizationSetBy = Automatic
+
+	column DocDueDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 4c864261-9865-4c31-a107-3802aa183722
+		summarizeBy: none
+		sourceColumn: DocDueDate
+
+		annotation SummarizationSetBy = Automatic
+
+	column CardCode
+		dataType: string
+		lineageTag: 9d186a88-f032-4f2f-bd43-4c85d581d42c
+		summarizeBy: none
+		sourceColumn: CardCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column CardName
+		dataType: string
+		lineageTag: 6c845fd5-2936-4461-b15a-7073ad19b4b0
+		summarizeBy: none
+		sourceColumn: CardName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Address1
+		dataType: string
+		lineageTag: 994893f6-a61b-470b-b60e-eddc4d514b72
+		summarizeBy: none
+		sourceColumn: Address1
+
+		annotation SummarizationSetBy = Automatic
+
+	column Address2
+		dataType: string
+		lineageTag: 89ace645-1b29-49c0-871e-208a54a8685c
+		summarizeBy: none
+		sourceColumn: Address2
+
+		annotation SummarizationSetBy = Automatic
+
+	column City
+		dataType: string
+		lineageTag: 50fb48d6-727d-4670-9133-4cc84ca5cef4
+		summarizeBy: none
+		sourceColumn: City
+
+		annotation SummarizationSetBy = Automatic
+
+	column Pin
+		dataType: string
+		lineageTag: c6809c0c-3210-4684-97a2-ac4bd6965065
+		summarizeBy: none
+		sourceColumn: Pin
+
+		annotation SummarizationSetBy = Automatic
+
+	column StateB
+		dataType: string
+		lineageTag: 2054c53f-68e0-4e20-9dbe-51209f84d1c8
+		summarizeBy: none
+		sourceColumn: StateB
+
+		annotation SummarizationSetBy = Automatic
+
+	column SalesType
+		dataType: string
+		lineageTag: e89289f6-dd4e-47c9-b449-6b0b7041edf7
+		summarizeBy: none
+		sourceColumn: SalesType
+
+		annotation SummarizationSetBy = Automatic
+
+	column InvoiceNo
+		dataType: string
+		lineageTag: 7d9ac895-fd17-4c16-ab54-096f72cc3164
+		summarizeBy: none
+		sourceColumn: InvoiceNo
+
+		annotation SummarizationSetBy = Automatic
+
+	column ItemCode
+		dataType: string
+		lineageTag: 5256c06b-dda5-4315-8b1c-a9bf81adab13
+		summarizeBy: none
+		sourceColumn: ItemCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column Qty
+		dataType: double
+		lineageTag: ad76f836-0cd5-4953-9361-50fbebcff1c1
+		summarizeBy: sum
+		sourceColumn: Qty
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column OpenQty
+		dataType: double
+		lineageTag: c90e0406-1d45-4328-b2ac-621517181c73
+		summarizeBy: sum
+		sourceColumn: OpenQty
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Order_Branch_Code
+		dataType: string
+		lineageTag: 33510ee8-3b37-45f6-ad43-291cddd46151
+		summarizeBy: none
+		sourceColumn: Order_Branch_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column Invoice_Branch_Code
+		dataType: string
+		lineageTag: e8044d35-793c-487a-9d9b-00eba279e6bd
+		summarizeBy: none
+		sourceColumn: Invoice_Branch_Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column Price
+		dataType: double
+		lineageTag: 230747c6-463e-418d-852f-69f81e0e9293
+		summarizeBy: sum
+		sourceColumn: Price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column LineTotal
+		dataType: double
+		lineageTag: a4f6ea34-5aa5-4784-84e3-a7e5eabb1a26
+		summarizeBy: sum
+		sourceColumn: LineTotal
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column GTotal
+		dataType: double
+		lineageTag: e958a1bd-d08c-44f2-894c-435c4f526a7d
+		summarizeBy: sum
+		sourceColumn: GTotal
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DocTotal
+		dataType: double
+		lineageTag: b5ff329f-bfc0-42cf-a35c-fc7aacb6f768
+		summarizeBy: sum
+		sourceColumn: DocTotal
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Customer_GSTN
+		dataType: string
+		lineageTag: b5454d15-853d-49b8-925d-c0deb1b26107
+		summarizeBy: none
+		sourceColumn: Customer_GSTN
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ph_No2
+		dataType: string
+		lineageTag: a47a6352-9aa4-42ce-ac22-47a1d4540ac9
+		summarizeBy: none
+		sourceColumn: Ph_No2
+
+		annotation SummarizationSetBy = Automatic
+
+	column SlpCode
+		dataType: int64
+		formatString: 0
+		lineageTag: 30c99980-49a4-47a7-97aa-38af6a32e802
+		summarizeBy: count
+		sourceColumn: SlpCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column Email
+		dataType: string
+		lineageTag: 379c2388-976d-4adc-8ccc-6f4aed6b9829
+		summarizeBy: none
+		sourceColumn: Email
+
+		annotation SummarizationSetBy = Automatic
+
+	column Comments
+		dataType: string
+		lineageTag: 51d7fecd-5dd0-4aac-aa02-1bc48625340c
+		summarizeBy: none
+		sourceColumn: Comments
+
+		annotation SummarizationSetBy = Automatic
+
+	column U_PSPKA
+		dataType: double
+		lineageTag: 8d988eb8-2343-49cc-a973-467b9f5fe74c
+		summarizeBy: sum
+		sourceColumn: U_PSPKA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column U_PSPAP
+		dataType: double
+		lineageTag: e5943439-94a9-4226-a8f1-3263cc5642b7
+		summarizeBy: sum
+		sourceColumn: U_PSPAP
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column U_PSPTS
+		dataType: double
+		lineageTag: eb39e5d4-dd6c-4f8c-a4ed-6cc2d38c4324
+		summarizeBy: sum
+		sourceColumn: U_PSPTS
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column U_PLPKA
+		dataType: double
+		lineageTag: 1ba10202-cc3b-4fc0-939d-0600b76b9e21
+		summarizeBy: sum
+		sourceColumn: U_PLPKA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column U_PLPAP
+		dataType: double
+		lineageTag: 999147a0-8006-4271-9ad4-d96b7cb37a58
+		summarizeBy: sum
+		sourceColumn: U_PLPAP
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column U_PLPTS
+		dataType: double
+		lineageTag: ed9270de-8ebd-40ba-a3d2-26e89cf3091a
+		summarizeBy: sum
+		sourceColumn: U_PLPTS
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column U_MRP
+		dataType: double
+		lineageTag: 9ca42738-1ce2-4f13-a8d4-18ab66bc2c83
+		summarizeBy: sum
+		sourceColumn: U_MRP
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column U_NLC
+		dataType: double
+		lineageTag: 45b9e967-1070-435b-9462-e05b79599ee3
+		summarizeBy: sum
+		sourceColumn: U_NLC
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column VatPrcnt
+		dataType: double
+		lineageTag: 5668f8c9-37e1-4d06-b9f5-40f7d8270ad8
+		summarizeBy: sum
+		sourceColumn: VatPrcnt
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column GrossBuyPr
+		dataType: double
+		lineageTag: d6830548-4587-4fa1-9522-a4cc40ac15a4
+		summarizeBy: sum
+		sourceColumn: GrossBuyPr
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column VatSum
+		dataType: double
+		lineageTag: fd021993-a324-438b-8406-627108a98a74
+		summarizeBy: sum
+		sourceColumn: VatSum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Gtotal_Wo_Tax
+		dataType: double
+		lineageTag: 876600e1-56fa-4841-bd25-501e6e701565
+		summarizeBy: sum
+		sourceColumn: Gtotal_Wo_Tax
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column TrnspCode
+		dataType: int64
+		formatString: 0
+		lineageTag: cb935e1a-14e6-4dde-8c76-208f697d020d
+		summarizeBy: count
+		sourceColumn: TrnspCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column TrnspName
+		dataType: string
+		lineageTag: 30df7e9c-1f02-40b2-8665-3f9021df2f67
+		summarizeBy: none
+		sourceColumn: TrnspName
+
+		annotation SummarizationSetBy = Automatic
+
+	column U_InvDE
+		dataType: string
+		lineageTag: 587fa18b-3ed3-4ad9-a239-194f2eaa42fa
+		summarizeBy: none
+		sourceColumn: U_InvDE
+
+		annotation SummarizationSetBy = Automatic
+
+	column U_InvDN
+		dataType: string
+		lineageTag: 851d7726-831c-4218-9c1e-35242dd8758f
+		summarizeBy: none
+		sourceColumn: U_InvDN
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Business Type' =
+			
+			IF ( 'Final_Fact'[Customer_GSTN] = "NA", "B2C", "B2B" )
+		lineageTag: 8286cdf5-71ed-4123-8e36-4734398d00f1
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Final_Fact = m
+		mode: import
+		source =
+				let
+				    Source = Table.Combine({Sale_Invoice, Sale_Return}),
+				    #"Filtered Rows" = Table.SelectRows(Source, each [DocDate] >= RangeStart and [DocDate] < RangeEnd)
+				in
+				    #"Filtered Rows"
+
+	annotation PBI_IsMQueryFoldable = True
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -476,7 +476,7 @@ table Final_Fact
 
 	column 'Gross Profit' = ```
 			
-			Final_Fact[Gtotal] - (Final_Fact[Qty] * Final_Fact[U_NLC])
+			Final_Fact[Gtotal] - (Final_Fact[Qty] * Final_Fact[O_NLC])
 			
 			
 			```
@@ -645,6 +645,16 @@ table Final_Fact
 		summarizeBy: none
 
 		annotation SummarizationSetBy = Automatic
+
+	column O_NLC =
+			
+			Final_Fact[U_NLC]*Final_Fact[VatPrcnt]/100 + Final_Fact[U_NLC]
+		lineageTag: ee9defb5-7154-43b1-9c3e-606cfded5eb7
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	partition Final_Fact = m
 		mode: import

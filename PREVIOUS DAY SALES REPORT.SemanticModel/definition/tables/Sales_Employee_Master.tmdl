@@ -1,0 +1,65 @@
+table Sales_Employee_Master
+	lineageTag: 09389146-296f-458b-92dd-7679ba2b2185
+
+	column SlpCode
+		dataType: int64
+		formatString: 0
+		lineageTag: 48b2b7f4-382e-434c-b753-715285f23c1c
+		summarizeBy: count
+		sourceColumn: SlpCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column SlpName
+		dataType: string
+		lineageTag: 7f0ca75f-c307-4f9e-9095-b33a8b03c37d
+		summarizeBy: none
+		sourceColumn: SlpName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Active
+		dataType: string
+		lineageTag: ca6c59cd-1b8b-4d45-8f91-79e833779dbe
+		summarizeBy: none
+		sourceColumn: Active
+
+		annotation SummarizationSetBy = Automatic
+
+	column EmpId
+		dataType: string
+		lineageTag: 89ed0ed9-fe6a-4c2e-964d-7170aa0b5470
+		summarizeBy: none
+		sourceColumn: EmpId
+
+		annotation SummarizationSetBy = Automatic
+
+	column Phone
+		dataType: string
+		lineageTag: c84b02a6-3478-4c09-9593-38909ffb9fc2
+		summarizeBy: none
+		sourceColumn: Phone
+
+		annotation SummarizationSetBy = Automatic
+
+	column Group_Category
+		dataType: string
+		lineageTag: 1c92fc66-e20a-4b56-ae26-e6ac0ff4084e
+		summarizeBy: none
+		sourceColumn: Group_Category
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Sales_Employee_Master = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("PAI-POWER-BI", "PAI_LIVE"),
+				    dbo_Sales_Employee_Master = Source{[Schema="dbo",Item="Sales_Employee_Master"]}[Data]
+				in
+				    dbo_Sales_Employee_Master
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

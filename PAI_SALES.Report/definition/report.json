@@ -31,7 +31,7 @@
           "expanded": {
             "expr": {
               "Literal": {
-                "Value": "true"
+                "Value": "false"
               }
             }
           },
@@ -211,6 +211,11 @@
           "name": "Frame_5825273370911224813.png",
           "path": "Frame_5825273370911224813.png",
           "type": "Image"
+        },
+        {
+          "name": "Frame_5907620410129907473.png",
+          "path": "Frame_5907620410129907473.png",
+          "type": "Image"
         }
       ]
     }
@@ -221,7 +226,6 @@
     "defaultDrillFilterOtherVisuals": true,
     "allowChangeFilterTypes": true,
     "useEnhancedTooltips": true,
-    "filterPaneHiddenInEditMode": true,
     "useDefaultAggregateDisplayName": true
   }
 }

@@ -1163,7 +1163,6 @@ table Measure
 			        "Lakhs (L)", DIVIDE ( [Customers Total], 100000 ),
 			        "Thousands (K)", DIVIDE ( [Customers Total], 1000 ),
 			        "Numbers (N)", DIVIDE ( [Customers Total], 1 ),
-			
 			        DIVIDE ( [Customers Total], 100000 )  
 			    )
 			```
@@ -4452,6 +4451,134 @@ table Measure
 		formatString: 0.00%;-0.00%;0.00%
 		displayFolder: DocEntry
 		lineageTag: 38617bb9-bc12-4458-81d3-6b3d0fda8158
+
+	measure 'Repeat Customers (CY Vs PY)' =
+			
+			VAR CY_Customers =
+			    VALUES(Final_Fact[CardCode])
+			
+			VAR PY_Customers =
+			    CALCULATETABLE(
+			        VALUES(Final_Fact[CardCode]),
+			        SAMEPERIODLASTYEAR('DateTable'[Date])
+			    )
+			
+			RETURN
+			COUNTROWS(
+			    INTERSECT(CY_Customers, PY_Customers)
+			)
+		formatString: 0
+		displayFolder: Customers
+		lineageTag: 0fb147d4-c801-4830-845c-72e03f3e3418
+
+	measure 'PY Customers Total' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(Final_Fact[CardCode]),
+			    SAMEPERIODLASTYEAR('DateTable'[Date])
+			)
+		formatString: 0
+		displayFolder: Customers
+		lineageTag: c031d656-ff3e-492a-8c80-e7ee326f6e3f
+
+	measure 'Use Previous Customers Total' = ```
+			
+			VAR SelectedUnit = SELECTEDVALUE ( 'Measure'[Unit], "Lakhs (L)" )
+			RETURN
+			    SWITCH (
+			        SelectedUnit,
+			        "Crores (Cr)", FORMAT ( DIVIDE ( [PY Customers Total], 10000000 ), "0.00" ) & " Cr",
+			        "Thousands (K)", FORMAT ( DIVIDE ( [PY Customers Total], 1000 ), "0.00" ) & " K",
+			        "Lakhs (L)", FORMAT ( DIVIDE ( [PY Customers Total], 100000 ), "0.00" ) & " L",
+			        "Numbers (N)", FORMAT (DIVIDE ( [PY Customers Total], 1 ), "0.00" ),
+			        FORMAT ( DIVIDE ( [PY Customers Total], 100000 ), "0.00" ) & " L"
+			    )
+			
+			```
+		displayFolder: Customers
+		lineageTag: 1d87b1a1-0b63-464a-ba0d-2682ada737e0
+
+	measure '% Repeat Customer (CY vs PY)' =
+			
+			DIVIDE(
+			    [Repeat Customers (CY Vs PY)],
+			    [Customers Total],
+			    0
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Customers
+		lineageTag: c6046a09-63e8-40a5-a090-db974c32bebc
+
+	measure 'Use Repeat Customers Total' = ```
+			
+			VAR SelectedUnit = SELECTEDVALUE ( 'Measure'[Unit], "Lakhs (L)" )
+			RETURN
+			    SWITCH (
+			        SelectedUnit,
+			        "Crores (Cr)", FORMAT ( DIVIDE ( [Repeat Customers (CY Vs PY)], 10000000 ), "0.00" ) & " Cr",
+			        "Thousands (K)", FORMAT ( DIVIDE ( [Repeat Customers (CY Vs PY)], 1000 ), "0.00" ) & " K",
+			        "Lakhs (L)", FORMAT ( DIVIDE ( [Repeat Customers (CY Vs PY)], 100000 ), "0.00" ) & " L",
+			        "Numbers (N)", FORMAT (DIVIDE ( [Repeat Customers (CY Vs PY)], 1 ), "0.00" ),
+			        FORMAT ( DIVIDE ( [Repeat Customers (CY Vs PY)], 100000 ), "0.00" ) & " L"
+			    )
+			
+			```
+		displayFolder: Customers
+		lineageTag: 3f2ca95b-6a02-4518-ade2-368a8b405e98
+
+	measure 'Prev Customers Chart' = ```
+			
+			VAR SelectedUnit = SELECTEDVALUE ( 'Measure'[Unit], "Lakhs (L)" )
+			RETURN
+			    SWITCH (
+			        SelectedUnit,
+			        "Crores (Cr)", DIVIDE ( [PY Customers Total], 10000000 ),
+			        "Thousands (K)", DIVIDE ( [PY Customers Total], 1000 ),
+			        "Lakhs (L)", DIVIDE ( [PY Customers Total], 100000 ),
+			        "Numbers (N)", DIVIDE ( [PY Customers Total], 1 ),
+			        DIVIDE ( [PY Customers Total], 100000 )
+			    )
+			
+			
+			```
+		formatString: 0
+		displayFolder: Chart
+		lineageTag: ba14c021-7d64-4f51-a885-e18ec260e156
+
+	measure 'Sales Average' = AVERAGE(Final_Fact[GTotal])
+		displayFolder: Sales
+		lineageTag: 9220caec-19ab-4879-97b2-6081d9cc90c0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'PY Sales Average' =
+			
+			CALCULATE(
+			    [Sales Average],
+			    SAMEPERIODLASTYEAR('DateTable'[Date])
+			)
+		displayFolder: Sales
+		lineageTag: 91d9aefe-4cf7-40d4-9e7f-a75cd73b0011
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Sales Avg Chart' = ```
+			
+			VAR SelectedUnit = SELECTEDVALUE ( 'Measure'[Unit], "Lakhs (L)" )
+			RETURN
+			    SWITCH (
+			        SelectedUnit,
+			        "Crores (Cr)", DIVIDE([Sales Average],10000000),
+			        "Lakhs (L)", DIVIDE ( [Sales Average], 100000 ),
+			        "Thousands (K)", DIVIDE ( [Sales Average], 1000 ),
+			        "Numbers (N)", DIVIDE ( [Sales Average], 1 ),
+			        DIVIDE ( [Sales Average], 100000 )  
+			    )
+			```
+		displayFolder: Chart
+		lineageTag: 62b680ff-f5fb-4e1d-96c2-eff1f41299b9
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
 
 	column Unit
 		lineageTag: fa86d86e-a46b-4275-8d4e-2d07bbf59e01

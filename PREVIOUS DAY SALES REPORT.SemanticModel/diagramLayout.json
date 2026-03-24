@@ -1,0 +1,113 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 483.36853272140138
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 89.064842776455237,
+            "y": 303.71623148952062
+          },
+          "nodeIndex": "Cust_Vend_Master",
+          "nodeLineageTag": "a776c544-c2d3-45b7-96e2-b83dc9d212e8",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 50,
+            "y": 657.36853272140138
+          },
+          "nodeIndex": "Final_Fact",
+          "nodeLineageTag": "e42bbeb8-5d81-4d56-9072-e7953aed215c",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 375.47314564260125,
+            "y": 303.67798118969512
+          },
+          "nodeIndex": "Item_Master",
+          "nodeLineageTag": "9602c882-52c9-46c3-b7dc-a7700f0ec565",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 187.69120358693874,
+            "y": -50
+          },
+          "nodeIndex": "Sale_Invoice",
+          "nodeLineageTag": "e6bc16e3-6dba-44c2-9ca8-fd7542e1050a",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 584.71615904031682,
+            "y": 657.31834745535582
+          },
+          "nodeIndex": "Sale_Return",
+          "nodeLineageTag": "70aacc00-c400-4a8c-b887-26c100ffd547",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 818.71615904031682,
+            "y": 391.6842663607008
+          },
+          "nodeIndex": "Sales_Employee_Master",
+          "nodeLineageTag": "09389146-296f-458b-92dd-7679ba2b2185",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1102.7161590403168,
+            "y": 353.6842663607008
+          },
+          "nodeIndex": "Warehouse_Master",
+          "nodeLineageTag": "6d0a4be3-25e7-49de-857f-18a2682dbc5a",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}

@@ -4,7 +4,7 @@
     {
       "ordinal": 0,
       "scrollPosition": {
-        "x": 1977.1217402719835,
+        "x": 928.849139725093,
         "y": 0
       },
       "nodes": [
@@ -462,6 +462,32 @@
           "nodeIndex": "Customers_Never_Bought_ByProperty",
           "size": {
             "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 7354.6737617954132,
+            "y": 728.38804589692074
+          },
+          "nodeIndex": "Final_Fact A",
+          "nodeLineageTag": "a0dfdf0b-a481-48a5-8043-1fa9dd45f23f",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 7638.6737617954132,
+            "y": 728.38804589692074
+          },
+          "nodeIndex": "Final_Fact B",
+          "nodeLineageTag": "7438853e-1262-417a-aad9-6a1451fb56f5",
+          "size": {
+            "height": 128,
             "width": 234
           },
           "zIndex": 0

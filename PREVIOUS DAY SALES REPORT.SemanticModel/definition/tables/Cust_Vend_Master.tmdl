@@ -1,0 +1,171 @@
+table Cust_Vend_Master
+	lineageTag: a776c544-c2d3-45b7-96e2-b83dc9d212e8
+
+	column CardCode
+		dataType: string
+		lineageTag: 285ed89c-af4d-4728-899f-2fd4cd8ccb2b
+		summarizeBy: none
+		sourceColumn: CardCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column CardName
+		dataType: string
+		lineageTag: 63862bbc-ce2f-4090-8c69-2b66d33b0ee5
+		summarizeBy: none
+		sourceColumn: CardName
+
+		annotation SummarizationSetBy = Automatic
+
+	column CardType
+		dataType: string
+		lineageTag: 432db320-eb4b-4cc2-ad65-0aa0636eef04
+		summarizeBy: none
+		sourceColumn: CardType
+
+		annotation SummarizationSetBy = Automatic
+
+	column GroupCode
+		dataType: int64
+		formatString: 0
+		lineageTag: 950802f1-2f1d-459f-85d1-dca3d2abae8c
+		summarizeBy: count
+		sourceColumn: GroupCode
+
+		annotation SummarizationSetBy = Automatic
+
+	column GroupName
+		dataType: string
+		lineageTag: 6feaa778-656a-4064-831b-e01b53966ffa
+		summarizeBy: none
+		sourceColumn: GroupName
+
+		annotation SummarizationSetBy = Automatic
+
+	column validFor
+		dataType: string
+		lineageTag: 9b08b010-7b7f-464f-be52-4630a8012543
+		summarizeBy: none
+		sourceColumn: validFor
+
+		annotation SummarizationSetBy = Automatic
+
+	column U_BPType
+		dataType: string
+		lineageTag: 34c89254-2a9d-4d1f-80ee-2fb9a18af851
+		summarizeBy: none
+		sourceColumn: U_BPType
+
+		annotation SummarizationSetBy = Automatic
+
+	column CreateDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 39eebf4b-5ef5-48a3-ba0e-968f827707a0
+		summarizeBy: none
+		sourceColumn: CreateDate
+
+		annotation SummarizationSetBy = Automatic
+
+	column Finance
+		dataType: string
+		lineageTag: 1450faab-c93c-42a1-8b0e-5b1bcf483fc4
+		summarizeBy: none
+		sourceColumn: Finance
+
+		annotation SummarizationSetBy = Automatic
+
+	column Online_Sales
+		dataType: string
+		lineageTag: cc98b5d2-08e2-49a2-8048-b1bfbee6e639
+		summarizeBy: none
+		sourceColumn: Online_Sales
+
+		annotation SummarizationSetBy = Automatic
+
+	column BP_Prop3
+		dataType: string
+		lineageTag: f267ce37-b363-4379-b7bf-e6e28a2b72cc
+		summarizeBy: none
+		sourceColumn: BP_Prop3
+
+		annotation SummarizationSetBy = Automatic
+
+	column Dealers
+		dataType: string
+		lineageTag: 24eb67a4-0df7-4fea-84e9-8452baf1ea02
+		summarizeBy: none
+		sourceColumn: Dealers
+
+		annotation SummarizationSetBy = Automatic
+
+	column Shipping_Supplier
+		dataType: string
+		lineageTag: 79b2a256-4ebb-4c88-9565-557d806415b7
+		summarizeBy: none
+		sourceColumn: Shipping_Supplier
+
+		annotation SummarizationSetBy = Automatic
+
+	column Institution_Customer
+		dataType: string
+		lineageTag: 09545a87-b5ea-4107-a7f6-ca4d8613ecfd
+		summarizeBy: none
+		sourceColumn: Institution_Customer
+
+		annotation SummarizationSetBy = Automatic
+
+	column Defective_Sales
+		dataType: string
+		lineageTag: 026ec8e6-031f-491d-99ba-55fa45dcc22e
+		summarizeBy: none
+		sourceColumn: Defective_Sales
+
+		annotation SummarizationSetBy = Automatic
+
+	column Stock_Transfer
+		dataType: string
+		lineageTag: 9e3c50b5-01e7-4863-b793-951d42557bc4
+		summarizeBy: none
+		sourceColumn: Stock_Transfer
+
+		annotation SummarizationSetBy = Automatic
+
+	column Supplier_as_Customer
+		dataType: string
+		lineageTag: 9f2323e1-0967-4d18-8f2e-21403c71158e
+		summarizeBy: none
+		sourceColumn: Supplier_as_Customer
+
+		annotation SummarizationSetBy = Automatic
+
+	column QryGroup10
+		dataType: string
+		lineageTag: 4ca2b49d-5c23-4628-980e-a9e4c15ad6c6
+		summarizeBy: none
+		sourceColumn: QryGroup10
+
+		annotation SummarizationSetBy = Automatic
+
+	column SyncDate
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 34343a9f-d19b-45e9-ab01-66c14b1b7fee
+		summarizeBy: none
+		sourceColumn: SyncDate
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Cust_Vend_Master = m
+		mode: import
+		source =
+				let
+				    Source = Sql.Database("PAI-POWER-BI", "PAI_LIVE"),
+				    dbo_Cust_Vend_Master = Source{[Schema="dbo",Item="Cust_Vend_Master"]}[Data]
+				in
+				    dbo_Cust_Vend_Master
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
